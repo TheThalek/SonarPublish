@@ -73,21 +73,25 @@ static GstFlowReturn gst_sonarsink_render(GstBaseSink* basesink, GstBuffer* buf)
 
                     float range_norm = range / max_range;
 
+                    printf("FLS: The beam_index is: %d\n", beam_index);
+                    printf("FLS: The intensity is: %f\n", beam_intensity);
+
                 }
             }
             break;
         }
-        case GST_SONAR_TYPE_BATHYMETRY:
+        case GST_SONAR_TYPE_BATHYMETRY: //nyhavna og airplane er her. Nødvendig med FSL då?
         {
             g_assert(sonarsink->resolution == 1);
 
             for (int beam_index = 0; beam_index < sonarsink->n_beams; ++beam_index)
             {
+                
                 float sample_number = gst_sonar_format_get_measurement(format, mapinfo.data, beam_index, 0);
                 float angle         = gst_sonar_format_get_angle(format, mapinfo.data, beam_index);
 
                 float range = (sample_number * params->sound_speed) / (2 * params->sample_rate);
-
+                printf("BATH: The beam_index is: %d\n", beam_index);
             }
             break;
         }

@@ -34,11 +34,8 @@ struct _GstSonarsink
     GstSonarType sonar_type;
     guint32 n_beams;
     guint32 resolution;
-    gboolean detected;    // if detection was run on the data
 
     float* vertices;
-
-    // initializer flag for openglWp
 
     GstState playpause;    // which state to set on next space press
 };
