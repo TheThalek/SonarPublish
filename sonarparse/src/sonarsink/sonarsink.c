@@ -92,13 +92,16 @@ static GstFlowReturn gst_sonarsink_render(GstBaseSink* basesink, GstBuffer* buf)
                 float angle         = gst_sonar_format_get_angle(format, mapinfo.data, beam_index);
 
                 float range = (sample_number * params->sound_speed) / (2 * params->sample_rate);
+
             }
             break;
         }
     }
 
-    gst_buffer_unmap(buf, &mapinfo);
 
+
+
+    gst_buffer_unmap(buf, &mapinfo);
 
     GST_OBJECT_UNLOCK(sonarsink);
 
@@ -187,7 +190,7 @@ static void gst_sonarsink_class_init(GstSonarsinkClass* klass)
 
     GST_DEBUG_CATEGORY_INIT(sonarsink_debug, "sonarsink", 0, "sonarsink");
 
-    gst_element_class_set_static_metadata(gstelement_class, "Sonarsink", "Sink", "visualizes sonar data", "Eelume AS <opensource@eelume.com>");
+    gst_element_class_set_static_metadata(gstelement_class, "Sonarsink", "Sink", "sends sonar data", "Thale Eliassen Fink <finkthale@gamail.com>");
 
     gst_element_class_add_static_pad_template(gstelement_class, &gst_sonarsink_sink_template);
 }
