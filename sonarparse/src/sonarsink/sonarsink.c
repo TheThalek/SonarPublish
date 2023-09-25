@@ -30,11 +30,6 @@ GST_DEBUG_CATEGORY_STATIC(sonarsink_debug);
 #define gst_sonarsink_parent_class parent_class
 G_DEFINE_TYPE(GstSonarsink, gst_sonarsink, GST_TYPE_BASE_SINK);
 
-enum
-{
-    PROP_0,
-};
-
 
 static GstStaticPadTemplate gst_sonarsink_sink_template = GST_STATIC_PAD_TEMPLATE("sink", GST_PAD_SINK, GST_PAD_ALWAYS, GST_STATIC_CAPS("sonar/multibeam ; sonar/bathymetry"));
 
@@ -97,8 +92,6 @@ static GstFlowReturn gst_sonarsink_render(GstBaseSink* basesink, GstBuffer* buf)
             break;
         }
     }
-
-
 
 
     gst_buffer_unmap(buf, &mapinfo);
