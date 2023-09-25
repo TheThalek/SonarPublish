@@ -122,7 +122,6 @@ static gboolean gst_sonarsink_set_caps(GstBaseSink* basesink, GstCaps* caps)
         sonarsink->n_beams    = (guint32)n_beams;
         sonarsink->resolution = (guint32)resolution;
 
-
         if (strcmp(caps_name, "sonar/multibeam") == 0)
             sonarsink->sonar_type = GST_SONAR_TYPE_FLS;
         else if (strcmp(caps_name, "sonar/bathymetry") == 0)
@@ -130,21 +129,13 @@ static gboolean gst_sonarsink_set_caps(GstBaseSink* basesink, GstCaps* caps)
         else
             g_assert_not_reached();
 
-        gboolean detected;
-        if (gst_structure_get_boolean(s, "detected", &detected))
-            sonarsink->detected = detected;
-
         GST_OBJECT_UNLOCK(sonarsink);
-
-        // initialize visualization once
-
 
         return TRUE;
     }
     else
     {
         GST_DEBUG_OBJECT(sonarsink, "no details in caps\n");
-
         return FALSE;
     }
 }
@@ -192,7 +183,6 @@ static void gst_sonarsink_init(GstSonarsink* sonarsink)
 {
     sonarsink->n_beams    = 0;
     sonarsink->resolution = 0;
-    sonarsink->detected   = FALSE;
     sonarsink->vertices   = NULL;
     sonarsink->playpause  = GST_STATE_PAUSED;
 
