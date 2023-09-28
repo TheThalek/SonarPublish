@@ -56,7 +56,7 @@ static GstFlowReturn gst_sonarsink_render(GstBaseSink* basesink, GstBuffer* buf)
 
     switch (sonarsink->sonar_type)
     {
-        case GST_SONAR_TYPE_FLS:
+        case GST_SONAR_TYPE_FLS: // "Forward Looking Sonar"
         {
             const float max_range = ((params->t0 + sonarsink->resolution) * params->sound_speed) / (2 * params->sample_rate);
 
@@ -76,22 +76,36 @@ static GstFlowReturn gst_sonarsink_render(GstBaseSink* basesink, GstBuffer* buf)
                     printf("FLS: The beam_index is: %d\n", beam_index);
                     printf("FLS: The intensity is: %f\n", beam_intensity);
 
+
                 }
             }
             break;
         }
-        case GST_SONAR_TYPE_BATHYMETRY: //nyhavna og airplane er her. Nødvendig med FSL då?
+
+        case GST_SONAR_TYPE_BATHYMETRY: //nyhavna og airplane er her. Bathymetry; "Measurement of depth of lakes and oceans"
         {
             g_assert(sonarsink->resolution == 1);
 
-            for (int beam_index = 0; beam_index < sonarsink->n_beams; ++beam_index)
-            {
-                
-                float sample_number = gst_sonar_format_get_measurement(format, mapinfo.data, beam_index, 0);
-                float angle         = gst_sonar_format_get_angle(format, mapinfo.data, beam_index);
+            const float max_range = ((params->t0 + sonarsink->resolution) * params->sound_speed) / (2 * params->sample_rate);
 
-                float range = (sample_number * params->sound_speed) / (2 * params->sample_rate);
-                printf("BATH: The beam_index is: %d\n", beam_index);
+            for (int range_index = 0; range_index < sonarsink->resolution; ++range_index)
+            {
+                for (int beam_index = 0; beam_index < sonarsink->n_beams; ++beam_index)
+                {
+                    float beam_intensity = gst_sonar_format_get_measurement(format, mapinfo.data, beam_index, range_index);
+                    float beam_angle     = gst_sonar_format_get_angle(format, mapinfo.data, beam_index);
+                    float range          = ((params->t0 + range_index) * params->sound_speed) / (2 * params->sample_rate);
+
+                    int vertex_index = 3 * (beam_index * sonarsink->resolution + range_index);
+                    float* vertex    = sonarsink->vertices + vertex_index;
+
+                    float range_norm = range / max_range;
+
+                    printf("Bath: The beam_index is: %d\n", beam_index);
+                    printf("Bath: The intensity is: %f\n", beam_intensity);
+                    printf("Bath: The angle is: %f\n", beam_angle);
+
+                }
             }
             break;
         }
