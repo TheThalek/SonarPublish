@@ -90,6 +90,7 @@ static GstFlowReturn gst_sonarsink_render(GstBaseSink* basesink, GstBuffer* buf)
 
             for (int range_index = 0; range_index < sonarsink->resolution; ++range_index)
             {
+
                 for (int beam_index = 0; beam_index < sonarsink->n_beams; ++beam_index)
                 {
                     float beam_intensity = gst_sonar_format_get_measurement(format, mapinfo.data, beam_index, range_index);
@@ -100,12 +101,12 @@ static GstFlowReturn gst_sonarsink_render(GstBaseSink* basesink, GstBuffer* buf)
                     float* vertex    = sonarsink->vertices + vertex_index;
 
                     float range_norm = range / max_range;
-
                     printf("Bath: The beam_index is: %d\n", beam_index);
                     printf("Bath: The intensity is: %f\n", beam_intensity);
                     printf("Bath: The angle is: %f\n", beam_angle);
 
                 }
+            
             }
             break;
         }
