@@ -23,6 +23,8 @@
 #include "sonarsink.h"
 
 #include <stdio.h>
+#include <math.h>
+
 
 GST_DEBUG_CATEGORY_STATIC(sonarsink_debug);
 #define GST_CAT_DEFAULT sonarsink_debug
@@ -68,14 +70,13 @@ static GstFlowReturn gst_sonarsink_render(GstBaseSink* basesink, GstBuffer* buf)
                     float beam_angle     = gst_sonar_format_get_angle(format, mapinfo.data, beam_index);
                     float range          = ((params->t0 + range_index) * params->sound_speed) / (2 * params->sample_rate);
 
-                    int vertex_index = 3 * (beam_index * sonarsink->resolution + range_index);
-                    float* vertex    = sonarsink->vertices + vertex_index;
-
                     float range_norm = range / max_range;
 
                     printf("FLS: The beam_index is: %d\n", beam_index);
                     printf("FLS: The intensity is: %f\n", beam_intensity);
-
+                    printf("Bath: The range is: %f\n", range);
+                    int res = sonarsink->resolution;
+                    printf("Bath: The res is: %d\n", res);
 
                 }
             }
@@ -84,39 +85,58 @@ static GstFlowReturn gst_sonarsink_render(GstBaseSink* basesink, GstBuffer* buf)
 
         case GST_SONAR_TYPE_BATHYMETRY: //nyhavna og airplane er her. Bathymetry; "Measurement of depth of lakes and oceans"
         {
-            g_assert(sonarsink->resolution == 1);
+            //g_assert(sonarsink->resolution == 1);
 
             const float max_range = ((params->t0 + sonarsink->resolution) * params->sound_speed) / (2 * params->sample_rate);
+            printf("Params before:");
+            printf("Bath: The max_range is: %f\n", max_range);
+            printf("Bath: The params->t0 is: %d\n", params->t0);
+            printf("Bath: The sonarsink->resolution is: %d\n", sonarsink->resolution);
+            printf("Bath: The params->sound_speed is: %f\n", params->sound_speed);
+            printf("Bath: The params->sample_rate is: %f\n", params->sample_rate);
 
-            for (int range_index = 0; range_index < sonarsink->resolution; ++range_index)
-            {
+            int max_range_index = sonarsink->resolution;
+            int num_of_beams = sonarsink->n_beams;
 
-                for (int beam_index = 0; beam_index < sonarsink->n_beams; ++beam_index)
-                {
+            double x[max_range_index][num_of_beams]; //[beam, range]
+            double y[max_range_index][num_of_beams];
+
+            for (int range_index = 0; range_index < sonarsink->resolution; ++range_index){
+                for (int beam_index = 0; beam_index < num_of_beams; ++beam_index){
+
                     float beam_intensity = gst_sonar_format_get_measurement(format, mapinfo.data, beam_index, range_index);
                     float beam_angle     = gst_sonar_format_get_angle(format, mapinfo.data, beam_index);
                     float range          = ((params->t0 + range_index) * params->sound_speed) / (2 * params->sample_rate);
+
+                    printf("Params after, in loop:\n");
+                    printf("Bath: The max_range_index is: %d\n", max_range_index);
+                    printf("Bath: The params->t0 is: %d\n", params->t0);
+                    printf("Bath: The range_index is: %d\n", range_index);
+                    printf("Bath: The params->sound_speed is: %f\n", params->sound_speed);
+                    printf("Bath: The params->sample_rate is: %f\n", params->sample_rate);
+                    printf("Bath: The range is: %f\n", range);
 
                     int vertex_index = 3 * (beam_index * sonarsink->resolution + range_index);
                     float* vertex    = sonarsink->vertices + vertex_index;
 
                     float range_norm = range / max_range;
                     printf("Bath: The beam_index is: %d\n", beam_index);
-                    printf("Bath: The intensity is: %f\n", beam_intensity);
+                    //printf("Bath: The intensity is: %f\n", beam_intensity);
                     printf("Bath: The angle is: %f\n", beam_angle);
-
+                    
+                    x[range_index][beam_index] = range*cos(beam_angle);
+                    printf("Bath: The x is: %f\n", x[range_index][beam_index]);
+                    y[range_index][beam_index] = range*sin(beam_angle);
+                    printf("Bath: The y is: %f\n", y[range_index][beam_index]);
                 }
-            
             }
+
             break;
         }
     }
 
-
     gst_buffer_unmap(buf, &mapinfo);
-
     GST_OBJECT_UNLOCK(sonarsink);
-
     return GST_FLOW_OK;
 }
 

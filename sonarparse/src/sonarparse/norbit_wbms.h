@@ -71,6 +71,7 @@ typedef struct
     uint32_t N;                /**< Number of bathy points in packet*/
     uint32_t ping_number;      /**< Ping number, increasing ping counter since sonar
                                   startup*/
+                             
     double time;               /**< Timestamp Unix time as fract (tx time)*/
     double time_net;           /**< Timestamp Unix time as fract (send on network time)*/
     float ping_rate;           /**< Set ping rate in Hz*/

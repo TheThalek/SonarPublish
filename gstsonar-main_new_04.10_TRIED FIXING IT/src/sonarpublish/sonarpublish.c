@@ -1,0 +1,316 @@
+// ***************************************************************************
+// Part of Gstsonar - Gstreamer sonar processing plugins
+//
+// Copyright (c) 2023 Eelume AS <opensource@eelume.com>
+// All rights reserved
+//
+// Licensed under the LGPL v2.1 License.
+// See LICENSE file in the project root for full license information.
+// ***************************************************************************
+/**
+ * SECTION:element-gst_sonarsink
+ *
+ * Sonarsink visualizes sonar data
+ *
+ *
+ * <refsect2>
+ * <title>Example launch line</title>
+ * |[
+  TODO
+ * </refsect2>
+ */
+
+#include "sonarpublish.h"
+
+#include <math.h>
+#include <stdio.h>
+
+GST_DEBUG_CATEGORY_STATIC(sonarpublish_debug);
+#define GST_CAT_DEFAULT sonarpublish_debug
+
+#define gst_sonarpublish_parent_class parent_class
+G_DEFINE_TYPE(GstSonarpublish, gst_sonarpublish, GST_TYPE_BASE_SINK);
+
+enum
+{
+    PROP_0,
+    PROP_ZOOM,
+    PROP_GAIN,
+};
+
+#define DEFAULT_PROP_ZOOM 1
+#define DEFAULT_PROP_GAIN 1
+
+static GstStaticPadTemplate gst_sonarpublish_sink_template = GST_STATIC_PAD_TEMPLATE("sink", GST_PAD_SINK, GST_PAD_ALWAYS, GST_STATIC_CAPS("sonar/multibeam ; sonar/bathymetry"));
+
+static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* buf)
+{
+    GstSonarpublish* sonarpublish = GST_SONARPUBLISH(basesink);
+
+    GST_OBJECT_LOCK(sonarpublish);
+
+    // GstSonarMeta *meta = GST_SONAR_META_GET(buf);
+    const GstSonarMeta* meta     = GST_SONAR_META_GET(buf);
+    const GstSonarFormat* format = &meta->format;
+    const GstSonarParams* params = &meta->params;
+
+    GST_DEBUG_OBJECT(sonarpublish, "%lu: rendering buffer: %p, width n_beams = %d, resolution = %d, sound_speed = %f, sample_rate = %f, t0 = %d, gain = %f", buf->pts, buf, sonarpublish->n_beams,
+        sonarpublish->resolution, params->sound_speed, params->sample_rate, params->t0, params->gain);
+
+    GstMapInfo mapinfo;
+    if (!gst_buffer_map(buf, &mapinfo, GST_MAP_READ))
+    {
+        GST_OBJECT_UNLOCK(sonarpublish);
+        return GST_FLOW_ERROR;
+    }
+
+    switch (sonarpublish->sonar_type)
+    {
+        case GST_SONAR_TYPE_FLS:
+        {
+            const float max_range = ((params->t0 + sonarpublish->resolution) * params->sound_speed) / (2 * params->sample_rate);
+
+            const float total_gain = sonarpublish->gain / params->gain;
+
+            for (int range_index = 0; range_index < sonarpublish->resolution; ++range_index)
+            {
+                for (int beam_index = 0; beam_index < sonarpublish->n_beams; ++beam_index)
+                {
+                    float beam_intensity = gst_sonar_format_get_measurement(format, mapinfo.data, beam_index, range_index);
+                    float beam_angle     = gst_sonar_format_get_angle(format, mapinfo.data, beam_index);
+                    float range          = ((params->t0 + range_index) * params->sound_speed) / (2 * params->sample_rate);
+
+                    int vertex_index = 3 * (beam_index * sonarpublish->resolution + range_index);
+                    float* vertex    = sonarpublish->vertices + vertex_index;
+
+                    float range_norm = range / max_range;
+
+                    vertex[0] = -sin(beam_angle) * range_norm * sonarpublish->zoom;
+                    vertex[1] = -1 + cos(beam_angle) * range_norm * sonarpublish->zoom;
+                    vertex[2] = -1;
+
+                    float I = total_gain * beam_intensity;
+                    if (I > 1)
+                    {
+                        GST_TRACE_OBJECT(sonarpublish, "intensity too large: %f > %f", beam_intensity, total_gain);
+                        I = 1;
+                        // gst_buffer_unmap (buf, &mapinfo);
+                        // GST_OBJECT_UNLOCK (sonarpublish);
+                        // return GST_FLOW_ERROR;
+                    }
+
+                    float* color = sonarpublish->colors + vertex_index;
+                    if (sonarpublish->detected)
+                    {
+                        // the index of the detected first point of contact is stored in the first range_index for each beam
+                        float first_contact = gst_sonar_format_get_measurement(format, mapinfo.data, beam_index, 0);
+                        if (range_index >= first_contact)
+                        {
+                            // red
+                            color[0] = I;
+                            color[1] = 0;
+                            color[2] = 0;
+                        }
+                        else if (range_index == 0)
+                        {
+                            // black
+                            color[0] = 0;
+                            color[1] = 0;
+                            color[2] = 0;
+                        }
+                        else
+                        {
+                            // yellow
+                            color[0] = I;
+                            color[1] = I;
+                            color[2] = 0;
+                        }
+                    }
+                    else
+                    {
+                        // white
+                        color[0] = I;
+                        color[1] = I;
+                        color[2] = I;
+                    }
+                }
+            }
+            break;
+        }
+        case GST_SONAR_TYPE_BATHYMETRY:
+        {
+            g_assert(sonarpublish->resolution == 1);
+
+            for (int beam_index = 0; beam_index < sonarpublish->n_beams; ++beam_index)
+            {
+                float sample_number = gst_sonar_format_get_measurement(format, mapinfo.data, beam_index, 0);
+                float angle         = gst_sonar_format_get_angle(format, mapinfo.data, beam_index);
+
+                float range = (sample_number * params->sound_speed) / (2 * params->sample_rate);
+
+                int vertex_index = 3 * beam_index;
+                float* vertex    = sonarpublish->vertices + vertex_index;
+
+                vertex[0] = sin(angle) * range * sonarpublish->zoom;
+                vertex[1] = -cos(angle) * range * sonarpublish->zoom;
+                vertex[2] = -1;
+
+
+                float* color = sonarpublish->colors + vertex_index;
+                color[0]     = 1;
+                color[1]     = 1;
+                color[2]     = 1;
+            }
+            break;
+        }
+    }
+
+    gst_buffer_unmap(buf, &mapinfo);
+
+    // update graphic MAYBE ADD THE UPDATE THINGS CODE HERE;
+
+    GST_OBJECT_UNLOCK(sonarpublish);
+
+    return GST_FLOW_OK;
+}
+
+static gboolean gst_sonarpublish_set_caps(GstBaseSink* basesink, GstCaps* caps)
+{
+    GstSonarpublish* sonarpublish = GST_sonarpublish(basesink);
+
+    GstStructure* s = gst_caps_get_structure(caps, 0);
+
+    GST_DEBUG_OBJECT(sonarpublish, "caps structure: %s\n", gst_structure_to_string(s));
+
+    gint n_beams, resolution;
+    const gchar* caps_name;
+
+    if ((caps_name = gst_structure_get_name(s)) && gst_structure_get_int(s, "n_beams", &n_beams) && gst_structure_get_int(s, "resolution", &resolution))
+    {
+        GST_OBJECT_LOCK(sonarpublish);
+        guint32 old_n_beams    = sonarpublish->n_beams;
+        guint32 old_resolution = sonarpublish->resolution;
+
+        GST_DEBUG_OBJECT(sonarpublish, "got caps details caps_name: %s, n_beams: %d, resolution: %d", caps_name, n_beams, resolution);
+        sonarpublish->n_beams    = (guint32)n_beams;
+        sonarpublish->resolution = (guint32)resolution;
+
+        if ((sonarpublish->n_beams != old_n_beams) || (sonarpublish->resolution != old_resolution))
+        {
+            const int size = sonarpublish->n_beams * sonarpublish->resolution * 3 * sizeof(sonarpublish->vertices[0]);
+
+            free(sonarpublish->vertices);
+            free(sonarpublish->colors);
+            sonarpublish->vertices = (float*)malloc(size);
+            sonarpublish->colors   = (float*)malloc(size);
+        }
+
+        if (strcmp(caps_name, "sonar/multibeam") == 0)
+            sonarpublish->sonar_type = GST_SONAR_TYPE_FLS;
+        else if (strcmp(caps_name, "sonar/bathymetry") == 0)
+            sonarpublish->sonar_type = GST_SONAR_TYPE_BATHYMETRY;
+        else
+            g_assert_not_reached();
+
+        gboolean detected;
+        if (gst_structure_get_boolean(s, "detected", &detected))
+            sonarpublish->detected = detected;
+
+        GST_OBJECT_UNLOCK(sonarpublish);
+
+        return TRUE;
+    }
+    else
+    {
+        GST_DEBUG_OBJECT(sonarpublish, "no details in caps\n");
+
+        return FALSE;
+    }
+}
+
+static void gst_sonarpublish_set_property(GObject* object, guint prop_id, const GValue* value, GParamSpec* pspec)
+{
+    GstSonarpublish* sonarpublish = GST_sonarpublish(object);
+
+    GST_OBJECT_LOCK(sonarpublish);
+    switch (prop_id)
+    {
+        case PROP_ZOOM:
+            sonarpublish->zoom = g_value_get_double(value);
+            break;
+        case PROP_GAIN:
+            sonarpublish->gain = g_value_get_double(value);
+            break;
+        default:
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+            break;
+    }
+    GST_OBJECT_UNLOCK(sonarpublish);
+}
+
+static void gst_sonarpublish_get_property(GObject* object, guint prop_id, GValue* value, GParamSpec* pspec)
+{
+    GstSonarpublish* sonarpublish = GST_sonarpublish(object);
+
+    switch (prop_id)
+    {
+        case PROP_ZOOM:
+            g_value_set_double(value, sonarpublish->zoom);
+            break;
+        case PROP_GAIN:
+            g_value_set_double(value, sonarpublish->gain);
+            break;
+        default:
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+            break;
+    }
+}
+
+static void gst_sonarpublish_finalize(GObject* object)
+{
+    GstSonarpublish* sonarpublish = GST_sonarpublish(object);
+
+    free(sonarpublish->vertices);
+    free(sonarpublish->colors);
+
+    G_OBJECT_CLASS(parent_class)->finalize(object);
+}
+
+static void gst_sonarpublish_class_init(GstSonarpublishClass* klass)
+{
+    GObjectClass* gobject_class       = (GObjectClass*)klass;
+    GstElementClass* gstelement_class = (GstElementClass*)klass;
+    GstBaseSinkClass* basesink_class  = (GstBaseSinkClass*)klass;
+
+    gobject_class->finalize     = gst_sonarpublish_finalize;
+    gobject_class->set_property = gst_sonarpublish_set_property;
+    gobject_class->get_property = gst_sonarpublish_get_property;
+
+    basesink_class->render   = GST_DEBUG_FUNCPTR(gst_sonarpublish_render);
+    basesink_class->set_caps = GST_DEBUG_FUNCPTR(gst_sonarpublish_set_caps);
+
+    GST_DEBUG_CATEGORY_INIT(sonarpublish_debug, "sonarpublish", 0, "sonarpublish");
+
+    g_object_class_install_property(G_OBJECT_CLASS(klass), PROP_ZOOM,
+        g_param_spec_double("zoom", "zoom", "Zoom", G_MINDOUBLE, G_MAXDOUBLE, DEFAULT_PROP_ZOOM, G_PARAM_READWRITE | GST_PARAM_CONTROLLABLE | G_PARAM_STATIC_STRINGS));
+
+    g_object_class_install_property(G_OBJECT_CLASS(klass), PROP_GAIN,
+        g_param_spec_double("gain", "gain", "Gain", G_MINDOUBLE, G_MAXDOUBLE, DEFAULT_PROP_GAIN, G_PARAM_READWRITE | GST_PARAM_CONTROLLABLE | G_PARAM_STATIC_STRINGS));
+
+    gst_element_class_set_static_metadata(gstelement_class, "sonarpublish", "Sink", "visualizes sonar data", "Eelume AS <opensource@eelume.com>");
+
+    gst_element_class_add_static_pad_template(gstelement_class, &gst_sonarpublish_sink_template);
+}
+
+static void gst_sonarpublish_init(GstSonarpublish* sonarpublish)
+{
+    sonarpublish->n_beams    = 0;
+    sonarpublish->resolution = 0;
+    sonarpublish->detected   = FALSE;
+    sonarpublish->vertices   = NULL;
+    sonarpublish->colors     = NULL;
+    sonarpublish->playpause  = GST_STATE_PAUSED;
+
+    sonarpublish->zoom = DEFAULT_PROP_ZOOM;
+    sonarpublish->gain = DEFAULT_PROP_GAIN;
+}

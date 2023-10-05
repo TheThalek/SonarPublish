@@ -27,12 +27,10 @@ static void do_drawing(cairo_t *cr) {
     }
 }
 
-
 static gboolean on_draw_event(GtkWidget *widget, cairo_t *cr, gpointer user_data) {
     do_drawing(cr);
     return FALSE;
 }
-
 
 int main(int argc, char *argv[]) {
     GtkWidget *window;
