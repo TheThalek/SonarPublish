@@ -10,7 +10,7 @@
 /**
  * SECTION:element-gst_sonarparse
  *
- * Sonarparse parses Norbit WBMS sonar data
+ * sonarparse parses Norbit WBMS sonar data
  *
  *
  * <refsect2>
@@ -33,7 +33,7 @@ GST_DEBUG_CATEGORY_STATIC(sonarparse_debug);
 #define GST_CAT_DEFAULT sonarparse_debug
 
 #define gst_sonarparse_parent_class parent_class
-G_DEFINE_TYPE(GstSonarparse, gst_sonarparse, GST_TYPE_BASE_PARSE);
+G_DEFINE_TYPE(Gstsonarparse, gst_sonarparse, GST_TYPE_BASE_PARSE);
 
 static GstStaticPadTemplate gst_sonarparse_src_template = GST_STATIC_PAD_TEMPLATE("src", GST_PAD_SRC, GST_PAD_ALWAYS,
     GST_STATIC_CAPS("sonar/multibeam, "
@@ -52,7 +52,7 @@ static GstStaticPadTemplate gst_sonarparse_sink_template = GST_STATIC_PAD_TEMPLA
 
 static GstFlowReturn gst_sonarparse_handle_frame(GstBaseParse* baseparse, GstBaseParseFrame* frame, gint* skipsize)
 {
-    GstSonarparse* sonarparse = GST_SONARPARSE(baseparse);
+    Gstsonarparse* sonarparse = GST_sonarparse(baseparse);
 
     GstMapInfo mapinfo;
     if (!gst_buffer_map(frame->buffer, &mapinfo, GST_MAP_READ))
@@ -261,7 +261,7 @@ static GstFlowReturn gst_sonarparse_handle_frame(GstBaseParse* baseparse, GstBas
 
 static GstFlowReturn gst_sonarparse_pre_push_frame(GstBaseParse* baseparse, GstBaseParseFrame* frame)
 {
-    GstSonarparse* sonarparse = GST_SONARPARSE(baseparse);
+    Gstsonarparse* sonarparse = GST_sonarparse(baseparse);
 
     GstSonarMeta* meta = GST_SONAR_META_ADD(frame->buffer);
     meta->format       = sonarparse->next_meta.format;
@@ -272,7 +272,7 @@ static GstFlowReturn gst_sonarparse_pre_push_frame(GstBaseParse* baseparse, GstB
 
 static gboolean gst_sonarparse_start(GstBaseParse* baseparse)
 {
-    GstSonarparse* sonarparse = GST_SONARPARSE(baseparse);
+    Gstsonarparse* sonarparse = GST_sonarparse(baseparse);
 
     GST_DEBUG_OBJECT(sonarparse, "start");
 
@@ -283,7 +283,7 @@ static gboolean gst_sonarparse_start(GstBaseParse* baseparse)
 
 static void gst_sonarparse_set_property(GObject* object, guint prop_id, const GValue* value, GParamSpec* pspec)
 {
-    GstSonarparse* sonarparse = GST_SONARPARSE(object);
+    Gstsonarparse* sonarparse = GST_sonarparse(object);
 
     GST_OBJECT_LOCK(sonarparse);
     switch (prop_id)
@@ -297,7 +297,7 @@ static void gst_sonarparse_set_property(GObject* object, guint prop_id, const GV
 
 static void gst_sonarparse_get_property(GObject* object, guint prop_id, GValue* value, GParamSpec* pspec)
 {
-    GstSonarparse* sonarparse = GST_SONARPARSE(object);
+    Gstsonarparse* sonarparse = GST_sonarparse(object);
 
     switch (prop_id)
     {
@@ -309,14 +309,14 @@ static void gst_sonarparse_get_property(GObject* object, guint prop_id, GValue* 
 
 static void gst_sonarparse_finalize(GObject* object)
 {
-    GstSonarparse* sonarparse = GST_SONARPARSE(object);
+    Gstsonarparse* sonarparse = GST_sonarparse(object);
 
     gst_sonarshared_finalize();
 
     G_OBJECT_CLASS(parent_class)->finalize(object);
 }
 
-static void gst_sonarparse_class_init(GstSonarparseClass* klass)
+static void gst_sonarparse_class_init(GstsonarparseClass* klass)
 {
     GObjectClass* gobject_class        = (GObjectClass*)klass;
     GstElementClass* gstelement_class  = (GstElementClass*)klass;
@@ -329,7 +329,7 @@ static void gst_sonarparse_class_init(GstSonarparseClass* klass)
     GST_DEBUG_CATEGORY_INIT(sonarparse_debug, "sonarparse", 0, "sonarparse");
 
 
-    gst_element_class_set_static_metadata(gstelement_class, "Sonarparse", "Parse", "Sonarparse parses Norbit WBMS sonar data", "Eelume AS <opensource@eelume.com>");
+    gst_element_class_set_static_metadata(gstelement_class, "sonarparse", "Parse", "sonarparse parses Norbit WBMS sonar data", "Eelume AS <opensource@eelume.com>");
 
     gst_element_class_add_static_pad_template(gstelement_class, &gst_sonarparse_sink_template);
     gst_element_class_add_static_pad_template(gstelement_class, &gst_sonarparse_src_template);
@@ -339,7 +339,7 @@ static void gst_sonarparse_class_init(GstSonarparseClass* klass)
     baseparse_class->start          = GST_DEBUG_FUNCPTR(gst_sonarparse_start);
 }
 
-static void gst_sonarparse_init(GstSonarparse* sonarparse)
+static void gst_sonarparse_init(Gstsonarparse* sonarparse)
 {
     sonarparse->n_beams    = 0;
     sonarparse->resolution = 0;

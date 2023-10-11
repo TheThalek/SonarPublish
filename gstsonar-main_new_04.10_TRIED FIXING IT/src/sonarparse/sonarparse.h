@@ -7,8 +7,8 @@
 // Licensed under the LGPL v2.1 License.
 // See LICENSE file in the project root for full license information.
 // ***************************************************************************
-#ifndef __GST_SONARPARSE_H__
-#define __GST_SONARPARSE_H__
+#ifndef __GST_sonarparse_H__
+#define __GST_sonarparse_H__
 
 #include <gst/base/gstbaseparse.h>
 #include <gst/gst.h>
@@ -19,16 +19,16 @@
 G_BEGIN_DECLS
 
 // sonarparse
-#define GST_TYPE_SONARPARSE            (gst_sonarparse_get_type())
-#define GST_SONARPARSE(obj)            (G_TYPE_CHECK_INSTANCE_CAST((obj), GST_TYPE_SONARPARSE, GstSonarparse))
-#define GST_SONARPARSE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST((klass), GST_TYPE_SONARPARSE, GstSonarparseClass))
-#define GST_IS_SONARPARSE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE((obj), GST_TYPE_SONARPARSE))
-#define GST_IS_SONARPARSE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), GST_TYPE_SONARPARSE))
+#define GST_TYPE_sonarparse            (gst_sonarparse_get_type())
+#define GST_sonarparse(obj)            (G_TYPE_CHECK_INSTANCE_CAST((obj), GST_TYPE_sonarparse, Gstsonarparse))
+#define GST_sonarparse_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST((klass), GST_TYPE_sonarparse, GstsonarparseClass))
+#define GST_IS_sonarparse(obj)         (G_TYPE_CHECK_INSTANCE_TYPE((obj), GST_TYPE_sonarparse))
+#define GST_IS_sonarparse_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), GST_TYPE_sonarparse))
 
-typedef struct _GstSonarparse GstSonarparse;
-typedef struct _GstSonarparseClass GstSonarparseClass;
+typedef struct _Gstsonarparse Gstsonarparse;
+typedef struct _GstsonarparseClass GstsonarparseClass;
 
-struct _GstSonarparse
+struct _Gstsonarparse
 {
     GstBaseParse baseparse;
 
@@ -43,7 +43,7 @@ struct _GstSonarparse
     GstSonarMeta next_meta;
 };
 
-struct _GstSonarparseClass
+struct _GstsonarparseClass
 {
     GstBaseParseClass parent_class;
 };
@@ -52,4 +52,4 @@ GType gst_sonarparse_get_type(void);
 
 G_END_DECLS
 
-#endif /* __GST_SONARPARSE_H__ */
+#endif /* __GST_sonarparse_H__ */

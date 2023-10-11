@@ -29,7 +29,7 @@ GST_DEBUG_CATEGORY_STATIC(sonarpublish_debug);
 #define GST_CAT_DEFAULT sonarpublish_debug
 
 #define gst_sonarpublish_parent_class parent_class
-G_DEFINE_TYPE(GstSonarpublish, gst_sonarpublish, GST_TYPE_BASE_SINK);
+G_DEFINE_TYPE(Gstsonarpublish, gst_sonarpublish, GST_TYPE_BASE_SINK);
 
 enum
 {
@@ -45,7 +45,7 @@ static GstStaticPadTemplate gst_sonarpublish_sink_template = GST_STATIC_PAD_TEMP
 
 static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* buf)
 {
-    GstSonarpublish* sonarpublish = GST_SONARPUBLISH(basesink);
+    Gstsonarpublish* sonarpublish = GST_sonarpublish(basesink);
 
     GST_OBJECT_LOCK(sonarpublish);
 
@@ -99,39 +99,10 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
                         // return GST_FLOW_ERROR;
                     }
 
-                    float* color = sonarpublish->colors + vertex_index;
                     if (sonarpublish->detected)
                     {
                         // the index of the detected first point of contact is stored in the first range_index for each beam
                         float first_contact = gst_sonar_format_get_measurement(format, mapinfo.data, beam_index, 0);
-                        if (range_index >= first_contact)
-                        {
-                            // red
-                            color[0] = I;
-                            color[1] = 0;
-                            color[2] = 0;
-                        }
-                        else if (range_index == 0)
-                        {
-                            // black
-                            color[0] = 0;
-                            color[1] = 0;
-                            color[2] = 0;
-                        }
-                        else
-                        {
-                            // yellow
-                            color[0] = I;
-                            color[1] = I;
-                            color[2] = 0;
-                        }
-                    }
-                    else
-                    {
-                        // white
-                        color[0] = I;
-                        color[1] = I;
-                        color[2] = I;
                     }
                 }
             }
@@ -155,11 +126,6 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
                 vertex[1] = -cos(angle) * range * sonarpublish->zoom;
                 vertex[2] = -1;
 
-
-                float* color = sonarpublish->colors + vertex_index;
-                color[0]     = 1;
-                color[1]     = 1;
-                color[2]     = 1;
             }
             break;
         }
@@ -176,7 +142,7 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
 
 static gboolean gst_sonarpublish_set_caps(GstBaseSink* basesink, GstCaps* caps)
 {
-    GstSonarpublish* sonarpublish = GST_sonarpublish(basesink);
+    Gstsonarpublish* sonarpublish = GST_sonarpublish(basesink);
 
     GstStructure* s = gst_caps_get_structure(caps, 0);
 
@@ -200,9 +166,7 @@ static gboolean gst_sonarpublish_set_caps(GstBaseSink* basesink, GstCaps* caps)
             const int size = sonarpublish->n_beams * sonarpublish->resolution * 3 * sizeof(sonarpublish->vertices[0]);
 
             free(sonarpublish->vertices);
-            free(sonarpublish->colors);
             sonarpublish->vertices = (float*)malloc(size);
-            sonarpublish->colors   = (float*)malloc(size);
         }
 
         if (strcmp(caps_name, "sonar/multibeam") == 0)
@@ -230,7 +194,7 @@ static gboolean gst_sonarpublish_set_caps(GstBaseSink* basesink, GstCaps* caps)
 
 static void gst_sonarpublish_set_property(GObject* object, guint prop_id, const GValue* value, GParamSpec* pspec)
 {
-    GstSonarpublish* sonarpublish = GST_sonarpublish(object);
+    Gstsonarpublish* sonarpublish = GST_sonarpublish(object);
 
     GST_OBJECT_LOCK(sonarpublish);
     switch (prop_id)
@@ -250,7 +214,7 @@ static void gst_sonarpublish_set_property(GObject* object, guint prop_id, const 
 
 static void gst_sonarpublish_get_property(GObject* object, guint prop_id, GValue* value, GParamSpec* pspec)
 {
-    GstSonarpublish* sonarpublish = GST_sonarpublish(object);
+    Gstsonarpublish* sonarpublish = GST_sonarpublish(object);
 
     switch (prop_id)
     {
@@ -268,15 +232,14 @@ static void gst_sonarpublish_get_property(GObject* object, guint prop_id, GValue
 
 static void gst_sonarpublish_finalize(GObject* object)
 {
-    GstSonarpublish* sonarpublish = GST_sonarpublish(object);
+    Gstsonarpublish* sonarpublish = GST_sonarpublish(object);
 
     free(sonarpublish->vertices);
-    free(sonarpublish->colors);
 
     G_OBJECT_CLASS(parent_class)->finalize(object);
 }
 
-static void gst_sonarpublish_class_init(GstSonarpublishClass* klass)
+static void gst_sonarpublish_class_init(GstsonarpublishClass* klass)
 {
     GObjectClass* gobject_class       = (GObjectClass*)klass;
     GstElementClass* gstelement_class = (GstElementClass*)klass;
@@ -302,13 +265,12 @@ static void gst_sonarpublish_class_init(GstSonarpublishClass* klass)
     gst_element_class_add_static_pad_template(gstelement_class, &gst_sonarpublish_sink_template);
 }
 
-static void gst_sonarpublish_init(GstSonarpublish* sonarpublish)
+static void gst_sonarpublish_init(Gstsonarpublish* sonarpublish)
 {
     sonarpublish->n_beams    = 0;
     sonarpublish->resolution = 0;
     sonarpublish->detected   = FALSE;
     sonarpublish->vertices   = NULL;
-    sonarpublish->colors     = NULL;
     sonarpublish->playpause  = GST_STATE_PAUSED;
 
     sonarpublish->zoom = DEFAULT_PROP_ZOOM;

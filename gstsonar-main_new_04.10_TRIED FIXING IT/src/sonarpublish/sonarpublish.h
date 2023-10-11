@@ -7,8 +7,8 @@
 // Licensed under the LGPL v2.1 License.
 // See LICENSE file in the project root for full license information.
 // ***************************************************************************
-#ifndef __GST_SONARPUBLISH_H__
-#define __GST_SONARPUBLISH_H__
+#ifndef __GST_sonarpublish_H__
+#define __GST_sonarpublish_H__
 
 #include <gst/base/gstbasesink.h>
 #include <gst/gst.h>
@@ -17,16 +17,16 @@
 
 G_BEGIN_DECLS
 
-#define GST_TYPE_SONARPUBLISH            (gst_sonarpublish_get_type())
-#define GST_SONARPUBLISH(obj)            (G_TYPE_CHECK_INSTANCE_CAST((obj), GST_TYPE_SONARPUBLISH, GstSonarpublish))
-#define GST_SONARPUBLISH_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST((klass), GST_TYPE_SONARPUBLISH, GstSonarpublishClass))
-#define GST_IS_SONARPUBLISH(obj)         (G_TYPE_CHECK_INSTANCE_TYPE((obj), GST_TYPE_SONARPUBLISH))
-#define GST_IS_SONARPUBLISH_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), GST_TYPE_SONARPUBLISH))
+#define GST_TYPE_sonarpublish            (gst_sonarpublish_get_type())
+#define GST_sonarpublish(obj)            (G_TYPE_CHECK_INSTANCE_CAST((obj), GST_TYPE_sonarpublish, Gstsonarpublish))
+#define GST_sonarpublish_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST((klass), GST_TYPE_sonarpublish, GstsonarpublishClass))
+#define GST_IS_sonarpublish(obj)         (G_TYPE_CHECK_INSTANCE_TYPE((obj), GST_TYPE_sonarpublish))
+#define GST_IS_sonarpublish_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), GST_TYPE_sonarpublish))
 
-typedef struct _GstSonarpublish GstSonarpublish;
-typedef struct _GstSonarpublishClass GstSonarpublishClass;
+typedef struct _Gstsonarpublish Gstsonarpublish;
+typedef struct _GstsonarpublishClass GstsonarpublishClass;
 
-struct _GstSonarpublish
+struct _Gstsonarpublish
 {
     GstBaseSink basesink;
 
@@ -48,7 +48,7 @@ struct _GstSonarpublish
     float gain;    // factor to scale intensities with
 };
 
-struct _GstSonarpublishClass
+struct _GstsonarpublishClass
 {
     GstBaseSinkClass parent_class;
 };
@@ -57,4 +57,4 @@ GType gst_sonarpublish_get_type(void);
 
 G_END_DECLS
 
-#endif /* __GST_SONARPUBLISH_H__ */
+#endif /* __GST_sonarpublish_H__ */
