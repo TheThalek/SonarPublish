@@ -26,6 +26,8 @@ G_BEGIN_DECLS
 typedef struct _Gstsonarpublish Gstsonarpublish;
 typedef struct _GstsonarpublishClass GstsonarpublishClass;
 
+
+
 struct _Gstsonarpublish
 {
     GstBaseSink basesink;

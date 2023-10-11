@@ -1,8 +1,10 @@
 set(SRC
     sonarpublish.c
+    sonarData.pb-c.c
     )
 
 set(HDR
+    sonarData.pb-c.h
     )
 
 set(PUBLIC_HDR

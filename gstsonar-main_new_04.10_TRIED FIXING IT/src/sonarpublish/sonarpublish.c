@@ -24,6 +24,7 @@
 
 #include <math.h>
 #include <stdio.h>
+#include "sonarData.pb-c.h"
 
 GST_DEBUG_CATEGORY_STATIC(sonarpublish_debug);
 #define GST_CAT_DEFAULT sonarpublish_debug
@@ -38,10 +39,21 @@ enum
     PROP_GAIN,
 };
 
+// Define a struct to store point data
+typedef struct {
+    float x;
+    float y;
+} Point;
+
+
+
+
+
 #define DEFAULT_PROP_ZOOM 1
 #define DEFAULT_PROP_GAIN 1
 
 static GstStaticPadTemplate gst_sonarpublish_sink_template = GST_STATIC_PAD_TEMPLATE("sink", GST_PAD_SINK, GST_PAD_ALWAYS, GST_STATIC_CAPS("sonar/multibeam ; sonar/bathymetry"));
+
 
 static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* buf)
 {
@@ -112,6 +124,9 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
         {
             g_assert(sonarpublish->resolution == 1);
 
+            int num_points  = sonarpublish->n_beams;
+            Point points[num_points];
+
             for (int beam_index = 0; beam_index < sonarpublish->n_beams; ++beam_index)
             {
                 float sample_number = gst_sonar_format_get_measurement(format, mapinfo.data, beam_index, 0);
@@ -122,15 +137,18 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
                 int vertex_index = 3 * beam_index;
                 float* vertex    = sonarpublish->vertices + vertex_index;
 
-                vertex[0] = sin(angle) * range * sonarpublish->zoom;
-                vertex[1] = -cos(angle) * range * sonarpublish->zoom;
-                vertex[2] = -1;
+                points[beam_index].x = sin(angle) * range * sonarpublish->zoom;
+                points[beam_index].y = -cos(angle) * range * sonarpublish->zoom;
 
                 printf("Bath: The beam_index is: %d\n", beam_index);
-                printf("Bath: The x is: %f\n", vertex[0]);
-                printf("Bath: The y is: %f\n", vertex[1]);
-
+                printf("Bath: The point[i].x is: %f\n", points[beam_index].x);
+                printf("Bath: The point[i].y is: %f\n", points[beam_index].y);
             }
+
+            // Done adding all points from the beams to the point array. Can now publish them using protobuf
+            // SonarData__MyPoints myPoints = SONAR_DATA__MY_POINTS__INIT;
+            //myPoints.n_points = 0;
+            //myPoints.points = NULL;
 
             break;
         }
