@@ -15,7 +15,7 @@ PROTOBUF_C__BEGIN_DECLS
 #endif
 
 
-typedef struct _SonarData__MyPoints SonarData__MyPoints;
+typedef struct _SonarData__SonarData SonarData__SonarData;
 
 
 /* --- enums --- */
@@ -23,40 +23,46 @@ typedef struct _SonarData__MyPoints SonarData__MyPoints;
 
 /* --- messages --- */
 
-struct  _SonarData__MyPoints
+/*
+ * Define a message type for an array of points.
+ */
+struct  _SonarData__SonarData
 {
   ProtobufCMessage base;
-  int32_t pointx;
-  int32_t pointy;
+  size_t n_pointx;
+  float *pointx;
+  size_t n_pointy;
+  float *pointy;
+  int32_t num_points;
 };
-#define SONAR_DATA__MY_POINTS__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&sonar_data__my_points__descriptor) \
-    , 0, 0 }
+#define SONAR_DATA__SONAR_DATA__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&sonar_data__sonar_data__descriptor) \
+    , 0,NULL, 0,NULL, 0 }
 
 
-/* SonarData__MyPoints methods */
-void   sonar_data__my_points__init
-                     (SonarData__MyPoints         *message);
-size_t sonar_data__my_points__get_packed_size
-                     (const SonarData__MyPoints   *message);
-size_t sonar_data__my_points__pack
-                     (const SonarData__MyPoints   *message,
+/* SonarData__SonarData methods */
+void   sonar_data__sonar_data__init
+                     (SonarData__SonarData         *message);
+size_t sonar_data__sonar_data__get_packed_size
+                     (const SonarData__SonarData   *message);
+size_t sonar_data__sonar_data__pack
+                     (const SonarData__SonarData   *message,
                       uint8_t             *out);
-size_t sonar_data__my_points__pack_to_buffer
-                     (const SonarData__MyPoints   *message,
+size_t sonar_data__sonar_data__pack_to_buffer
+                     (const SonarData__SonarData   *message,
                       ProtobufCBuffer     *buffer);
-SonarData__MyPoints *
-       sonar_data__my_points__unpack
+SonarData__SonarData *
+       sonar_data__sonar_data__unpack
                      (ProtobufCAllocator  *allocator,
                       size_t               len,
                       const uint8_t       *data);
-void   sonar_data__my_points__free_unpacked
-                     (SonarData__MyPoints *message,
+void   sonar_data__sonar_data__free_unpacked
+                     (SonarData__SonarData *message,
                       ProtobufCAllocator *allocator);
 /* --- per-message closures --- */
 
-typedef void (*SonarData__MyPoints_Closure)
-                 (const SonarData__MyPoints *message,
+typedef void (*SonarData__SonarData_Closure)
+                 (const SonarData__SonarData *message,
                   void *closure_data);
 
 /* --- services --- */
@@ -64,7 +70,7 @@ typedef void (*SonarData__MyPoints_Closure)
 
 /* --- descriptors --- */
 
-extern const ProtobufCMessageDescriptor sonar_data__my_points__descriptor;
+extern const ProtobufCMessageDescriptor sonar_data__sonar_data__descriptor;
 
 PROTOBUF_C__END_DECLS
 

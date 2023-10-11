@@ -7,99 +7,112 @@
 #endif
 
 #include "sonarData.pb-c.h"
-void   sonar_data__my_points__init
-                     (SonarData__MyPoints         *message)
+void   sonar_data__sonar_data__init
+                     (SonarData__SonarData         *message)
 {
-  static const SonarData__MyPoints init_value = SONAR_DATA__MY_POINTS__INIT;
+  static const SonarData__SonarData init_value = SONAR_DATA__SONAR_DATA__INIT;
   *message = init_value;
 }
-size_t sonar_data__my_points__get_packed_size
-                     (const SonarData__MyPoints *message)
+size_t sonar_data__sonar_data__get_packed_size
+                     (const SonarData__SonarData *message)
 {
-  assert(message->base.descriptor == &sonar_data__my_points__descriptor);
+  assert(message->base.descriptor == &sonar_data__sonar_data__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
-size_t sonar_data__my_points__pack
-                     (const SonarData__MyPoints *message,
+size_t sonar_data__sonar_data__pack
+                     (const SonarData__SonarData *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &sonar_data__my_points__descriptor);
+  assert(message->base.descriptor == &sonar_data__sonar_data__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
-size_t sonar_data__my_points__pack_to_buffer
-                     (const SonarData__MyPoints *message,
+size_t sonar_data__sonar_data__pack_to_buffer
+                     (const SonarData__SonarData *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &sonar_data__my_points__descriptor);
+  assert(message->base.descriptor == &sonar_data__sonar_data__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
-SonarData__MyPoints *
-       sonar_data__my_points__unpack
+SonarData__SonarData *
+       sonar_data__sonar_data__unpack
                      (ProtobufCAllocator  *allocator,
                       size_t               len,
                       const uint8_t       *data)
 {
-  return (SonarData__MyPoints *)
-     protobuf_c_message_unpack (&sonar_data__my_points__descriptor,
+  return (SonarData__SonarData *)
+     protobuf_c_message_unpack (&sonar_data__sonar_data__descriptor,
                                 allocator, len, data);
 }
-void   sonar_data__my_points__free_unpacked
-                     (SonarData__MyPoints *message,
+void   sonar_data__sonar_data__free_unpacked
+                     (SonarData__SonarData *message,
                       ProtobufCAllocator *allocator)
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &sonar_data__my_points__descriptor);
+  assert(message->base.descriptor == &sonar_data__sonar_data__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-static const ProtobufCFieldDescriptor sonar_data__my_points__field_descriptors[2] =
+static const ProtobufCFieldDescriptor sonar_data__sonar_data__field_descriptors[3] =
 {
   {
     "pointX",
     1,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_INT32,
-    0,   /* quantifier_offset */
-    offsetof(SonarData__MyPoints, pointx),
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_FLOAT,
+    offsetof(SonarData__SonarData, n_pointx),
+    offsetof(SonarData__SonarData, pointx),
     NULL,
     NULL,
-    0,             /* flags */
+    0 | PROTOBUF_C_FIELD_FLAG_PACKED,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
     "pointY",
     2,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_FLOAT,
+    offsetof(SonarData__SonarData, n_pointy),
+    offsetof(SonarData__SonarData, pointy),
+    NULL,
+    NULL,
+    0 | PROTOBUF_C_FIELD_FLAG_PACKED,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "num_points",
+    3,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_INT32,
     0,   /* quantifier_offset */
-    offsetof(SonarData__MyPoints, pointy),
+    offsetof(SonarData__SonarData, num_points),
     NULL,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
 };
-static const unsigned sonar_data__my_points__field_indices_by_name[] = {
+static const unsigned sonar_data__sonar_data__field_indices_by_name[] = {
+  2,   /* field[2] = num_points */
   0,   /* field[0] = pointX */
   1,   /* field[1] = pointY */
 };
-static const ProtobufCIntRange sonar_data__my_points__number_ranges[1 + 1] =
+static const ProtobufCIntRange sonar_data__sonar_data__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 2 }
+  { 0, 3 }
 };
-const ProtobufCMessageDescriptor sonar_data__my_points__descriptor =
+const ProtobufCMessageDescriptor sonar_data__sonar_data__descriptor =
 {
   PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "sonarData.MyPoints",
-  "MyPoints",
-  "SonarData__MyPoints",
+  "sonarData.sonarData",
+  "SonarData",
+  "SonarData__SonarData",
   "sonarData",
-  sizeof(SonarData__MyPoints),
-  2,
-  sonar_data__my_points__field_descriptors,
-  sonar_data__my_points__field_indices_by_name,
-  1,  sonar_data__my_points__number_ranges,
-  (ProtobufCMessageInit) sonar_data__my_points__init,
+  sizeof(SonarData__SonarData),
+  3,
+  sonar_data__sonar_data__field_descriptors,
+  sonar_data__sonar_data__field_indices_by_name,
+  1,  sonar_data__sonar_data__number_ranges,
+  (ProtobufCMessageInit) sonar_data__sonar_data__init,
   NULL,NULL,NULL    /* reserved[123] */
 };

@@ -127,6 +127,10 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
             int num_points  = sonarpublish->n_beams;
             Point points[num_points];
 
+
+            // Initialize a Point message
+            SonarData__Point point = SONAR_DATA__SONAR_DATA__INIT;
+
             for (int beam_index = 0; beam_index < sonarpublish->n_beams; ++beam_index)
             {
                 float sample_number = gst_sonar_format_get_measurement(format, mapinfo.data, beam_index, 0);
@@ -145,6 +149,11 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
                 printf("Bath: The point[i].y is: %f\n", points[beam_index].y);
             }
 
+            point.pointX = points.x;
+            point.n_pointX = num_points;
+
+            point.pointY = points.y;
+            point.n_pointY = num_points;
 
             break;
         }
