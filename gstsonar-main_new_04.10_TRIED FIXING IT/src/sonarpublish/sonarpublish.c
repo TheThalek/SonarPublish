@@ -127,7 +127,8 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
                 vertex[2] = -1;
 
                 printf("Bath: The beam_index is: %d\n", beam_index);
-                
+                printf("Bath: The x is: %f\n", vertex[0]);
+                printf("Bath: The y is: %f\n", vertex[1]);
 
             }
 
