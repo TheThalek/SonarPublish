@@ -126,7 +126,11 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
                 vertex[1] = -cos(angle) * range * sonarpublish->zoom;
                 vertex[2] = -1;
 
+                printf("Bath: The beam_index is: %d\n", beam_index);
+                
+
             }
+
             break;
         }
     }
