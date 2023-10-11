@@ -145,10 +145,6 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
                 printf("Bath: The point[i].y is: %f\n", points[beam_index].y);
             }
 
-            // Done adding all points from the beams to the point array. Can now publish them using protobuf
-            // SonarData__MyPoints myPoints = SONAR_DATA__MY_POINTS__INIT;
-            //myPoints.n_points = 0;
-            //myPoints.points = NULL;
 
             break;
         }

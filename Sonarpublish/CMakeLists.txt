@@ -52,7 +52,9 @@ else()
     include_directories(${GST_INCLUDE_DIRS})
     pkg_check_modules(EIGEN REQUIRED eigen3)
     include_directories(${EIGEN_INCLUDE_DIRS})
-    set(EXT_LIBS ${GST_LIBRARIES} ${EIGEN_LIBRARIES} -lGLEW -lGL -lSDL2)
+    pkg_check_modules(PROTOBUFC REQUIRED libprotobuf-c)
+    include_directories(${PROTOBUFC_INCLUDE_DIRS})
+    set(EXT_LIBS ${GST_LIBRARIES} ${EIGEN_LIBRARIES} ${PROTOBUFC_LIBRARIES} -lGLEW -lGL -lSDL2)
 endif()
 
 
@@ -61,3 +63,4 @@ add_subdirectory(src)
 
 
 install(TARGETS ${TARGET_LIB} DESTINATION lib/gstreamer-1.0)
+

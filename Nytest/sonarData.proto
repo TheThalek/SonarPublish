@@ -2,13 +2,10 @@ syntax = "proto3";
 
 package sonarData;  // Optional: Replace with your desired package name
 
-message PointMessage {
-    float x = 1;
-    float y = 2;
-}
-
 message MyPoints {
-    repeated PointMessage points = 1;
+    int32 a = 1;
+    int32 b = 2;
+    int32 c = 3;
 }
 
 

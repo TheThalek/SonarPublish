@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package sonarData;  // Optional: Replace with your desired package name
+
+message MyPoints {
+    int32 pointX = 1;
+    int32 pointY = 2;
+}
+
+
+// We define a PointMessage message to represent a single point,
+//      which has two float fields x and y. The MyData message contains 
+//      a repeated field points, which is an array of PointMessage 
+//      elements representing the collected points. It also has an 
+//      integer field n_points to store the number of points in the array.
+
+// To include new data, add it to this code and run "protoc --c_out=. data.proto" 
+//      from the same folder as the data.proto is in

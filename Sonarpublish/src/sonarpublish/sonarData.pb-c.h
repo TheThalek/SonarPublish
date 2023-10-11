@@ -15,7 +15,6 @@ PROTOBUF_C__BEGIN_DECLS
 #endif
 
 
-typedef struct _SonarData__PointMessage SonarData__PointMessage;
 typedef struct _SonarData__MyPoints SonarData__MyPoints;
 
 
@@ -24,47 +23,17 @@ typedef struct _SonarData__MyPoints SonarData__MyPoints;
 
 /* --- messages --- */
 
-struct  _SonarData__PointMessage
-{
-  ProtobufCMessage base;
-  float x;
-  float y;
-};
-#define SONAR_DATA__POINT_MESSAGE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&sonar_data__point_message__descriptor) \
-    , 0, 0 }
-
-
 struct  _SonarData__MyPoints
 {
   ProtobufCMessage base;
-  size_t n_points;
-  SonarData__PointMessage **points;
+  int32_t pointx;
+  int32_t pointy;
 };
 #define SONAR_DATA__MY_POINTS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&sonar_data__my_points__descriptor) \
-    , 0,NULL }
+    , 0, 0 }
 
 
-/* SonarData__PointMessage methods */
-void   sonar_data__point_message__init
-                     (SonarData__PointMessage         *message);
-size_t sonar_data__point_message__get_packed_size
-                     (const SonarData__PointMessage   *message);
-size_t sonar_data__point_message__pack
-                     (const SonarData__PointMessage   *message,
-                      uint8_t             *out);
-size_t sonar_data__point_message__pack_to_buffer
-                     (const SonarData__PointMessage   *message,
-                      ProtobufCBuffer     *buffer);
-SonarData__PointMessage *
-       sonar_data__point_message__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data);
-void   sonar_data__point_message__free_unpacked
-                     (SonarData__PointMessage *message,
-                      ProtobufCAllocator *allocator);
 /* SonarData__MyPoints methods */
 void   sonar_data__my_points__init
                      (SonarData__MyPoints         *message);
@@ -86,9 +55,6 @@ void   sonar_data__my_points__free_unpacked
                       ProtobufCAllocator *allocator);
 /* --- per-message closures --- */
 
-typedef void (*SonarData__PointMessage_Closure)
-                 (const SonarData__PointMessage *message,
-                  void *closure_data);
 typedef void (*SonarData__MyPoints_Closure)
                  (const SonarData__MyPoints *message,
                   void *closure_data);
@@ -98,7 +64,6 @@ typedef void (*SonarData__MyPoints_Closure)
 
 /* --- descriptors --- */
 
-extern const ProtobufCMessageDescriptor sonar_data__point_message__descriptor;
 extern const ProtobufCMessageDescriptor sonar_data__my_points__descriptor;
 
 PROTOBUF_C__END_DECLS

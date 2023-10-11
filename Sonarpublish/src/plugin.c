@@ -14,6 +14,7 @@
 #include "sonarmux/sonarmux.h"
 #include "sonarpublish/sonarpublish.h"
 
+
 static gboolean plugin_init(GstPlugin* plugin)
 {
     if (   !gst_element_register(plugin, "eelnmeadec", GST_RANK_NONE, gst_eelnmeadec_get_type()) 
@@ -33,6 +34,8 @@ static gboolean plugin_init(GstPlugin* plugin)
 #define GST_PACKAGE_NAME    PACKAGE
 #define GST_PACKAGE_VERSION VERSION
 #define GST_PACKAGE_ORIGIN  "https://eelume.com"
+
+//target_link_libraries(my_project ${PROTOBUF-C-LIBRARIES})
 
 
 GST_PLUGIN_DEFINE(GST_VERSION_MAJOR, GST_VERSION_MINOR, sonar, "Sonar processing plugins", plugin_init, GST_PACKAGE_VERSION, "LGPL", GST_PACKAGE_NAME, GST_PACKAGE_ORIGIN);
