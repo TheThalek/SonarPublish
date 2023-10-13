@@ -79,20 +79,20 @@ static const ProtobufCFieldDescriptor sonar_data__sonar_data__field_descriptors[
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "num_points",
+    "beamIdx",
     3,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_INT32,
-    0,   /* quantifier_offset */
-    offsetof(SonarData__SonarData, num_points),
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_FLOAT,
+    offsetof(SonarData__SonarData, n_beamidx),
+    offsetof(SonarData__SonarData, beamidx),
     NULL,
     NULL,
-    0,             /* flags */
+    0 | PROTOBUF_C_FIELD_FLAG_PACKED,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
 };
 static const unsigned sonar_data__sonar_data__field_indices_by_name[] = {
-  2,   /* field[2] = num_points */
+  2,   /* field[2] = beamIdx */
   0,   /* field[0] = pointX */
   1,   /* field[1] = pointY */
 };

@@ -39,11 +39,11 @@ enum
     PROP_GAIN,
 };
 
-// Define a struct to store point data
-typedef struct {
-    float x;
-    float y;
-} Point;
+// // Define a struct to store point data
+// typedef struct {
+//     float x;
+//     float y;
+// } Point;
 
 
 
@@ -124,37 +124,49 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
         {
             g_assert(sonarpublish->resolution == 1);
 
-            int num_points  = sonarpublish->n_beams;
-            Point points[num_points];
-
-
             // Initialize a Point message
-            SonarData__Point point = SONAR_DATA__SONAR_DATA__INIT;
+            SonarData__SonarData sonar_data = SONAR_DATA__SONAR_DATA__INIT;
+
+            int num_points = sonarpublish->n_beams;
+
+            // Allocate memory for arrays
+            sonar_data.n_pointx = 1; // This is a single array, not the number of points
+            sonar_data.pointx = (float*)malloc(sizeof(float) * num_points);
+            sonar_data.n_pointy = 1; // This is a single array, not the number of points
+            sonar_data.pointy = (float*)malloc(sizeof(float) * num_points);
+            sonar_data.n_beamidx = 1; // This is a single array, not the number of points
+            sonar_data.beamidx = (float*)malloc(sizeof(float) * num_points);
+
 
             for (int beam_index = 0; beam_index < sonarpublish->n_beams; ++beam_index)
             {
                 float sample_number = gst_sonar_format_get_measurement(format, mapinfo.data, beam_index, 0);
-                float angle         = gst_sonar_format_get_angle(format, mapinfo.data, beam_index);
-
+                float angle = gst_sonar_format_get_angle(format, mapinfo.data, beam_index);
                 float range = (sample_number * params->sound_speed) / (2 * params->sample_rate);
 
                 int vertex_index = 3 * beam_index;
                 float* vertex    = sonarpublish->vertices + vertex_index;
 
-                points[beam_index].x = sin(angle) * range * sonarpublish->zoom;
-                points[beam_index].y = -cos(angle) * range * sonarpublish->zoom;
+                // vertex[0] = sin(angle) * range * sonarpublish->zoom;
+                // vertex[1] = -cos(angle) * range * sonarpublish->zoom;
+                // vertex[2] = -1;
+                // printf("Bath: The BeamIdx is: %d\n", beam_index);
+                // printf("Bath: The vertex[0] are: %f\n", vertex[0]);
+                // printf("Bath: The vertex[1] are: %f\n", vertex[1]);
 
-                printf("Bath: The beam_index is: %d\n", beam_index);
-                printf("Bath: The point[i].x is: %f\n", points[beam_index].x);
-                printf("Bath: The point[i].y is: %f\n", points[beam_index].y);
+                // Set values for the array elements
+                sonar_data.pointx[beam_index] = sin(angle) * range * sonarpublish->zoom;
+                sonar_data.pointy[beam_index] = -cos(angle) * range * sonarpublish->zoom;
+                sonar_data.beamidx[beam_index] = beam_index;
+
+                // printf("Bath: The pointx are: %f\n", sonar_data.pointx[beam_index]); 
+                // printf("Bath: The pointy are: %f\n", sonar_data.pointy[beam_index]); 
+
             }
 
-            point.pointX = points.x;
-            point.n_pointX = num_points;
-
-            point.pointY = points.y;
-            point.n_pointY = num_points;
-
+            free(sonar_data.pointx);
+            free(sonar_data.pointy);
+            free(sonar_data.beamidx);
             break;
         }
     }
