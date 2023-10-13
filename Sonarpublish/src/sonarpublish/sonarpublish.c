@@ -24,6 +24,9 @@
 
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <sys/socket.h>    // Include the socket functions
+#include <sys/un.h>        // Include the Unix domain socket functions
 #include "sonarData.pb-c.h"
 
 GST_DEBUG_CATEGORY_STATIC(sonarpublish_debug);
@@ -161,9 +164,35 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
 
                 // printf("Bath: The pointx are: %f\n", sonar_data.pointx[beam_index]); 
                 // printf("Bath: The pointy are: %f\n", sonar_data.pointy[beam_index]); 
-
             }
 
+            // Serialize the message into a binary format. 
+            size_t packed_size = sonar_data__sonar_data__get_packed_size(&sonar_data);
+            uint8_t* buffer = (uint8_t*)malloc(packed_size);
+            sonar_data__sonar_data__pack(&sonar_data, buffer);
+
+            //Create a socket and establish a connection to your Python script's Unix domain socket:
+            int sockfd = socket(AF_UNIX, SOCK_STREAM, 0); // Create a Unix domain socket
+            struct sockaddr_un server_address;
+            server_address.sun_family = AF_UNIX;
+            strcpy(server_address.sun_path, "/tmp/socket_sonar"); // Adjust the socket path
+
+            if (connect(sockfd, (struct sockaddr*)&server_address, sizeof(server_address)) < 0) {
+                perror("Error connecting to the socket");
+                return -1;
+            }
+
+            //Send the serialized data over the socket:
+            if (send(sockfd, buffer, packed_size, 0) < 0) {
+                perror("Error sending data over the socket");
+                return -1;
+            }
+
+            // Free the allocated memory and close the socket:
+            free(buffer);
+            close(sockfd);
+
+            // Free the allocated memory 
             free(sonar_data.pointx);
             free(sonar_data.pointy);
             free(sonar_data.beamidx);
