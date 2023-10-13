@@ -133,12 +133,12 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
             int num_points = sonarpublish->n_beams;
 
             // Allocate memory for arrays
-            sonar_data.n_pointx = 1; // This is a single array, not the number of points
+            sonar_data.n_pointx = num_points;
             sonar_data.pointx = (float*)malloc(sizeof(float) * num_points);
-            sonar_data.n_pointy = 1; // This is a single array, not the number of points
+            sonar_data.n_pointy = num_points;
             sonar_data.pointy = (float*)malloc(sizeof(float) * num_points);
-            sonar_data.n_beamidx = 1; // This is a single array, not the number of points
-            sonar_data.beamidx = (float*)malloc(sizeof(float) * num_points);
+            sonar_data.n_beamidx = num_points;
+            sonar_data.beamidx = (int*)malloc(sizeof(int) * num_points);
 
 
             for (int beam_index = 0; beam_index < sonarpublish->n_beams; ++beam_index)
@@ -147,9 +147,8 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
                 float angle = gst_sonar_format_get_angle(format, mapinfo.data, beam_index);
                 float range = (sample_number * params->sound_speed) / (2 * params->sample_rate);
 
-                int vertex_index = 3 * beam_index;
-                float* vertex    = sonarpublish->vertices + vertex_index;
-
+                // int vertex_index = 3 * beam_index;
+                // float* vertex    = sonarpublish->vertices + vertex_index;
                 // vertex[0] = sin(angle) * range * sonarpublish->zoom;
                 // vertex[1] = -cos(angle) * range * sonarpublish->zoom;
                 // vertex[2] = -1;
@@ -162,12 +161,14 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
                 sonar_data.pointy[beam_index] = -cos(angle) * range * sonarpublish->zoom;
                 sonar_data.beamidx[beam_index] = beam_index;
 
-                // printf("Bath: The pointx are: %f\n", sonar_data.pointx[beam_index]); 
-                // printf("Bath: The pointy are: %f\n", sonar_data.pointy[beam_index]); 
+                printf("Bath: The pointx are: %f\n", sonar_data.pointx[beam_index]); 
+                printf("Bath: The pointy are: %f\n", sonar_data.pointy[beam_index]); 
+                printf("Bath: The beam_index are: %d\n", sonar_data.beamidx[beam_index]); 
             }
 
             // Serialize the message into a binary format. 
             size_t packed_size = sonar_data__sonar_data__get_packed_size(&sonar_data);
+            printf("Packed size of sonar_data: %zu bytes\n", packed_size);
             uint8_t* buffer = (uint8_t*)malloc(packed_size);
             sonar_data__sonar_data__pack(&sonar_data, buffer);
 

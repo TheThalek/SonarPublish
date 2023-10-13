@@ -82,7 +82,7 @@ static const ProtobufCFieldDescriptor sonar_data__sonar_data__field_descriptors[
     "beamIdx",
     3,
     PROTOBUF_C_LABEL_REPEATED,
-    PROTOBUF_C_TYPE_FLOAT,
+    PROTOBUF_C_TYPE_INT32,
     offsetof(SonarData__SonarData, n_beamidx),
     offsetof(SonarData__SonarData, beamidx),
     NULL,

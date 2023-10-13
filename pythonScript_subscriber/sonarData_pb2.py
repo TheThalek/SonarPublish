@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0fsonarData.proto\x12\tsonarData\"<\n\tsonarData\x12\x0e\n\x06pointX\x18\x01 \x03(\x02\x12\x0e\n\x06pointY\x18\x02 \x03(\x02\x12\x0f\n\x07\x62\x65\x61mIdx\x18\x03 \x03(\x02\x62\x06proto3'
+  serialized_pb=b'\n\x0fsonarData.proto\x12\tsonarData\"<\n\tsonarData\x12\x0e\n\x06pointX\x18\x01 \x03(\x02\x12\x0e\n\x06pointY\x18\x02 \x03(\x02\x12\x0f\n\x07\x62\x65\x61mIdx\x18\x03 \x03(\x05\x62\x06proto3'
 )
 
 
@@ -49,7 +49,7 @@ _SONARDATA = _descriptor.Descriptor(
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
       name='beamIdx', full_name='sonarData.sonarData.beamIdx', index=2,
-      number=3, type=2, cpp_type=6, label=3,
+      number=3, type=5, cpp_type=1, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,

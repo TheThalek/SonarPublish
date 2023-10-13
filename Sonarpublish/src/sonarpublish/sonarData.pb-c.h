@@ -34,7 +34,7 @@ struct  _SonarData__SonarData
   size_t n_pointy;
   float *pointy;
   size_t n_beamidx;
-  float *beamidx;
+  int32_t *beamidx;
 };
 #define SONAR_DATA__SONAR_DATA__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&sonar_data__sonar_data__descriptor) \
