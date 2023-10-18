@@ -1,5 +1,6 @@
 $ sudo apt-get install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-good libsdl2-dev libglew-dev libeigen3-dev
 
+sudo apt install gstreamer1.0-tools
 
 $ sudo apt-get install git-lfs
 $ git lfs pull
