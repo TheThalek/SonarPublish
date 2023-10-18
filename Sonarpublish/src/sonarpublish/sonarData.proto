@@ -10,6 +10,6 @@ message sonarData {
 }
 
 
-// To include new data, add it to this code and run "protoc --c_out=. data.proto" 
+// To include new data, add it to this code and run "protoc --c_out=. sonarData.proto" 
 //      from the same folder as the data.proto is in
 // For python: protoc --python_out=. sonarData.proto

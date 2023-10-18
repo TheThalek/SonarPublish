@@ -161,9 +161,8 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
                 sonar_data.pointy[beam_index] = -cos(angle) * range * sonarpublish->zoom;
                 sonar_data.beamidx[beam_index] = beam_index;
 
-                printf("Bath: The pointx are: %f\n", sonar_data.pointx[beam_index]); 
-                printf("Bath: The pointy are: %f\n", sonar_data.pointy[beam_index]); 
-                printf("Bath: The beam_index are: %d\n", sonar_data.beamidx[beam_index]); 
+            printf("PointX=%f, PointY=%f, beamIdx=%d\n", sonar_data.pointx[beam_index], sonar_data.pointy[beam_index], sonar_data.beamidx[beam_index]);
+
             }
 
             // Serialize the message into a binary format. 
