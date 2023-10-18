@@ -52,7 +52,7 @@ void   sonar_data__sonar_data__free_unpacked
   assert(message->base.descriptor == &sonar_data__sonar_data__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-static const ProtobufCFieldDescriptor sonar_data__sonar_data__field_descriptors[3] =
+static const ProtobufCFieldDescriptor sonar_data__sonar_data__field_descriptors[4] =
 {
   {
     "pointX",
@@ -90,16 +90,29 @@ static const ProtobufCFieldDescriptor sonar_data__sonar_data__field_descriptors[
     0 | PROTOBUF_C_FIELD_FLAG_PACKED,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "quality",
+    4,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(SonarData__SonarData, n_quality),
+    offsetof(SonarData__SonarData, quality),
+    NULL,
+    NULL,
+    0 | PROTOBUF_C_FIELD_FLAG_PACKED,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned sonar_data__sonar_data__field_indices_by_name[] = {
   2,   /* field[2] = beamIdx */
   0,   /* field[0] = pointX */
   1,   /* field[1] = pointY */
+  3,   /* field[3] = quality */
 };
 static const ProtobufCIntRange sonar_data__sonar_data__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 3 }
+  { 0, 4 }
 };
 const ProtobufCMessageDescriptor sonar_data__sonar_data__descriptor =
 {
@@ -109,7 +122,7 @@ const ProtobufCMessageDescriptor sonar_data__sonar_data__descriptor =
   "SonarData__SonarData",
   "sonarData",
   sizeof(SonarData__SonarData),
-  3,
+  4,
   sonar_data__sonar_data__field_descriptors,
   sonar_data__sonar_data__field_indices_by_name,
   1,  sonar_data__sonar_data__number_ranges,

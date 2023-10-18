@@ -16,14 +16,16 @@ def process_sonar_data(data):
     pointX_list = data.pointX
     pointY_list = data.pointY
     beamIdx_list = data.beamIdx
+    quality_list = data.quality
 
     # Print the received data
     for i in range(len(pointX_list)):
         pointX = pointX_list[i]
         pointY = pointY_list[i]
         beamIdx = beamIdx_list[i]
+        quality = quality_list[i]
 
-        print(f"Received sonar data: pointX={pointX}, pointY={pointY}, beamIdx={beamIdx}")
+        print(f"Received sonar data: pointX={pointX}, pointY={pointY}, beamIdx={beamIdx}, quality={quality}")
 
 
 def cleanup_socket(socket_path):

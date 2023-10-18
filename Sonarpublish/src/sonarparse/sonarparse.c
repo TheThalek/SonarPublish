@@ -20,8 +20,8 @@
  * </refsect2>
  */
 
-#include "sonarparse.h"
 #include "common/sonarshared.h"
+#include "sonarparse/sonarparse.h"
 
 #include <stdio.h>
 
@@ -136,12 +136,22 @@ static GstFlowReturn gst_sonarparse_handle_frame(GstBaseParse* baseparse, GstBas
                         .measurement_stride = sizeof(wbms_detectionpoint_t),
                         .stride             = sizeof(wbms_detectionpoint_t),
                         .measurement_offset = sizeof(wbms_packet_header_t) + sizeof(wbms_bath_data_header_t),
-                        .angle_offset       = sizeof(wbms_packet_header_t) + sizeof(wbms_fls_data_header_t) + sizeof(((wbms_detectionpoint_t*)NULL)->sample_number),
+                        .angle_offset       = sizeof(wbms_packet_header_t) + sizeof(wbms_fls_data_header_t) + offsetof(wbms_detectionpoint_t, angle),
                         .angle_type         = GST_SONAR_MEASUREMENT_TYPE_FLOAT32,
                         .angle_stride       = sizeof(wbms_detectionpoint_t),
+                        .upper_gate_offset  = sizeof(wbms_packet_header_t) + sizeof(wbms_fls_data_header_t) + offsetof(wbms_detectionpoint_t, upper_gate),                                
+                        .lower_gate_offset  = sizeof(wbms_packet_header_t) + sizeof(wbms_fls_data_header_t) + offsetof(wbms_detectionpoint_t, lower_gate),                                
+                        .intensity_offset   = sizeof(wbms_packet_header_t) + sizeof(wbms_fls_data_header_t) + offsetof(wbms_detectionpoint_t, intensity),                                
+                        .flags_offset       = sizeof(wbms_packet_header_t) + sizeof(wbms_fls_data_header_t) + offsetof(wbms_detectionpoint_t, flags),                                
+                        .quality_flags_offset  = sizeof(wbms_packet_header_t) + sizeof(wbms_fls_data_header_t) + offsetof(wbms_detectionpoint_t, quality_flags),                                
+                        .quality_val_offset = sizeof(wbms_packet_header_t) + sizeof(wbms_fls_data_header_t) + offsetof(wbms_detectionpoint_t, quality_val),                               
+
                     },
                 .params =
                     (GstSonarParams){
+                        .time        = (guint64)(sub_header->time*1.0e6),
+                        .network_time = (guint64)(sub_header->time_net*1.0e6),
+                        .ping_number = sub_header->ping_number,
                         .sound_speed = sub_header->snd_velocity,
                         .sample_rate = sub_header->sample_rate,
                         .t0          = 0,    // t0 doesn't apply
@@ -150,9 +160,9 @@ static GstFlowReturn gst_sonarparse_handle_frame(GstBaseParse* baseparse, GstBas
             };
             break;
         }
-        case WBMS_FLS:    // fls
+        case WBMS_FLS:    // FLS
         {
-            GST_DEBUG_OBJECT(sonarparse, "sonar type is fls");
+            GST_DEBUG_OBJECT(sonarparse, "sonar type is FLS");
             const wbms_fls_data_header_t* sub_header;
             if (!gst_byte_reader_get_data(&reader, sizeof(*sub_header), &sub_header_data))
                 exit;
@@ -185,7 +195,10 @@ static GstFlowReturn gst_sonarparse_handle_frame(GstBaseParse* baseparse, GstBas
                         .angle_stride       = 4,
                     },
                 .params =
-                    (GstSonarParams){
+                    (GstSonarParams){           
+                        .time        = (guint64)(sub_header->time*1.0e6),
+                        .network_time = (guint64)(sub_header->time_net*1.0e6),
+                        .ping_number = sub_header->ping_number,
                         .sound_speed = sub_header->snd_velocity,
                         .sample_rate = sub_header->sample_rate,
                         .t0          = sub_header->t0,
@@ -206,7 +219,7 @@ static GstFlowReturn gst_sonarparse_handle_frame(GstBaseParse* baseparse, GstBas
         GstCaps* caps = gst_caps_new_simple(sonarparse->caps_name, "n_beams", G_TYPE_INT, sonarparse->n_beams, "resolution", G_TYPE_INT, sonarparse->resolution, "framerate", GST_TYPE_FRACTION,
             sonarparse->framerate, 1, "parsed", G_TYPE_BOOLEAN, TRUE, NULL);
 
-        GST_DEBUG_OBJECT(sonarparse, "setting downstream caps on %s:%s to %" GST_PTR_FORMAT, GST_DEBUG_PAD_NAME(GST_BASE_PARSE_SRC_PAD(sonarparse)), caps);
+        GST_DEBUG_OBJECT(sonarparse, "setting downstream caps on %s:%s to %s" GST_PTR_FORMAT, GST_DEBUG_PAD_NAME(GST_BASE_PARSE_SRC_PAD(sonarparse)), caps);
 
         if (!gst_pad_set_caps(GST_BASE_PARSE_SRC_PAD(sonarparse), caps))
         {
@@ -226,7 +239,7 @@ static GstFlowReturn gst_sonarparse_handle_frame(GstBaseParse* baseparse, GstBas
     // set timestamp
     if (timestamp < sonarparse->initial_time)
     {
-        GST_WARNING_OBJECT(sonarparse, "timestamp would be negative: %llu < %llu, reset to zero", timestamp, gst_sonar_shared_data.initial_time);
+        GST_WARNING_OBJECT(sonarparse, "timestamp would be negative: %lu < %lu, reset to zero", timestamp, gst_sonar_shared_data.initial_time);
         GST_BUFFER_PTS(frame->buffer) = GST_BUFFER_DTS(frame->buffer) = 0;
     }
     else
@@ -236,7 +249,7 @@ static GstFlowReturn gst_sonarparse_handle_frame(GstBaseParse* baseparse, GstBas
 
     // debug framerate
     {
-        GST_LOG_OBJECT(sonarparse, "time: %f %llu", sub_header_time, GST_BUFFER_PTS(frame->buffer));
+        GST_LOG_OBJECT(sonarparse, "time: %f %lu", sub_header_time, GST_BUFFER_PTS(frame->buffer));
         static double prev_pts = 0;
         double pts             = sub_header_time;
         static double fps      = 0;

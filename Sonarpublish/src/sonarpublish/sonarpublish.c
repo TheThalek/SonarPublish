@@ -28,6 +28,8 @@
 #include <sys/socket.h>    // Include the socket functions
 #include <sys/un.h>        // Include the Unix domain socket functions
 #include "sonarData.pb-c.h"
+#include <stdbool.h>
+
 
 GST_DEBUG_CATEGORY_STATIC(sonarpublish_debug);
 #define GST_CAT_DEFAULT sonarpublish_debug
@@ -42,14 +44,13 @@ enum
     PROP_GAIN,
 };
 
-// // Define a struct to store point data
-// typedef struct {
-//     float x;
-//     float y;
-// } Point;
-
-
-
+// THESE have to be defined in sonarsink though, to work. if no sonarsink.c, uncomment these lines;
+// bool metadata_warning_shown = false;
+// double deg2rad = M_PI / 180.0;
+// double rad2deg = 180.0 / M_PI;
+extern bool metadata_warning_shown;
+extern double deg2rad;
+extern double rad2deg;
 
 
 #define DEFAULT_PROP_ZOOM 1
@@ -78,6 +79,24 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
         GST_OBJECT_UNLOCK(sonarpublish);
         return GST_FLOW_ERROR;
     }
+
+    GstTelemetryMeta* tele_meta = GST_TELEMETRY_META_GET(buf);
+    if(tele_meta != NULL)
+    {
+        GST_INFO_OBJECT(sonarpublish, "telemetry: lat: %.6f  long: %.6f  roll: %.2f  pitch: %.2f  heading: %.2f  depth: %.2f m  altitude: %.2f m", 
+            tele_meta->tel.latitude,  tele_meta->tel.longitude,
+             tele_meta->tel.roll*rad2deg, tele_meta->tel.pitch*rad2deg,  tele_meta->tel.yaw*rad2deg,
+             tele_meta->tel.depth, tele_meta->tel.altitude);
+    }
+    else
+    {
+        if(!metadata_warning_shown)
+        {
+            GST_INFO_OBJECT(sonarpublish, "telemetry not available");
+        }
+        metadata_warning_shown = true;
+    }
+
 
     switch (sonarpublish->sonar_type)
     {
@@ -139,29 +158,29 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
             sonar_data.pointy = (float*)malloc(sizeof(float) * num_points);
             sonar_data.n_beamidx = num_points;
             sonar_data.beamidx = (int*)malloc(sizeof(int) * num_points);
+            sonar_data.n_quality = num_points;
+            sonar_data.quality = (uint32_t*)malloc(sizeof(uint32_t) * num_points);
 
 
             for (int beam_index = 0; beam_index < sonarpublish->n_beams; ++beam_index)
             {
                 float sample_number = gst_sonar_format_get_measurement(format, mapinfo.data, beam_index, 0);
                 float angle = gst_sonar_format_get_angle(format, mapinfo.data, beam_index);
+                uint8_t quality     = gst_sonar_format_get_quality_val(format, mapinfo.data, beam_index);                
+                float intensity     = gst_sonar_format_get_intensity(format, mapinfo.data, beam_index);
+                
                 float range = (sample_number * params->sound_speed) / (2 * params->sample_rate);
 
-                // int vertex_index = 3 * beam_index;
-                // float* vertex    = sonarpublish->vertices + vertex_index;
-                // vertex[0] = sin(angle) * range * sonarpublish->zoom;
-                // vertex[1] = -cos(angle) * range * sonarpublish->zoom;
-                // vertex[2] = -1;
-                // printf("Bath: The BeamIdx is: %d\n", beam_index);
-                // printf("Bath: The vertex[0] are: %f\n", vertex[0]);
-                // printf("Bath: The vertex[1] are: %f\n", vertex[1]);
 
                 // Set values for the array elements
                 sonar_data.pointx[beam_index] = sin(angle) * range * sonarpublish->zoom;
                 sonar_data.pointy[beam_index] = -cos(angle) * range * sonarpublish->zoom;
                 sonar_data.beamidx[beam_index] = beam_index;
+                sonar_data.quality[beam_index] = quality;
 
-            printf("PointX=%f, PointY=%f, beamIdx=%d\n", sonar_data.pointx[beam_index], sonar_data.pointy[beam_index], sonar_data.beamidx[beam_index]);
+            printf("quality=%u\n", quality);
+
+            printf("PointX=%f, PointY=%f, beamIdx=%d, quality=%u\n", sonar_data.pointx[beam_index], sonar_data.pointy[beam_index], sonar_data.beamidx[beam_index], sonar_data.quality[beam_index]);
 
             }
 
@@ -196,6 +215,7 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
             free(sonar_data.pointx);
             free(sonar_data.pointy);
             free(sonar_data.beamidx);
+            free(sonar_data.quality);
             break;
         }
     }

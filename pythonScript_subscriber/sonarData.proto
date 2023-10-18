@@ -7,9 +7,10 @@ message sonarData {
     repeated float pointX = 1;
     repeated float pointY = 2;
     repeated int32 beamIdx = 3;
+    repeated uint32 quality = 4;
 }
 
 
-// To include new data, add it to this code and run "protoc --c_out=. data.proto" 
+// To include new data, add it to this code and run "protoc --c_out=. sonarData.proto" 
 //      from the same folder as the data.proto is in
 // For python: protoc --python_out=. sonarData.proto

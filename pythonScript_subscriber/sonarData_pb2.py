@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0fsonarData.proto\x12\tsonarData\"<\n\tsonarData\x12\x0e\n\x06pointX\x18\x01 \x03(\x02\x12\x0e\n\x06pointY\x18\x02 \x03(\x02\x12\x0f\n\x07\x62\x65\x61mIdx\x18\x03 \x03(\x05\x62\x06proto3'
+  serialized_pb=b'\n\x0fsonarData.proto\x12\tsonarData\"M\n\tsonarData\x12\x0e\n\x06pointX\x18\x01 \x03(\x02\x12\x0e\n\x06pointY\x18\x02 \x03(\x02\x12\x0f\n\x07\x62\x65\x61mIdx\x18\x03 \x03(\x05\x12\x0f\n\x07quality\x18\x04 \x03(\rb\x06proto3'
 )
 
 
@@ -54,6 +54,13 @@ _SONARDATA = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='quality', full_name='sonarData.sonarData.quality', index=3,
+      number=4, type=13, cpp_type=3, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -67,7 +74,7 @@ _SONARDATA = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=30,
-  serialized_end=90,
+  serialized_end=107,
 )
 
 DESCRIPTOR.message_types_by_name['sonarData'] = _SONARDATA
