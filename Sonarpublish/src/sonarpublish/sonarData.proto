@@ -10,6 +10,10 @@ message sonarData {
     repeated uint32 quality = 4;
 }
 
+message telemetryData {
+    //repeated float pointX = 1;
+}
+
 
 // To include new data, add it to this code and run "protoc --c_out=. sonarData.proto" 
 //      from the same folder as the data.proto is in

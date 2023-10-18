@@ -24,11 +24,13 @@
 
 #include <math.h>
 #include <stdio.h>
+
 #include <stdlib.h>
 #include <sys/socket.h>    // Include the socket functions
 #include <sys/un.h>        // Include the Unix domain socket functions
 #include "sonarData.pb-c.h"
 #include <stdbool.h>
+
 
 
 GST_DEBUG_CATEGORY_STATIC(sonarpublish_debug);
@@ -44,14 +46,9 @@ enum
     PROP_GAIN,
 };
 
-// THESE have to be defined in sonarsink though, to work. if no sonarsink.c, uncomment these lines;
-// bool metadata_warning_shown = false;
-// double deg2rad = M_PI / 180.0;
-// double rad2deg = 180.0 / M_PI;
-extern bool metadata_warning_shown;
-extern double deg2rad;
-extern double rad2deg;
-
+const double rad2deg_sonarpub = 180.0/M_PI;
+const double deg2rad_sonarpub = M_PI/180.0;
+bool metadata_warning_shown_sonarpub = false;
 
 #define DEFAULT_PROP_ZOOM 1
 #define DEFAULT_PROP_GAIN 1
@@ -85,16 +82,22 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
     {
         GST_INFO_OBJECT(sonarpublish, "telemetry: lat: %.6f  long: %.6f  roll: %.2f  pitch: %.2f  heading: %.2f  depth: %.2f m  altitude: %.2f m", 
             tele_meta->tel.latitude,  tele_meta->tel.longitude,
-             tele_meta->tel.roll*rad2deg, tele_meta->tel.pitch*rad2deg,  tele_meta->tel.yaw*rad2deg,
+             tele_meta->tel.roll*rad2deg_sonarpub, tele_meta->tel.pitch*rad2deg_sonarpub,  tele_meta->tel.yaw*rad2deg_sonarpub,
              tele_meta->tel.depth, tele_meta->tel.altitude);
+        
+        float latitude = tele_meta->tel.latitude;
+        float longitude = tele_meta->tel.longitude;
+        printf("latiude=%f\n", latitude);
+
     }
     else
     {
-        if(!metadata_warning_shown)
+        if(!metadata_warning_shown_sonarpub)
         {
             GST_INFO_OBJECT(sonarpublish, "telemetry not available");
+            //printf("Tel not available\n");
         }
-        metadata_warning_shown = true;
+        metadata_warning_shown_sonarpub = true;
     }
 
 
@@ -178,7 +181,7 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
                 sonar_data.beamidx[beam_index] = beam_index;
                 sonar_data.quality[beam_index] = quality;
 
-            printf("quality=%u\n", quality);
+            //printf("quality=%u\n", quality);
 
             printf("PointX=%f, PointY=%f, beamIdx=%d, quality=%u\n", sonar_data.pointx[beam_index], sonar_data.pointy[beam_index], sonar_data.beamidx[beam_index], sonar_data.quality[beam_index]);
 
