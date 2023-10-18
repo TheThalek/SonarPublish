@@ -95,7 +95,7 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
         if(!metadata_warning_shown_sonarpub)
         {
             GST_INFO_OBJECT(sonarpublish, "telemetry not available");
-            //printf("Tel not available\n");
+            printf("Tel not available\n");
         }
         metadata_warning_shown_sonarpub = true;
     }
@@ -181,9 +181,7 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
                 sonar_data.beamidx[beam_index] = beam_index;
                 sonar_data.quality[beam_index] = quality;
 
-            //printf("quality=%u\n", quality);
-
-            printf("PointX=%f, PointY=%f, beamIdx=%d, quality=%u\n", sonar_data.pointx[beam_index], sonar_data.pointy[beam_index], sonar_data.beamidx[beam_index], sonar_data.quality[beam_index]);
+            //printf("PointX=%f, PointY=%f, beamIdx=%d, quality=%u\n", sonar_data.pointx[beam_index], sonar_data.pointy[beam_index], sonar_data.beamidx[beam_index], sonar_data.quality[beam_index]);
 
             }
 

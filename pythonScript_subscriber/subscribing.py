@@ -36,6 +36,29 @@ def process_sonar_data(data):
 
         print(f"Received sonar data: pointX={pointX}, pointY={pointY}, beamIdx={beamIdx}, quality={quality}")
 
+def process_tel_roll_pitch(data):
+    # Access the data fields (which are repeated fields)
+    roll_list = data.roll
+    pitch_list = data.pitch
+    # Print the received data
+
+    for i in range(len(roll_list)):
+        roll = roll_list[i]
+        pitch = pitch_list[i]
+
+        print(f"Received sonar data: roll={roll}, pitch={pitch}")
+
+def process_tel_heading(data):
+    # Access the data fields (which are repeated fields)
+    heading_list = data.heading
+    # Print the received data
+
+    for i in range(len(heading_list)):
+        heading = heading_list[i]
+
+        print(f"Received sonar data: heading={heading}")
+
+
 
 def cleanup_socket(socket_path):
     if os.path.exists(socket_path):
