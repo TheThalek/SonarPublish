@@ -19,6 +19,9 @@ $ make
 Run with for instance:
 GST_PLUGIN_PATH=. gst-launch-1.0 filesrc location=./samples/2023-01-13_11-56-48_eelume_Airplane.SBD ! sonarparse ! sonarpublish
 
+
+
 Or, to also update telemetry data:
-GST_PLUGIN_PATH=. GST_DEBUG=2,sonarsink:9 gst-launch-1.0 filesrc location=$SBD ! sonarparse ! sonarmux name=mux ! sonarsink zoom=0.1 filesrc location=$SBD ! nmeaparse ! eelnmeadec ! mux.
+$ export SBD=./samples/2022-11-22_09-41-38_eelume_ntnu_Nyhavna.SBD
+$ GST_PLUGIN_PATH=. GST_DEBUG=2,sonarsink:9 gst-launch-1.0 filesrc location=$SBD ! sonarparse ! sonarmux name=mux ! sonarpublish zoom=0.1 filesrc location=$SBD ! nmeaparse ! eelnmeadec ! mux.
 
