@@ -10,6 +10,15 @@ import time
 
 # THe corrct file
 
+# Need; 
+    # sudo apt-get install protobuf-compiler
+    # pip install protobuf
+    # May also have to downgrade to another ptotobuf-version
+        # pip install protobuf==3.20 is for instance compatible with this code!
+     
+
+
+
 # Function to process incoming data
 def process_sonar_data(data):
     # Access the data fields (which are repeated fields)
