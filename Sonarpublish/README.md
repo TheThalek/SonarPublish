@@ -13,3 +13,7 @@ $ mkdir build
 $ cd build
 $ cmake ..
 $ make
+
+
+Run with for instance:
+GST_PLUGIN_PATH=. gst-launch-1.0 filesrc location=./samples/2023-01-13_11-56-48_eelume_Airplane.SBD ! sonarparse ! sonarpublish
