@@ -87,7 +87,7 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
         
         float latitude = tele_meta->tel.latitude;
         float longitude = tele_meta->tel.longitude;
-        printf("latiude=%f\n", latitude);
+
 
     }
     else
