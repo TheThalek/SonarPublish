@@ -78,6 +78,7 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
     }
 
     GstTelemetryMeta* tele_meta = GST_TELEMETRY_META_GET(buf);
+
     if(tele_meta != NULL)
     {
         GST_INFO_OBJECT(sonarpublish, "telemetry: lat: %.6f  long: %.6f  roll: %.2f  pitch: %.2f  heading: %.2f  depth: %.2f m  altitude: %.2f m", 
@@ -85,9 +86,11 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
              tele_meta->tel.roll*rad2deg_sonarpub, tele_meta->tel.pitch*rad2deg_sonarpub,  tele_meta->tel.yaw*rad2deg_sonarpub,
              tele_meta->tel.depth, tele_meta->tel.altitude);
         
-        float latitude = tele_meta->tel.latitude;
-        float longitude = tele_meta->tel.longitude;
+        guint64 attitude_time = tele_meta->tel.attitude_time;
+        float altitude = tele_meta->tel.altitude;
+       
 
+        printf("altitude=%f\n", altitude);
 
     }
     else
@@ -174,7 +177,6 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
                 
                 float range = (sample_number * params->sound_speed) / (2 * params->sample_rate);
 
-
                 // Set values for the array elements
                 sonar_data.pointx[beam_index] = sin(angle) * range * sonarpublish->zoom;
                 sonar_data.pointy[beam_index] = -cos(angle) * range * sonarpublish->zoom;
@@ -182,7 +184,6 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
                 sonar_data.quality[beam_index] = quality;
 
             //printf("PointX=%f, PointY=%f, beamIdx=%d, quality=%u\n", sonar_data.pointx[beam_index], sonar_data.pointy[beam_index], sonar_data.beamidx[beam_index], sonar_data.quality[beam_index]);
-
             }
 
             // Serialize the message into a binary format. 
@@ -195,7 +196,7 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
             int sockfd = socket(AF_UNIX, SOCK_STREAM, 0); // Create a Unix domain socket
             struct sockaddr_un server_address;
             server_address.sun_family = AF_UNIX;
-            strcpy(server_address.sun_path, "/tmp/socket"); // Adjust the socket path, has to be the same as the socket in the script subscibing
+            strcpy(server_address.sun_path, "/tmp/Mysocket"); // Adjust the socket path, has to be the same as the socket in the script subscibing
 
             if (connect(sockfd, (struct sockaddr*)&server_address, sizeof(server_address)) < 0) {
                 perror("Error connecting to the socket");

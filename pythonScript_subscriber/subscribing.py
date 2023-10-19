@@ -17,8 +17,6 @@ import time
         # pip install protobuf==3.20 is for instance compatible with this code!
      
 
-
-
 # Function to process incoming data
 def process_sonar_data(data):
     # Access the data fields (which are repeated fields)
@@ -65,7 +63,7 @@ def cleanup_socket(socket_path):
         os.remove(socket_path)
 
 if __name__ == "__main__":
-    socket_path = "/tmp/socket"
+    socket_path = "/tmp/Mysocket"
     server_socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
 
     max_retries = 5
