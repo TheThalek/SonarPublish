@@ -2,6 +2,16 @@ syntax = "proto3";
 
 package sonarData;  // Optional: Replace with your desired package name
 
+
+message Data {
+    sonarData sonar = 1;
+    telemetryData_position position = 2;
+    telemetryData_pose pose = 3;
+    telemetryData_heading heading = 4;
+    telemetryData_depth depth = 5;
+    telemetryData_altitude altitude = 6;
+}
+
 // Define a message type for an array of points.
 message sonarData {
     repeated float pointX = 1;
@@ -9,6 +19,34 @@ message sonarData {
     repeated int32 beamIdx = 3;
     repeated uint32 quality = 4;
 }
+
+message telemetryData_position {
+    float latitude = 1;
+    float longitude = 2;
+    int32 position_timestep = 3;
+}
+
+message telemetryData_pose {
+    float roll = 1;
+    float pitch = 2;
+    int32 pose_timestep = 3;
+}
+
+message telemetryData_heading {
+    float heading = 1;
+    int32 heading_timestep = 2;
+}
+
+message telemetryData_depth {
+    float depth = 1;
+    int32 depth_timestep = 2;
+}
+
+message telemetryData_altitude {
+    float altitude = 1;
+    int32 altitude_timestep = 2;
+}
+
 
 
 // To include new data, add it to this code and run "protoc --c_out=. sonarData.proto" 

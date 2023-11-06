@@ -20,6 +20,12 @@
  * </refsect2>
  */
 
+
+
+// export SBD=./samples/2022-11-22_09-41-38_eelume_ntnu_Nyhavna.SBD
+// GST_PLUGIN_PATH=. GST_DEBUG=2,sonarsink:9 gst-launch-1.0 filesrc location=$SBD ! sonarparse ! sonarmux name=mux ! sonarpublish zoom=0.1 filesrc location=$SBD ! nmeaparse ! eelnmeadec ! mux.
+
+
 #include "sonarpublish.h"
 
 #include <math.h>
@@ -75,32 +81,6 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
     {
         GST_OBJECT_UNLOCK(sonarpublish);
         return GST_FLOW_ERROR;
-    }
-
-    GstTelemetryMeta* tele_meta = GST_TELEMETRY_META_GET(buf);
-
-    if(tele_meta != NULL)
-    {
-        GST_INFO_OBJECT(sonarpublish, "telemetry: lat: %.6f  long: %.6f  roll: %.2f  pitch: %.2f  heading: %.2f  depth: %.2f m  altitude: %.2f m", 
-            tele_meta->tel.latitude,  tele_meta->tel.longitude,
-             tele_meta->tel.roll*rad2deg_sonarpub, tele_meta->tel.pitch*rad2deg_sonarpub,  tele_meta->tel.yaw*rad2deg_sonarpub,
-             tele_meta->tel.depth, tele_meta->tel.altitude);
-        
-        guint64 attitude_time = tele_meta->tel.attitude_time;
-        float altitude = tele_meta->tel.altitude;
-       
-
-        printf("altitude=%f\n", altitude);
-
-    }
-    else
-    {
-        if(!metadata_warning_shown_sonarpub)
-        {
-            GST_INFO_OBJECT(sonarpublish, "telemetry not available");
-            printf("Tel not available\n");
-        }
-        metadata_warning_shown_sonarpub = true;
     }
 
 
@@ -183,34 +163,109 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
                 sonar_data.beamidx[beam_index] = beam_index;
                 sonar_data.quality[beam_index] = quality;
 
-            //printf("PointX=%f, PointY=%f, beamIdx=%d, quality=%u\n", sonar_data.pointx[beam_index], sonar_data.pointy[beam_index], sonar_data.beamidx[beam_index], sonar_data.quality[beam_index]);
+            printf("PointX=%f, PointY=%f, beamIdx=%d, quality=%u\n", sonar_data.pointx[beam_index], sonar_data.pointy[beam_index], sonar_data.beamidx[beam_index], sonar_data.quality[beam_index]);
             }
 
-            // Serialize the message into a binary format. 
-            size_t packed_size = sonar_data__sonar_data__get_packed_size(&sonar_data);
-            printf("Packed size of sonar_data: %zu bytes\n", packed_size);
-            uint8_t* buffer = (uint8_t*)malloc(packed_size);
-            sonar_data__sonar_data__pack(&sonar_data, buffer);
+
+            // TELEMETRY
+            GstTelemetryMeta* tele_meta = GST_TELEMETRY_META_GET(buf);
+
+            // Initialize a Telemetry messages
+            SonarData__TelemetryDataPosition tel_Position = SONAR_DATA__TELEMETRY_DATA_POSITION__INIT;
+            SonarData__TelemetryDataPose tel_Pose = SONAR_DATA__TELEMETRY_DATA_POSE__INIT;
+            SonarData__TelemetryDataHeading tel_Heading = SONAR_DATA__TELEMETRY_DATA_HEADING__INIT;
+            SonarData__TelemetryDataDepth tel_Depth = SONAR_DATA__TELEMETRY_DATA_DEPTH__INIT;
+            SonarData__TelemetryDataAltitude tel_Altitude = SONAR_DATA__TELEMETRY_DATA_ALTITUDE__INIT;
+            // When you use *_INIT to initialize the structures, Protocol Buffers handles memory allocation and management for scalar (non-repeated) fields, so you don't need to allocate or free memory for those fields explicitly.
+                        
+            if(tele_meta != NULL)
+            {
+                GST_INFO_OBJECT(sonarpublish, "telemetry: lat: %.6f  long: %.6f  roll: %.2f  pitch: %.2f  heading: %.2f  depth: %.2f m  altitude: %.2f m", 
+                    tele_meta->tel.latitude,  tele_meta->tel.longitude,
+                    tele_meta->tel.roll*rad2deg_sonarpub, tele_meta->tel.pitch*rad2deg_sonarpub,  tele_meta->tel.yaw*rad2deg_sonarpub,
+                    tele_meta->tel.depth, tele_meta->tel.altitude);
+                
+                tel_Position.latitude = tele_meta->tel.latitude;
+                tel_Position.longitude = tele_meta->tel.longitude;
+                tel_Position.position_timestep = 1;
+
+                tel_Pose.pitch = tele_meta->tel.pitch*rad2deg_sonarpub;
+                tel_Pose.roll = tele_meta->tel.roll*rad2deg_sonarpub;
+                tel_Pose.pose_timestep = 1;
+
+                tel_Heading.heading =  tele_meta->tel.yaw*rad2deg_sonarpub;
+                tel_Heading.heading_timestep = 1;
+
+                tel_Depth.depth = tele_meta->tel.depth;
+                tel_Depth.depth_timestep = 1;
+
+                tel_Altitude.altitude = tele_meta->tel.altitude;
+                tel_Altitude.altitude_timestep = 1;
+                printf("Telemetry Data:\n"
+                    "Position: Latitude=%.6f  Longitude=%.6f\n"
+                    "Pose: Roll=%.2f  Pitch=%.2f\n"
+                    "Heading: Heading=%.2f\n"
+                    "Depth: Depth=%.2f\n"
+                    "Altitude: Altitude=%.2f\n",
+                    tel_Position.latitude, tel_Position.longitude,
+                    tel_Pose.roll, tel_Pose.pitch,
+                    tel_Heading.heading,
+                    tel_Depth.depth,
+                    tel_Altitude.altitude);
+            }
+            else
+            {
+                if(!metadata_warning_shown_sonarpub)
+                {
+                    GST_INFO_OBJECT(sonarpublish, "telemetry not available");
+                    printf("Tel not available\n");
+                }
+                metadata_warning_shown_sonarpub = true;
+            }
+        
+
+
+            // Create a Data message and initialize it
+            SonarData__Data data_message = SONAR_DATA__DATA__INIT;
+
+            // Populate the fields of the Data message
+            // Set sonar_data (assuming you already have the sonar_data populated)
+            data_message.sonar = &sonar_data;
+            // Populate the telemetry data
+            data_message.position = &tel_Position;
+            data_message.pose = &tel_Pose;
+            data_message.heading = &tel_Heading;
+            data_message.depth = &tel_Depth;
+            data_message.altitude = &tel_Altitude;
+
+
+            // Serialize the Data message into a binary format
+            size_t packed_size_data = sonar_data__data__get_packed_size(&data_message);
+            uint8_t* buffer_data = (uint8_t*)malloc(packed_size_data);
+            sonar_data__data__pack(&data_message, buffer_data);
+
+
 
             //Create a socket and establish a connection to your Python script's Unix domain socket:
             int sockfd = socket(AF_UNIX, SOCK_STREAM, 0); // Create a Unix domain socket
             struct sockaddr_un server_address;
             server_address.sun_family = AF_UNIX;
-            strcpy(server_address.sun_path, "/tmp/Mysocket"); // Adjust the socket path, has to be the same as the socket in the script subscibing
+            strcpy(server_address.sun_path, "/tmp/Mysocket1"); // Adjust the socket path, has to be the same as the socket in the script subscibing
 
             if (connect(sockfd, (struct sockaddr*)&server_address, sizeof(server_address)) < 0) {
                 perror("Error connecting to the socket");
                 return -1;
             }
 
-            //Send the serialized data over the socket:
-            if (send(sockfd, buffer, packed_size, 0) < 0) {
+
+            // Send the serialized data over the socket
+            if (send(sockfd, buffer_data, packed_size_data, 0) < 0) {
                 perror("Error sending data over the socket");
                 return -1;
             }
 
             // Free the allocated memory and close the socket:
-            free(buffer);
+            free(buffer_data);
             close(sockfd);
 
             // Free the allocated memory 
@@ -224,7 +279,6 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
 
     gst_buffer_unmap(buf, &mapinfo);
 
-    // update graphic MAYBE ADD THE UPDATE THINGS CODE HERE;
 
     GST_OBJECT_UNLOCK(sonarpublish);
 

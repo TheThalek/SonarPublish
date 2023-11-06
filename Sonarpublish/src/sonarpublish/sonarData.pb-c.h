@@ -15,13 +15,34 @@ PROTOBUF_C__BEGIN_DECLS
 #endif
 
 
+typedef struct _SonarData__Data SonarData__Data;
 typedef struct _SonarData__SonarData SonarData__SonarData;
+typedef struct _SonarData__TelemetryDataPosition SonarData__TelemetryDataPosition;
+typedef struct _SonarData__TelemetryDataPose SonarData__TelemetryDataPose;
+typedef struct _SonarData__TelemetryDataHeading SonarData__TelemetryDataHeading;
+typedef struct _SonarData__TelemetryDataDepth SonarData__TelemetryDataDepth;
+typedef struct _SonarData__TelemetryDataAltitude SonarData__TelemetryDataAltitude;
 
 
 /* --- enums --- */
 
 
 /* --- messages --- */
+
+struct  _SonarData__Data
+{
+  ProtobufCMessage base;
+  SonarData__SonarData *sonar;
+  SonarData__TelemetryDataPosition *position;
+  SonarData__TelemetryDataPose *pose;
+  SonarData__TelemetryDataHeading *heading;
+  SonarData__TelemetryDataDepth *depth;
+  SonarData__TelemetryDataAltitude *altitude;
+};
+#define SONAR_DATA__DATA__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&sonar_data__data__descriptor) \
+    , NULL, NULL, NULL, NULL, NULL, NULL }
+
 
 /*
  * Define a message type for an array of points.
@@ -43,6 +64,82 @@ struct  _SonarData__SonarData
     , 0,NULL, 0,NULL, 0,NULL, 0,NULL }
 
 
+struct  _SonarData__TelemetryDataPosition
+{
+  ProtobufCMessage base;
+  float latitude;
+  float longitude;
+  int32_t position_timestep;
+};
+#define SONAR_DATA__TELEMETRY_DATA_POSITION__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&sonar_data__telemetry_data_position__descriptor) \
+    , 0, 0, 0 }
+
+
+struct  _SonarData__TelemetryDataPose
+{
+  ProtobufCMessage base;
+  float roll;
+  float pitch;
+  int32_t pose_timestep;
+};
+#define SONAR_DATA__TELEMETRY_DATA_POSE__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&sonar_data__telemetry_data_pose__descriptor) \
+    , 0, 0, 0 }
+
+
+struct  _SonarData__TelemetryDataHeading
+{
+  ProtobufCMessage base;
+  float heading;
+  int32_t heading_timestep;
+};
+#define SONAR_DATA__TELEMETRY_DATA_HEADING__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&sonar_data__telemetry_data_heading__descriptor) \
+    , 0, 0 }
+
+
+struct  _SonarData__TelemetryDataDepth
+{
+  ProtobufCMessage base;
+  float depth;
+  int32_t depth_timestep;
+};
+#define SONAR_DATA__TELEMETRY_DATA_DEPTH__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&sonar_data__telemetry_data_depth__descriptor) \
+    , 0, 0 }
+
+
+struct  _SonarData__TelemetryDataAltitude
+{
+  ProtobufCMessage base;
+  float altitude;
+  int32_t altitude_timestep;
+};
+#define SONAR_DATA__TELEMETRY_DATA_ALTITUDE__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&sonar_data__telemetry_data_altitude__descriptor) \
+    , 0, 0 }
+
+
+/* SonarData__Data methods */
+void   sonar_data__data__init
+                     (SonarData__Data         *message);
+size_t sonar_data__data__get_packed_size
+                     (const SonarData__Data   *message);
+size_t sonar_data__data__pack
+                     (const SonarData__Data   *message,
+                      uint8_t             *out);
+size_t sonar_data__data__pack_to_buffer
+                     (const SonarData__Data   *message,
+                      ProtobufCBuffer     *buffer);
+SonarData__Data *
+       sonar_data__data__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   sonar_data__data__free_unpacked
+                     (SonarData__Data *message,
+                      ProtobufCAllocator *allocator);
 /* SonarData__SonarData methods */
 void   sonar_data__sonar_data__init
                      (SonarData__SonarData         *message);
@@ -62,10 +159,123 @@ SonarData__SonarData *
 void   sonar_data__sonar_data__free_unpacked
                      (SonarData__SonarData *message,
                       ProtobufCAllocator *allocator);
+/* SonarData__TelemetryDataPosition methods */
+void   sonar_data__telemetry_data_position__init
+                     (SonarData__TelemetryDataPosition         *message);
+size_t sonar_data__telemetry_data_position__get_packed_size
+                     (const SonarData__TelemetryDataPosition   *message);
+size_t sonar_data__telemetry_data_position__pack
+                     (const SonarData__TelemetryDataPosition   *message,
+                      uint8_t             *out);
+size_t sonar_data__telemetry_data_position__pack_to_buffer
+                     (const SonarData__TelemetryDataPosition   *message,
+                      ProtobufCBuffer     *buffer);
+SonarData__TelemetryDataPosition *
+       sonar_data__telemetry_data_position__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   sonar_data__telemetry_data_position__free_unpacked
+                     (SonarData__TelemetryDataPosition *message,
+                      ProtobufCAllocator *allocator);
+/* SonarData__TelemetryDataPose methods */
+void   sonar_data__telemetry_data_pose__init
+                     (SonarData__TelemetryDataPose         *message);
+size_t sonar_data__telemetry_data_pose__get_packed_size
+                     (const SonarData__TelemetryDataPose   *message);
+size_t sonar_data__telemetry_data_pose__pack
+                     (const SonarData__TelemetryDataPose   *message,
+                      uint8_t             *out);
+size_t sonar_data__telemetry_data_pose__pack_to_buffer
+                     (const SonarData__TelemetryDataPose   *message,
+                      ProtobufCBuffer     *buffer);
+SonarData__TelemetryDataPose *
+       sonar_data__telemetry_data_pose__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   sonar_data__telemetry_data_pose__free_unpacked
+                     (SonarData__TelemetryDataPose *message,
+                      ProtobufCAllocator *allocator);
+/* SonarData__TelemetryDataHeading methods */
+void   sonar_data__telemetry_data_heading__init
+                     (SonarData__TelemetryDataHeading         *message);
+size_t sonar_data__telemetry_data_heading__get_packed_size
+                     (const SonarData__TelemetryDataHeading   *message);
+size_t sonar_data__telemetry_data_heading__pack
+                     (const SonarData__TelemetryDataHeading   *message,
+                      uint8_t             *out);
+size_t sonar_data__telemetry_data_heading__pack_to_buffer
+                     (const SonarData__TelemetryDataHeading   *message,
+                      ProtobufCBuffer     *buffer);
+SonarData__TelemetryDataHeading *
+       sonar_data__telemetry_data_heading__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   sonar_data__telemetry_data_heading__free_unpacked
+                     (SonarData__TelemetryDataHeading *message,
+                      ProtobufCAllocator *allocator);
+/* SonarData__TelemetryDataDepth methods */
+void   sonar_data__telemetry_data_depth__init
+                     (SonarData__TelemetryDataDepth         *message);
+size_t sonar_data__telemetry_data_depth__get_packed_size
+                     (const SonarData__TelemetryDataDepth   *message);
+size_t sonar_data__telemetry_data_depth__pack
+                     (const SonarData__TelemetryDataDepth   *message,
+                      uint8_t             *out);
+size_t sonar_data__telemetry_data_depth__pack_to_buffer
+                     (const SonarData__TelemetryDataDepth   *message,
+                      ProtobufCBuffer     *buffer);
+SonarData__TelemetryDataDepth *
+       sonar_data__telemetry_data_depth__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   sonar_data__telemetry_data_depth__free_unpacked
+                     (SonarData__TelemetryDataDepth *message,
+                      ProtobufCAllocator *allocator);
+/* SonarData__TelemetryDataAltitude methods */
+void   sonar_data__telemetry_data_altitude__init
+                     (SonarData__TelemetryDataAltitude         *message);
+size_t sonar_data__telemetry_data_altitude__get_packed_size
+                     (const SonarData__TelemetryDataAltitude   *message);
+size_t sonar_data__telemetry_data_altitude__pack
+                     (const SonarData__TelemetryDataAltitude   *message,
+                      uint8_t             *out);
+size_t sonar_data__telemetry_data_altitude__pack_to_buffer
+                     (const SonarData__TelemetryDataAltitude   *message,
+                      ProtobufCBuffer     *buffer);
+SonarData__TelemetryDataAltitude *
+       sonar_data__telemetry_data_altitude__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   sonar_data__telemetry_data_altitude__free_unpacked
+                     (SonarData__TelemetryDataAltitude *message,
+                      ProtobufCAllocator *allocator);
 /* --- per-message closures --- */
 
+typedef void (*SonarData__Data_Closure)
+                 (const SonarData__Data *message,
+                  void *closure_data);
 typedef void (*SonarData__SonarData_Closure)
                  (const SonarData__SonarData *message,
+                  void *closure_data);
+typedef void (*SonarData__TelemetryDataPosition_Closure)
+                 (const SonarData__TelemetryDataPosition *message,
+                  void *closure_data);
+typedef void (*SonarData__TelemetryDataPose_Closure)
+                 (const SonarData__TelemetryDataPose *message,
+                  void *closure_data);
+typedef void (*SonarData__TelemetryDataHeading_Closure)
+                 (const SonarData__TelemetryDataHeading *message,
+                  void *closure_data);
+typedef void (*SonarData__TelemetryDataDepth_Closure)
+                 (const SonarData__TelemetryDataDepth *message,
+                  void *closure_data);
+typedef void (*SonarData__TelemetryDataAltitude_Closure)
+                 (const SonarData__TelemetryDataAltitude *message,
                   void *closure_data);
 
 /* --- services --- */
@@ -73,7 +283,13 @@ typedef void (*SonarData__SonarData_Closure)
 
 /* --- descriptors --- */
 
+extern const ProtobufCMessageDescriptor sonar_data__data__descriptor;
 extern const ProtobufCMessageDescriptor sonar_data__sonar_data__descriptor;
+extern const ProtobufCMessageDescriptor sonar_data__telemetry_data_position__descriptor;
+extern const ProtobufCMessageDescriptor sonar_data__telemetry_data_pose__descriptor;
+extern const ProtobufCMessageDescriptor sonar_data__telemetry_data_heading__descriptor;
+extern const ProtobufCMessageDescriptor sonar_data__telemetry_data_depth__descriptor;
+extern const ProtobufCMessageDescriptor sonar_data__telemetry_data_altitude__descriptor;
 
 PROTOBUF_C__END_DECLS
 

@@ -7,6 +7,51 @@
 #endif
 
 #include "sonarData.pb-c.h"
+void   sonar_data__data__init
+                     (SonarData__Data         *message)
+{
+  static const SonarData__Data init_value = SONAR_DATA__DATA__INIT;
+  *message = init_value;
+}
+size_t sonar_data__data__get_packed_size
+                     (const SonarData__Data *message)
+{
+  assert(message->base.descriptor == &sonar_data__data__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t sonar_data__data__pack
+                     (const SonarData__Data *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &sonar_data__data__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t sonar_data__data__pack_to_buffer
+                     (const SonarData__Data *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &sonar_data__data__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+SonarData__Data *
+       sonar_data__data__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (SonarData__Data *)
+     protobuf_c_message_unpack (&sonar_data__data__descriptor,
+                                allocator, len, data);
+}
+void   sonar_data__data__free_unpacked
+                     (SonarData__Data *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &sonar_data__data__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
 void   sonar_data__sonar_data__init
                      (SonarData__SonarData         *message)
 {
@@ -52,6 +97,334 @@ void   sonar_data__sonar_data__free_unpacked
   assert(message->base.descriptor == &sonar_data__sonar_data__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
+void   sonar_data__telemetry_data_position__init
+                     (SonarData__TelemetryDataPosition         *message)
+{
+  static const SonarData__TelemetryDataPosition init_value = SONAR_DATA__TELEMETRY_DATA_POSITION__INIT;
+  *message = init_value;
+}
+size_t sonar_data__telemetry_data_position__get_packed_size
+                     (const SonarData__TelemetryDataPosition *message)
+{
+  assert(message->base.descriptor == &sonar_data__telemetry_data_position__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t sonar_data__telemetry_data_position__pack
+                     (const SonarData__TelemetryDataPosition *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &sonar_data__telemetry_data_position__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t sonar_data__telemetry_data_position__pack_to_buffer
+                     (const SonarData__TelemetryDataPosition *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &sonar_data__telemetry_data_position__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+SonarData__TelemetryDataPosition *
+       sonar_data__telemetry_data_position__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (SonarData__TelemetryDataPosition *)
+     protobuf_c_message_unpack (&sonar_data__telemetry_data_position__descriptor,
+                                allocator, len, data);
+}
+void   sonar_data__telemetry_data_position__free_unpacked
+                     (SonarData__TelemetryDataPosition *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &sonar_data__telemetry_data_position__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+void   sonar_data__telemetry_data_pose__init
+                     (SonarData__TelemetryDataPose         *message)
+{
+  static const SonarData__TelemetryDataPose init_value = SONAR_DATA__TELEMETRY_DATA_POSE__INIT;
+  *message = init_value;
+}
+size_t sonar_data__telemetry_data_pose__get_packed_size
+                     (const SonarData__TelemetryDataPose *message)
+{
+  assert(message->base.descriptor == &sonar_data__telemetry_data_pose__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t sonar_data__telemetry_data_pose__pack
+                     (const SonarData__TelemetryDataPose *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &sonar_data__telemetry_data_pose__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t sonar_data__telemetry_data_pose__pack_to_buffer
+                     (const SonarData__TelemetryDataPose *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &sonar_data__telemetry_data_pose__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+SonarData__TelemetryDataPose *
+       sonar_data__telemetry_data_pose__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (SonarData__TelemetryDataPose *)
+     protobuf_c_message_unpack (&sonar_data__telemetry_data_pose__descriptor,
+                                allocator, len, data);
+}
+void   sonar_data__telemetry_data_pose__free_unpacked
+                     (SonarData__TelemetryDataPose *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &sonar_data__telemetry_data_pose__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+void   sonar_data__telemetry_data_heading__init
+                     (SonarData__TelemetryDataHeading         *message)
+{
+  static const SonarData__TelemetryDataHeading init_value = SONAR_DATA__TELEMETRY_DATA_HEADING__INIT;
+  *message = init_value;
+}
+size_t sonar_data__telemetry_data_heading__get_packed_size
+                     (const SonarData__TelemetryDataHeading *message)
+{
+  assert(message->base.descriptor == &sonar_data__telemetry_data_heading__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t sonar_data__telemetry_data_heading__pack
+                     (const SonarData__TelemetryDataHeading *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &sonar_data__telemetry_data_heading__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t sonar_data__telemetry_data_heading__pack_to_buffer
+                     (const SonarData__TelemetryDataHeading *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &sonar_data__telemetry_data_heading__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+SonarData__TelemetryDataHeading *
+       sonar_data__telemetry_data_heading__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (SonarData__TelemetryDataHeading *)
+     protobuf_c_message_unpack (&sonar_data__telemetry_data_heading__descriptor,
+                                allocator, len, data);
+}
+void   sonar_data__telemetry_data_heading__free_unpacked
+                     (SonarData__TelemetryDataHeading *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &sonar_data__telemetry_data_heading__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+void   sonar_data__telemetry_data_depth__init
+                     (SonarData__TelemetryDataDepth         *message)
+{
+  static const SonarData__TelemetryDataDepth init_value = SONAR_DATA__TELEMETRY_DATA_DEPTH__INIT;
+  *message = init_value;
+}
+size_t sonar_data__telemetry_data_depth__get_packed_size
+                     (const SonarData__TelemetryDataDepth *message)
+{
+  assert(message->base.descriptor == &sonar_data__telemetry_data_depth__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t sonar_data__telemetry_data_depth__pack
+                     (const SonarData__TelemetryDataDepth *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &sonar_data__telemetry_data_depth__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t sonar_data__telemetry_data_depth__pack_to_buffer
+                     (const SonarData__TelemetryDataDepth *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &sonar_data__telemetry_data_depth__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+SonarData__TelemetryDataDepth *
+       sonar_data__telemetry_data_depth__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (SonarData__TelemetryDataDepth *)
+     protobuf_c_message_unpack (&sonar_data__telemetry_data_depth__descriptor,
+                                allocator, len, data);
+}
+void   sonar_data__telemetry_data_depth__free_unpacked
+                     (SonarData__TelemetryDataDepth *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &sonar_data__telemetry_data_depth__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+void   sonar_data__telemetry_data_altitude__init
+                     (SonarData__TelemetryDataAltitude         *message)
+{
+  static const SonarData__TelemetryDataAltitude init_value = SONAR_DATA__TELEMETRY_DATA_ALTITUDE__INIT;
+  *message = init_value;
+}
+size_t sonar_data__telemetry_data_altitude__get_packed_size
+                     (const SonarData__TelemetryDataAltitude *message)
+{
+  assert(message->base.descriptor == &sonar_data__telemetry_data_altitude__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t sonar_data__telemetry_data_altitude__pack
+                     (const SonarData__TelemetryDataAltitude *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &sonar_data__telemetry_data_altitude__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t sonar_data__telemetry_data_altitude__pack_to_buffer
+                     (const SonarData__TelemetryDataAltitude *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &sonar_data__telemetry_data_altitude__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+SonarData__TelemetryDataAltitude *
+       sonar_data__telemetry_data_altitude__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (SonarData__TelemetryDataAltitude *)
+     protobuf_c_message_unpack (&sonar_data__telemetry_data_altitude__descriptor,
+                                allocator, len, data);
+}
+void   sonar_data__telemetry_data_altitude__free_unpacked
+                     (SonarData__TelemetryDataAltitude *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &sonar_data__telemetry_data_altitude__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+static const ProtobufCFieldDescriptor sonar_data__data__field_descriptors[6] =
+{
+  {
+    "sonar",
+    1,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(SonarData__Data, sonar),
+    &sonar_data__sonar_data__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "position",
+    2,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(SonarData__Data, position),
+    &sonar_data__telemetry_data_position__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "pose",
+    3,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(SonarData__Data, pose),
+    &sonar_data__telemetry_data_pose__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "heading",
+    4,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(SonarData__Data, heading),
+    &sonar_data__telemetry_data_heading__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "depth",
+    5,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(SonarData__Data, depth),
+    &sonar_data__telemetry_data_depth__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "altitude",
+    6,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(SonarData__Data, altitude),
+    &sonar_data__telemetry_data_altitude__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned sonar_data__data__field_indices_by_name[] = {
+  5,   /* field[5] = altitude */
+  4,   /* field[4] = depth */
+  3,   /* field[3] = heading */
+  2,   /* field[2] = pose */
+  1,   /* field[1] = position */
+  0,   /* field[0] = sonar */
+};
+static const ProtobufCIntRange sonar_data__data__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 6 }
+};
+const ProtobufCMessageDescriptor sonar_data__data__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "sonarData.Data",
+  "Data",
+  "SonarData__Data",
+  "sonarData",
+  sizeof(SonarData__Data),
+  6,
+  sonar_data__data__field_descriptors,
+  sonar_data__data__field_indices_by_name,
+  1,  sonar_data__data__number_ranges,
+  (ProtobufCMessageInit) sonar_data__data__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
 static const ProtobufCFieldDescriptor sonar_data__sonar_data__field_descriptors[4] =
 {
   {
@@ -127,5 +500,286 @@ const ProtobufCMessageDescriptor sonar_data__sonar_data__descriptor =
   sonar_data__sonar_data__field_indices_by_name,
   1,  sonar_data__sonar_data__number_ranges,
   (ProtobufCMessageInit) sonar_data__sonar_data__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor sonar_data__telemetry_data_position__field_descriptors[3] =
+{
+  {
+    "latitude",
+    1,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_FLOAT,
+    0,   /* quantifier_offset */
+    offsetof(SonarData__TelemetryDataPosition, latitude),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "longitude",
+    2,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_FLOAT,
+    0,   /* quantifier_offset */
+    offsetof(SonarData__TelemetryDataPosition, longitude),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "position_timestep",
+    3,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_INT32,
+    0,   /* quantifier_offset */
+    offsetof(SonarData__TelemetryDataPosition, position_timestep),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned sonar_data__telemetry_data_position__field_indices_by_name[] = {
+  0,   /* field[0] = latitude */
+  1,   /* field[1] = longitude */
+  2,   /* field[2] = position_timestep */
+};
+static const ProtobufCIntRange sonar_data__telemetry_data_position__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 3 }
+};
+const ProtobufCMessageDescriptor sonar_data__telemetry_data_position__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "sonarData.telemetryData_position",
+  "TelemetryDataPosition",
+  "SonarData__TelemetryDataPosition",
+  "sonarData",
+  sizeof(SonarData__TelemetryDataPosition),
+  3,
+  sonar_data__telemetry_data_position__field_descriptors,
+  sonar_data__telemetry_data_position__field_indices_by_name,
+  1,  sonar_data__telemetry_data_position__number_ranges,
+  (ProtobufCMessageInit) sonar_data__telemetry_data_position__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor sonar_data__telemetry_data_pose__field_descriptors[3] =
+{
+  {
+    "roll",
+    1,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_FLOAT,
+    0,   /* quantifier_offset */
+    offsetof(SonarData__TelemetryDataPose, roll),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "pitch",
+    2,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_FLOAT,
+    0,   /* quantifier_offset */
+    offsetof(SonarData__TelemetryDataPose, pitch),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "pose_timestep",
+    3,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_INT32,
+    0,   /* quantifier_offset */
+    offsetof(SonarData__TelemetryDataPose, pose_timestep),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned sonar_data__telemetry_data_pose__field_indices_by_name[] = {
+  1,   /* field[1] = pitch */
+  2,   /* field[2] = pose_timestep */
+  0,   /* field[0] = roll */
+};
+static const ProtobufCIntRange sonar_data__telemetry_data_pose__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 3 }
+};
+const ProtobufCMessageDescriptor sonar_data__telemetry_data_pose__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "sonarData.telemetryData_pose",
+  "TelemetryDataPose",
+  "SonarData__TelemetryDataPose",
+  "sonarData",
+  sizeof(SonarData__TelemetryDataPose),
+  3,
+  sonar_data__telemetry_data_pose__field_descriptors,
+  sonar_data__telemetry_data_pose__field_indices_by_name,
+  1,  sonar_data__telemetry_data_pose__number_ranges,
+  (ProtobufCMessageInit) sonar_data__telemetry_data_pose__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor sonar_data__telemetry_data_heading__field_descriptors[2] =
+{
+  {
+    "heading",
+    1,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_FLOAT,
+    0,   /* quantifier_offset */
+    offsetof(SonarData__TelemetryDataHeading, heading),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "heading_timestep",
+    2,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_INT32,
+    0,   /* quantifier_offset */
+    offsetof(SonarData__TelemetryDataHeading, heading_timestep),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned sonar_data__telemetry_data_heading__field_indices_by_name[] = {
+  0,   /* field[0] = heading */
+  1,   /* field[1] = heading_timestep */
+};
+static const ProtobufCIntRange sonar_data__telemetry_data_heading__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 2 }
+};
+const ProtobufCMessageDescriptor sonar_data__telemetry_data_heading__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "sonarData.telemetryData_heading",
+  "TelemetryDataHeading",
+  "SonarData__TelemetryDataHeading",
+  "sonarData",
+  sizeof(SonarData__TelemetryDataHeading),
+  2,
+  sonar_data__telemetry_data_heading__field_descriptors,
+  sonar_data__telemetry_data_heading__field_indices_by_name,
+  1,  sonar_data__telemetry_data_heading__number_ranges,
+  (ProtobufCMessageInit) sonar_data__telemetry_data_heading__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor sonar_data__telemetry_data_depth__field_descriptors[2] =
+{
+  {
+    "depth",
+    1,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_FLOAT,
+    0,   /* quantifier_offset */
+    offsetof(SonarData__TelemetryDataDepth, depth),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "depth_timestep",
+    2,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_INT32,
+    0,   /* quantifier_offset */
+    offsetof(SonarData__TelemetryDataDepth, depth_timestep),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned sonar_data__telemetry_data_depth__field_indices_by_name[] = {
+  0,   /* field[0] = depth */
+  1,   /* field[1] = depth_timestep */
+};
+static const ProtobufCIntRange sonar_data__telemetry_data_depth__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 2 }
+};
+const ProtobufCMessageDescriptor sonar_data__telemetry_data_depth__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "sonarData.telemetryData_depth",
+  "TelemetryDataDepth",
+  "SonarData__TelemetryDataDepth",
+  "sonarData",
+  sizeof(SonarData__TelemetryDataDepth),
+  2,
+  sonar_data__telemetry_data_depth__field_descriptors,
+  sonar_data__telemetry_data_depth__field_indices_by_name,
+  1,  sonar_data__telemetry_data_depth__number_ranges,
+  (ProtobufCMessageInit) sonar_data__telemetry_data_depth__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor sonar_data__telemetry_data_altitude__field_descriptors[2] =
+{
+  {
+    "altitude",
+    1,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_FLOAT,
+    0,   /* quantifier_offset */
+    offsetof(SonarData__TelemetryDataAltitude, altitude),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "altitude_timestep",
+    2,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_INT32,
+    0,   /* quantifier_offset */
+    offsetof(SonarData__TelemetryDataAltitude, altitude_timestep),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned sonar_data__telemetry_data_altitude__field_indices_by_name[] = {
+  0,   /* field[0] = altitude */
+  1,   /* field[1] = altitude_timestep */
+};
+static const ProtobufCIntRange sonar_data__telemetry_data_altitude__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 2 }
+};
+const ProtobufCMessageDescriptor sonar_data__telemetry_data_altitude__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "sonarData.telemetryData_altitude",
+  "TelemetryDataAltitude",
+  "SonarData__TelemetryDataAltitude",
+  "sonarData",
+  sizeof(SonarData__TelemetryDataAltitude),
+  2,
+  sonar_data__telemetry_data_altitude__field_descriptors,
+  sonar_data__telemetry_data_altitude__field_indices_by_name,
+  1,  sonar_data__telemetry_data_altitude__number_ranges,
+  (ProtobufCMessageInit) sonar_data__telemetry_data_altitude__init,
   NULL,NULL,NULL    /* reserved[123] */
 };

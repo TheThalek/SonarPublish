@@ -4,19 +4,6 @@ import socket
 import os 
 import time 
 
-# IMPORTANT; USE ctrl + c to end the code in the terminal, if not you have to change the socket name socket_path = "/tmp/sonarsocket"
-    # in both the c code and in this python code
-
-
-# THe corrct file
-
-# Need; 
-    # sudo apt-get install protobuf-compiler
-    # pip install protobuf
-    # May also have to downgrade to another ptotobuf-version
-        # pip install protobuf==3.20 is for instance compatible with this code!
-     
-
 # Function to process incoming data
 def process_sonar_data(data):
     # Access the data fields (which are repeated fields)
@@ -25,7 +12,7 @@ def process_sonar_data(data):
     beamIdx_list = data.beamIdx
     quality_list = data.quality
 
-    # Print the received data
+    # Print the received sonar data
     for i in range(len(pointX_list)):
         pointX = pointX_list[i]
         pointY = pointY_list[i]
@@ -34,36 +21,44 @@ def process_sonar_data(data):
 
         print(f"Received sonar data: pointX={pointX}, pointY={pointY}, beamIdx={beamIdx}, quality={quality}")
 
-def process_tel_roll_pitch(data):
-    # Access the data fields (which are repeated fields)
-    roll_list = data.roll
-    pitch_list = data.pitch
-    # Print the received data
+def process_telemetry_position(data):
+    latitude = data.latitude
+    longitude = data.longitude
+    position_timestep = data.position_timestep
 
-    for i in range(len(roll_list)):
-        roll = roll_list[i]
-        pitch = pitch_list[i]
+    print(f"Received telemetry position: Latitude={latitude}, Longitude={longitude}, Position Timestep={position_timestep}")
 
-        print(f"Received sonar data: roll={roll}, pitch={pitch}")
+def process_telemetry_pose(data):
+    roll = data.roll
+    pitch = data.pitch
+    pose_timestep = data.pose_timestep
 
-def process_tel_heading(data):
-    # Access the data fields (which are repeated fields)
-    heading_list = data.heading
-    # Print the received data
+    print(f"Received telemetry pose: Roll={roll}, Pitch={pitch}, Pose Timestep={pose_timestep}")
 
-    for i in range(len(heading_list)):
-        heading = heading_list[i]
+def process_telemetry_heading(data):
+    heading = data.heading
+    heading_timestep = data.heading_timestep
 
-        print(f"Received sonar data: heading={heading}")
+    print(f"Received telemetry heading: Heading={heading}, Heading Timestep={heading_timestep}")
 
+def process_telemetry_depth(data):
+    depth = data.depth
+    depth_timestep = data.depth_timestep
 
+    print(f"Received telemetry depth: Depth={depth}, Depth Timestep={depth_timestep}")
+
+def process_telemetry_altitude(data):
+    altitude = data.altitude
+    altitude_timestep = data.altitude_timestep
+
+    print(f"Received telemetry altitude: Altitude={altitude}, Altitude Timestep={altitude_timestep}")
 
 def cleanup_socket(socket_path):
     if os.path.exists(socket_path):
         os.remove(socket_path)
 
 if __name__ == "__main__":
-    socket_path = "/tmp/Mysocket"
+    socket_path = "/tmp/Mysocket1"
     server_socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
 
     max_retries = 5
@@ -100,10 +95,26 @@ if __name__ == "__main__":
                 data = connection.recv(4096)
 
                 if data: # If data received, translate and process it
-                    sonar_data = sonarData_pb2.sonarData()
-                    sonar_data.ParseFromString(data)
+                    main_data = sonarData_pb2.Data()
+                    main_data.ParseFromString(data)
 
-                    process_sonar_data(sonar_data)
+                    if main_data.HasField("sonar"):
+                        process_sonar_data(main_data.sonar)
+
+                    if main_data.HasField("position"):
+                        process_telemetry_position(main_data.position)
+
+                    if main_data.HasField("pose"):
+                        process_telemetry_pose(main_data.pose)
+
+                    if main_data.HasField("heading"):
+                        process_telemetry_heading(main_data.heading)
+
+                    if main_data.HasField("depth"):
+                        process_telemetry_depth(main_data.depth)
+
+                    if main_data.HasField("altitude"):
+                        process_telemetry_altitude(main_data.altitude)
         except KeyboardInterrupt:
             print("Socket server terminated.")
         finally:
