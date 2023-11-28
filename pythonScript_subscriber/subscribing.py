@@ -11,6 +11,7 @@ def process_sonar_data(data):
     pointY_list = data.pointY
     beamIdx_list = data.beamIdx
     quality_list = data.quality
+    intensity_list = data.intensity
 
     # Print the received sonar data
     for i in range(len(pointX_list)):
@@ -18,8 +19,9 @@ def process_sonar_data(data):
         pointY = pointY_list[i]
         beamIdx = beamIdx_list[i]
         quality = quality_list[i]
+        intensity = intensity_list[i]
 
-        print(f"Received sonar data: pointX={pointX}, pointY={pointY}, beamIdx={beamIdx}, quality={quality}")
+        print(f"Received sonar data: pointX={pointX}, pointY={pointY}, beamIdx={beamIdx}, quality={quality}, intensity={intensity}")
 
 def process_telemetry_position(data):
     latitude = data.latitude
@@ -58,7 +60,7 @@ def cleanup_socket(socket_path):
         os.remove(socket_path)
 
 if __name__ == "__main__":
-    socket_path = "/tmp/Mysocket1"
+    socket_path = "/tmp/Mysocket2"
     server_socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
 
     max_retries = 5

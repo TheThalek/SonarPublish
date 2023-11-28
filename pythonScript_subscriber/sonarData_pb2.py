@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0fsonarData.proto\x12\tsonarData\"\xa4\x02\n\x04\x44\x61ta\x12#\n\x05sonar\x18\x01 \x01(\x0b\x32\x14.sonarData.sonarData\x12\x33\n\x08position\x18\x02 \x01(\x0b\x32!.sonarData.telemetryData_position\x12+\n\x04pose\x18\x03 \x01(\x0b\x32\x1d.sonarData.telemetryData_pose\x12\x31\n\x07heading\x18\x04 \x01(\x0b\x32 .sonarData.telemetryData_heading\x12-\n\x05\x64\x65pth\x18\x05 \x01(\x0b\x32\x1e.sonarData.telemetryData_depth\x12\x33\n\x08\x61ltitude\x18\x06 \x01(\x0b\x32!.sonarData.telemetryData_altitude\"M\n\tsonarData\x12\x0e\n\x06pointX\x18\x01 \x03(\x02\x12\x0e\n\x06pointY\x18\x02 \x03(\x02\x12\x0f\n\x07\x62\x65\x61mIdx\x18\x03 \x03(\x05\x12\x0f\n\x07quality\x18\x04 \x03(\r\"X\n\x16telemetryData_position\x12\x10\n\x08latitude\x18\x01 \x01(\x02\x12\x11\n\tlongitude\x18\x02 \x01(\x02\x12\x19\n\x11position_timestep\x18\x03 \x01(\x05\"H\n\x12telemetryData_pose\x12\x0c\n\x04roll\x18\x01 \x01(\x02\x12\r\n\x05pitch\x18\x02 \x01(\x02\x12\x15\n\rpose_timestep\x18\x03 \x01(\x05\"B\n\x15telemetryData_heading\x12\x0f\n\x07heading\x18\x01 \x01(\x02\x12\x18\n\x10heading_timestep\x18\x02 \x01(\x05\"<\n\x13telemetryData_depth\x12\r\n\x05\x64\x65pth\x18\x01 \x01(\x02\x12\x16\n\x0e\x64\x65pth_timestep\x18\x02 \x01(\x05\"E\n\x16telemetryData_altitude\x12\x10\n\x08\x61ltitude\x18\x01 \x01(\x02\x12\x19\n\x11\x61ltitude_timestep\x18\x02 \x01(\x05\x62\x06proto3'
+  serialized_pb=b'\n\x0fsonarData.proto\x12\tsonarData\"\xa4\x02\n\x04\x44\x61ta\x12#\n\x05sonar\x18\x01 \x01(\x0b\x32\x14.sonarData.sonarData\x12\x33\n\x08position\x18\x02 \x01(\x0b\x32!.sonarData.telemetryData_position\x12+\n\x04pose\x18\x03 \x01(\x0b\x32\x1d.sonarData.telemetryData_pose\x12\x31\n\x07heading\x18\x04 \x01(\x0b\x32 .sonarData.telemetryData_heading\x12-\n\x05\x64\x65pth\x18\x05 \x01(\x0b\x32\x1e.sonarData.telemetryData_depth\x12\x33\n\x08\x61ltitude\x18\x06 \x01(\x0b\x32!.sonarData.telemetryData_altitude\"`\n\tsonarData\x12\x0e\n\x06pointX\x18\x01 \x03(\x02\x12\x0e\n\x06pointY\x18\x02 \x03(\x02\x12\x0f\n\x07\x62\x65\x61mIdx\x18\x03 \x03(\x05\x12\x0f\n\x07quality\x18\x04 \x03(\r\x12\x11\n\tintensity\x18\x05 \x03(\x02\"X\n\x16telemetryData_position\x12\x10\n\x08latitude\x18\x01 \x01(\x02\x12\x11\n\tlongitude\x18\x02 \x01(\x02\x12\x19\n\x11position_timestep\x18\x03 \x01(\x05\"H\n\x12telemetryData_pose\x12\x0c\n\x04roll\x18\x01 \x01(\x02\x12\r\n\x05pitch\x18\x02 \x01(\x02\x12\x15\n\rpose_timestep\x18\x03 \x01(\x05\"B\n\x15telemetryData_heading\x12\x0f\n\x07heading\x18\x01 \x01(\x02\x12\x18\n\x10heading_timestep\x18\x02 \x01(\x05\"<\n\x13telemetryData_depth\x12\r\n\x05\x64\x65pth\x18\x01 \x01(\x02\x12\x16\n\x0e\x64\x65pth_timestep\x18\x02 \x01(\x05\"E\n\x16telemetryData_altitude\x12\x10\n\x08\x61ltitude\x18\x01 \x01(\x02\x12\x19\n\x11\x61ltitude_timestep\x18\x02 \x01(\x05\x62\x06proto3'
 )
 
 
@@ -128,6 +128,13 @@ _SONARDATA = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='intensity', full_name='sonarData.sonarData.intensity', index=4,
+      number=5, type=2, cpp_type=6, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -141,7 +148,7 @@ _SONARDATA = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=325,
-  serialized_end=402,
+  serialized_end=421,
 )
 
 
@@ -186,8 +193,8 @@ _TELEMETRYDATA_POSITION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=404,
-  serialized_end=492,
+  serialized_start=423,
+  serialized_end=511,
 )
 
 
@@ -232,8 +239,8 @@ _TELEMETRYDATA_POSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=494,
-  serialized_end=566,
+  serialized_start=513,
+  serialized_end=585,
 )
 
 
@@ -271,8 +278,8 @@ _TELEMETRYDATA_HEADING = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=568,
-  serialized_end=634,
+  serialized_start=587,
+  serialized_end=653,
 )
 
 
@@ -310,8 +317,8 @@ _TELEMETRYDATA_DEPTH = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=636,
-  serialized_end=696,
+  serialized_start=655,
+  serialized_end=715,
 )
 
 
@@ -349,8 +356,8 @@ _TELEMETRYDATA_ALTITUDE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=698,
-  serialized_end=767,
+  serialized_start=717,
+  serialized_end=786,
 )
 
 _DATA.fields_by_name['sonar'].message_type = _SONARDATA

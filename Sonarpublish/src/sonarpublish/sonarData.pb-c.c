@@ -425,7 +425,7 @@ const ProtobufCMessageDescriptor sonar_data__data__descriptor =
   (ProtobufCMessageInit) sonar_data__data__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor sonar_data__sonar_data__field_descriptors[4] =
+static const ProtobufCFieldDescriptor sonar_data__sonar_data__field_descriptors[5] =
 {
   {
     "pointX",
@@ -475,9 +475,22 @@ static const ProtobufCFieldDescriptor sonar_data__sonar_data__field_descriptors[
     0 | PROTOBUF_C_FIELD_FLAG_PACKED,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "intensity",
+    5,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_FLOAT,
+    offsetof(SonarData__SonarData, n_intensity),
+    offsetof(SonarData__SonarData, intensity),
+    NULL,
+    NULL,
+    0 | PROTOBUF_C_FIELD_FLAG_PACKED,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned sonar_data__sonar_data__field_indices_by_name[] = {
   2,   /* field[2] = beamIdx */
+  4,   /* field[4] = intensity */
   0,   /* field[0] = pointX */
   1,   /* field[1] = pointY */
   3,   /* field[3] = quality */
@@ -485,7 +498,7 @@ static const unsigned sonar_data__sonar_data__field_indices_by_name[] = {
 static const ProtobufCIntRange sonar_data__sonar_data__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 4 }
+  { 0, 5 }
 };
 const ProtobufCMessageDescriptor sonar_data__sonar_data__descriptor =
 {
@@ -495,7 +508,7 @@ const ProtobufCMessageDescriptor sonar_data__sonar_data__descriptor =
   "SonarData__SonarData",
   "sonarData",
   sizeof(SonarData__SonarData),
-  4,
+  5,
   sonar_data__sonar_data__field_descriptors,
   sonar_data__sonar_data__field_indices_by_name,
   1,  sonar_data__sonar_data__number_ranges,

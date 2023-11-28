@@ -146,15 +146,16 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
             sonar_data.beamidx = (int*)malloc(sizeof(int) * num_points);
             sonar_data.n_quality = num_points;
             sonar_data.quality = (uint32_t*)malloc(sizeof(uint32_t) * num_points);
-
-
+            sonar_data.n_intensity = num_points;
+            sonar_data.intensity = (float*)malloc(sizeof(float) * num_points);
+            
             for (int beam_index = 0; beam_index < sonarpublish->n_beams; ++beam_index)
             {
                 float sample_number = gst_sonar_format_get_measurement(format, mapinfo.data, beam_index, 0);
                 float angle = gst_sonar_format_get_angle(format, mapinfo.data, beam_index);
                 uint8_t quality     = gst_sonar_format_get_quality_val(format, mapinfo.data, beam_index);                
                 float intensity     = gst_sonar_format_get_intensity(format, mapinfo.data, beam_index);
-                
+
                 float range = (sample_number * params->sound_speed) / (2 * params->sample_rate);
 
                 // Set values for the array elements
@@ -162,8 +163,9 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
                 sonar_data.pointy[beam_index] = -cos(angle) * range * sonarpublish->zoom;
                 sonar_data.beamidx[beam_index] = beam_index;
                 sonar_data.quality[beam_index] = quality;
+                sonar_data.intensity[beam_index] = intensity;
 
-            printf("PointX=%f, PointY=%f, beamIdx=%d, quality=%u\n", sonar_data.pointx[beam_index], sonar_data.pointy[beam_index], sonar_data.beamidx[beam_index], sonar_data.quality[beam_index]);
+                printf("beamIdx=%d, PointX=%f, PointY=%f, quality=%u, intensity =%f\n", sonar_data.beamidx[beam_index], sonar_data.pointx[beam_index], sonar_data.pointy[beam_index], sonar_data.quality[beam_index], sonar_data.intensity[beam_index]);
             }
 
 
@@ -224,7 +226,6 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
             }
         
 
-
             // Create a Data message and initialize it
             SonarData__Data data_message = SONAR_DATA__DATA__INIT;
 
@@ -238,25 +239,21 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
             data_message.depth = &tel_Depth;
             data_message.altitude = &tel_Altitude;
 
-
             // Serialize the Data message into a binary format
             size_t packed_size_data = sonar_data__data__get_packed_size(&data_message);
             uint8_t* buffer_data = (uint8_t*)malloc(packed_size_data);
             sonar_data__data__pack(&data_message, buffer_data);
 
-
-
             //Create a socket and establish a connection to your Python script's Unix domain socket:
             int sockfd = socket(AF_UNIX, SOCK_STREAM, 0); // Create a Unix domain socket
             struct sockaddr_un server_address;
             server_address.sun_family = AF_UNIX;
-            strcpy(server_address.sun_path, "/tmp/Mysocket1"); // Adjust the socket path, has to be the same as the socket in the script subscibing
+            strcpy(server_address.sun_path, "/tmp/Mysocket2"); // Adjust the socket path, has to be the same as the socket in the script subscibing
 
             if (connect(sockfd, (struct sockaddr*)&server_address, sizeof(server_address)) < 0) {
                 perror("Error connecting to the socket");
                 return -1;
             }
-
 
             // Send the serialized data over the socket
             if (send(sockfd, buffer_data, packed_size_data, 0) < 0) {
@@ -278,7 +275,6 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
     }
 
     gst_buffer_unmap(buf, &mapinfo);
-
 
     GST_OBJECT_UNLOCK(sonarpublish);
 

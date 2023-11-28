@@ -58,10 +58,12 @@ struct  _SonarData__SonarData
   int32_t *beamidx;
   size_t n_quality;
   uint32_t *quality;
+  size_t n_intensity;
+  float *intensity;
 };
 #define SONAR_DATA__SONAR_DATA__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&sonar_data__sonar_data__descriptor) \
-    , 0,NULL, 0,NULL, 0,NULL, 0,NULL }
+    , 0,NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL }
 
 
 struct  _SonarData__TelemetryDataPosition

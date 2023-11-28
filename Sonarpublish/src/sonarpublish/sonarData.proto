@@ -18,6 +18,7 @@ message sonarData {
     repeated float pointY = 2;
     repeated int32 beamIdx = 3;
     repeated uint32 quality = 4;
+    repeated float intensity = 5;
 }
 
 message telemetryData_position {
