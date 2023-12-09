@@ -1,7 +1,7 @@
 # GstSonarPublish
 
 ## Overview
-GstSonarPublish is a specialization project aimed at enabling real-time access to point clouds generated using multi-beam echo sounders. It is an extension of the GstSonar and Gstreamer plugins developed by Eelume AS. The project introduces a new sink element, SonarPublish, which extracts sonar data from SBD files or directly from the Eely robot via a TCP connection. This data is then published to other programs on your PC. Additionally, a Python server is included to demonstrate how to read data from the GstSonarPublish code. This server serves as a foundation for further development, such as adding visualization capabilities for the sonar data.
+GstSonarPublish is the result from a specialization project aimed at enabling real-time access to point clouds generated using multi-beam echo sounders. It is an extension of the GstSonar and Gstreamer plugins developed by Eelume AS. The project introduces a new sink element, SonarPublish, which extracts sonar data from SBD files or directly from the Eely robot via a TCP connection. This data is then published to other programs on your PC. Additionally, a Python server is included to demonstrate how to read data from the GstSonarPublish code. This server serves as a foundation for further development, such as adding visualization capabilities for the sonar data.
 
 ## System Requirements
 - Windows PC with WSL2 (Windows Subsystem for Linux 2).
@@ -17,7 +17,7 @@ The project consists of two main components, in addition to a folder with SBD te
 ### Python Server
 1. **Download Proto Library**: sudo apt-get install protobuf-compiler
 2. **Generate The Proto Library** Start by generating a new `.proto` library for data serialization and deserialization.
-3. **Install Unix Libraries**: Download necessary libraries to enable Unix functionalities.
+3. **Other dependencies** Try running the code, see if any other libraries are lacking
 
 ### GstSonarPublish
 1. **Generate The Proto Library** Similar to the Python server, generate a new `.proto` library.
@@ -25,7 +25,17 @@ The project consists of two main components, in addition to a folder with SBD te
    ```bash
    sudo apt-get install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-good libsdl2-dev libglew-dev libeigen3-dev
 3. **Build Program **
+mkdir build
+cd build
+cmake ..
+make
+5. **Other dependencies** Try running the code, see if any other libraries are lacking
 
+Usage
+Start the Python Server: Run the server using the command python3 ./Server.py. Ensure it's correctly listening for incoming data.
+Run GstSonarPublish: Depending on your data source (SBD or TCP), use the respective command:
+For TCP: GST_PLUGIN_PATH=. gst-launch-1.0 tcpclientsrc host=<IP_ADDRESS> port=<PORT> ! sonarparse ! sonarmux name=mux ! sonarpublish tcpclientsrc host=<IP_ADDRESS> port=<PORT> ! nmeaparse ! eelnmeadec ! mux.
+For SBD: export SBD=<PATH_TO_SBD_FILE> GST_PLUGIN_PATH=. GST_DEBUG=2,sonarsink:9 gst-launch-1.0 filesrc location=$SBD ! sonarparse ! sonarmux name=mux ! sonarpublish zoom=0.1 filesrc location=$SBD ! nmeaparse ! eelnmeadec ! mux.
 
 
 
