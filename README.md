@@ -35,8 +35,14 @@ $ make
 4. **Other dependencies**: Try running the code, see if any other libraries are lacking
 
 ## Usage
-1. **Start the Python Server:** Run the server using the command python3 ./Server.py. Ensure it's correctly listening for incoming data.
+1. **Start the Python Server:** Run the server using the command
+```
+python3 ./Server.py.
+```
+   Ensure it's correctly listening for incoming data.
+   
 2. **Run GstSonarPublish:** Depending on your data source (SBD or TCP), use the respective command:
+   
 *For TCP:*
 ```
 GST_PLUGIN_PATH=. gst-launch-1.0 tcpclientsrc host=192.168.6.121 port=2210 ! sonarparse ! sonarmux name=mux ! sonarpublish tcpclientsrc host=192.168.6.100 port=11000 ! nmeaparse ! eelnmeadec ! mux.
