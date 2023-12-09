@@ -37,53 +37,9 @@ Run GstSonarPublish: Depending on your data source (SBD or TCP), use the respect
 For TCP: GST_PLUGIN_PATH=. gst-launch-1.0 tcpclientsrc host=<IP_ADDRESS> port=<PORT> ! sonarparse ! sonarmux name=mux ! sonarpublish tcpclientsrc host=<IP_ADDRESS> port=<PORT> ! nmeaparse ! eelnmeadec ! mux.
 For SBD: export SBD=<PATH_TO_SBD_FILE> GST_PLUGIN_PATH=. GST_DEBUG=2,sonarsink:9 gst-launch-1.0 filesrc location=$SBD ! sonarparse ! sonarmux name=mux ! sonarpublish zoom=0.1 filesrc location=$SBD ! nmeaparse ! eelnmeadec ! mux.
 
+mportant Notes
+Ensure the .proto files are identical in both the Python server and GstSonarPublish code. They must be regenerated each time they are modified.
+Sockets used for communication between the server and GstSonarPublish should have matching names. Check Server.py for the socket name in the server and Sonarpublish.C in GstSonarPublish.
+Remember to terminate the program using Ctrl + C to prevent socket communication issues.
 
 
-# GstSonarPublish
-The result of the Specialization Project "Enabling Real-time Access to Point Clouds Generated using Multi-beam Echo Sounder"
-
-Based on code from Eelume AS GstSonar and Gstreamer plugins at https://github.com/EelumeAS/gstsonar/tree/main. I have added a new sink element, SonarPublish, which extracts sonar data from SBD files or directly from the Eely robot from a TCP connection, to then publish this data to other programs on your pc. In addition a python server, that can read from the GstSonarPublish code, mostly as a "proof of concept" file or as a mal for new programs, maybe someone can add visualization code in this python script later so that the sonar data can be visualized after being published as well. 
-
-I have a windows pc with WSL2 that I run on. Not possible on windows, because of the Unix Servers used for transferring the data between the two programs
-
-Program consits of two folders
-Consists of two folders, one for the GstSonarPublish, and Python Server. 
-To run GstSonarPublish, have to run the python server first, running it by using the command: python3 ./Server.py
-After correctly listening, "Listening for incoming data..."
-Remember to cancel the program using ctrl c, not e.g. ctrlz, as this will leave the socket being used for communication as still used, and then you will have to change the server names manually in both the server and gstsonarpublish programs. 
-
-
-To run the GstSonarpublish, two different command depending on if you want to use sbd or tcp. 
-Example for tcp: 
-GST_PLUGIN_PATH=. gst-launch-1.0 tcpclientsrc host=192.168.6.121 port=2210 ! sonarparse ! sonarmux name=mux ! sonarpublish tcpclientsrc host=192.168.6.100 port=11000 ! nmeaparse ! eelnmeadec ! mux.
-
-Example for sbd:
-export SBD=./samples/2022-11-22_09-41-38_eelume_ntnu_Nyhavna.SBD
-GST_PLUGIN_PATH=. GST_DEBUG=2,sonarsink:9 gst-launch-1.0 filesrc location=$SBD ! sonarparse ! sonarmux name=mux ! sonarpublish zoom=0.1 filesrc location=$SBD ! nmeaparse ! eelnmeadec ! mux.
-
-
-
-
-To set up both programs, set up python server first, as you can test this without c code running at the same time: 
-
-**Python server:**
-Download proto library 
-Start by generating a new .proto library (The library responsible for serializing the data before transfer, and deserialize it after it has been received by the python script)
-Then, download necessary libraries for getting Unix to run. 
-
-**GstSonarpublish server:**
-Download proto library 
-Start by generating a new .proto library (The library responsible for serializing the data before transfer, and deserialize it after it has been received by the python script)
-$ sudo apt-get install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-good libsdl2-dev libglew-dev libeigen3-dev
-
-To build it
-$ mkdir build
-$ cd build
-$ cmake ..
-$ make
-
-
-
-**Notes: **
-Make sure the .proto file is the same for both  the pytho nserver and the gstsonarpublish code. These also have to be regenerated each time they are changed, to update the protobuf source code
-Also make sure the names of the sockets are the same for both the server and gstsonarpublish code. Socket name in server can be found in file Server.py, and in Sonarpublish.C in gstsonarpublish
