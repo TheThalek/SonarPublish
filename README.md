@@ -1,4 +1,47 @@
 # GstSonarPublish
+
+## Overview
+GstSonarPublish is a specialization project aimed at enabling real-time access to point clouds generated using multi-beam echo sounders. It is an extension of the GstSonar and Gstreamer plugins developed by Eelume AS. The project introduces a new sink element, SonarPublish, which extracts sonar data from SBD files or directly from the Eely robot via a TCP connection. This data is then published to other programs on your PC. Additionally, a Python server is included to demonstrate how to read data from the GstSonarPublish code. This server serves as a foundation for further development, such as adding visualization capabilities for the sonar data.
+
+## System Requirements
+- Windows PC with WSL2 (Windows Subsystem for Linux 2).
+- Note: The project is not compatible with native Windows environments due to its reliance on Unix Servers for data transfer.
+- Important: There have been instances where WSL2 encountered issues connecting to the Windows network, which may affect connectivity with the Eely robot. Users should be aware of potential network connectivity challenges when using WSL2 and plan their setup accordingly. Using a Linux PC could be a solution to this problem
+
+## Structure
+The project consists of two main components:
+1. **GstSonarPublish**: Handles the extraction and publication of sonar data.
+2. **Python Server**: A server script for receiving and processing the published sonar data.
+
+## Setup and Installation
+### Python Server
+1. **Download Proto Library**: Start by generating a new `.proto` library for data serialization and deserialization.
+2. **Install Unix Libraries**: Download necessary libraries to enable Unix functionalities.
+
+### GstSonarPublish
+1. **Download Proto Library**: Similar to the Python server, generate a new `.proto` library.
+2. **Install Dependencies**:
+   ```bash
+   sudo apt-get install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-good libsdl2-dev libglew-dev libeigen3-dev
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# GstSonarPublish
 The result of the Specialization Project "Enabling Real-time Access to Point Clouds Generated using Multi-beam Echo Sounder"
 
 Based on code from Eelume AS GstSonar and Gstreamer plugins at https://github.com/EelumeAS/gstsonar/tree/main. I have added a new sink element, SonarPublish, which extracts sonar data from SBD files or directly from the Eely robot from a TCP connection, to then publish this data to other programs on your pc. In addition a python server, that can read from the GstSonarPublish code, mostly as a "proof of concept" file or as a mal for new programs, maybe someone can add visualization code in this python script later so that the sonar data can be visualized after being published as well. 
@@ -14,6 +57,35 @@ Remember to cancel the program using ctrl c, not e.g. ctrlz, as this will leave 
 
 To run the GstSonarpublish, two different command depending on if you want to use sbd or tcp. 
 Example for tcp: 
+GST_PLUGIN_PATH=. gst-launch-1.0 tcpclientsrc host=192.168.6.121 port=2210 ! sonarparse ! sonarmux name=mux ! sonarpublish tcpclientsrc host=192.168.6.100 port=11000 ! nmeaparse ! eelnmeadec ! mux.
 
 Example for sbd:
+export SBD=./samples/2022-11-22_09-41-38_eelume_ntnu_Nyhavna.SBD
+GST_PLUGIN_PATH=. GST_DEBUG=2,sonarsink:9 gst-launch-1.0 filesrc location=$SBD ! sonarparse ! sonarmux name=mux ! sonarpublish zoom=0.1 filesrc location=$SBD ! nmeaparse ! eelnmeadec ! mux.
 
+
+
+
+To set up both programs, set up python server first, as you can test this without c code running at the same time: 
+
+**Python server:**
+Download proto library 
+Start by generating a new .proto library (The library responsible for serializing the data before transfer, and deserialize it after it has been received by the python script)
+Then, download necessary libraries for getting Unix to run. 
+
+**GstSonarpublish server:**
+Download proto library 
+Start by generating a new .proto library (The library responsible for serializing the data before transfer, and deserialize it after it has been received by the python script)
+$ sudo apt-get install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-good libsdl2-dev libglew-dev libeigen3-dev
+
+To build it
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make
+
+
+
+**Notes: **
+Make sure the .proto file is the same for both  the pytho nserver and the gstsonarpublish code. These also have to be regenerated each time they are changed, to update the protobuf source code
+Also make sure the names of the sockets are the same for both the server and gstsonarpublish code. Socket name in server can be found in file Server.py, and in Sonarpublish.C in gstsonarpublish
