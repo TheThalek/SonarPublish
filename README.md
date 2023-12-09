@@ -9,34 +9,22 @@ GstSonarPublish is a specialization project aimed at enabling real-time access t
 - Important: There have been instances where WSL2 encountered issues connecting to the Windows network, which may affect connectivity with the Eely robot. Users should be aware of potential network connectivity challenges when using WSL2 and plan their setup accordingly. Using a Linux PC could be a solution to this problem
 
 ## Structure
-The project consists of two main components:
+The project consists of two main components, in addition to a folder with SBD test files:
 1. **GstSonarPublish**: Handles the extraction and publication of sonar data.
 2. **Python Server**: A server script for receiving and processing the published sonar data.
 
 ## Setup and Installation
 ### Python Server
-1. **Download Proto Library**: Start by generating a new `.proto` library for data serialization and deserialization.
-2. **Install Unix Libraries**: Download necessary libraries to enable Unix functionalities.
+1. **Download Proto Library**: sudo apt-get install protobuf-compiler
+2. **Generate The Proto Library** Start by generating a new `.proto` library for data serialization and deserialization.
+3. **Install Unix Libraries**: Download necessary libraries to enable Unix functionalities.
 
 ### GstSonarPublish
-1. **Download Proto Library**: Similar to the Python server, generate a new `.proto` library.
+1. **Generate The Proto Library** Similar to the Python server, generate a new `.proto` library.
 2. **Install Dependencies**:
    ```bash
    sudo apt-get install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-good libsdl2-dev libglew-dev libeigen3-dev
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+3. **Build Program **
 
 
 
