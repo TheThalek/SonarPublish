@@ -4,7 +4,7 @@
 GstSonarPublish is the result from a specialization project aimed at enabling real-time access to point clouds generated using multi-beam echo sounders. It is an extension of the GstSonar and Gstreamer plugins developed by Eelume AS. The project introduces a new sink element, SonarPublish, which extracts sonar data from SBD files or directly from the Eely robot via a TCP connection. This data is then published to other programs on your PC. Additionally, a Python server is included to demonstrate how to read data from the GstSonarPublish code. This server serves as a foundation for further development, such as adding visualization capabilities for the sonar data.
 
 ## System Requirements
-- Windows PC with WSL2 (Windows Subsystem for Linux 2).
+- Windows PC with WSL2 
 - Note: The project is not compatible with native Windows environments due to its reliance on Unix Servers for data transfer.
 - Important: There have been instances where WSL2 encountered issues connecting to the Windows network, which may affect connectivity with the Eely robot. Users should be aware of potential network connectivity challenges when using WSL2 and plan their setup accordingly. Using a Linux PC could be a solution to this problem
 
