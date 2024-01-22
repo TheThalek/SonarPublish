@@ -28,6 +28,7 @@ $ sudo apt-get install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev gstr
 
 ```
 $ sudo apt-get install libprotobuf-c-dev
+$ sudo apt-get install protobuf-c-compiler
 ```
 3. **Build Program**:
 ```
