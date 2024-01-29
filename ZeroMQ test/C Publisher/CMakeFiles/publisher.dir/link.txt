@@ -1,0 +1,1 @@
+/usr/bin/cc -rdynamic CMakeFiles/publisher.dir/publisher.c.o -o publisher  -lzmq 
