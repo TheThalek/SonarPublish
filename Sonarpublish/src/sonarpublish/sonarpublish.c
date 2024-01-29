@@ -248,7 +248,7 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
             int sockfd = socket(AF_UNIX, SOCK_STREAM, 0); // Create a Unix domain socket
             struct sockaddr_un server_address;
             server_address.sun_family = AF_UNIX;
-            strcpy(server_address.sun_path, "/tmp/Mysocket2"); // Adjust the socket path, has to be the same as the socket in the script subscibing
+            strcpy(server_address.sun_path, "/tmp/Mysocket3"); // Adjust the socket path, has to be the same as the socket in the script subscibing
 
             if (connect(sockfd, (struct sockaddr*)&server_address, sizeof(server_address)) < 0) {
                 perror("Error connecting to the socket");

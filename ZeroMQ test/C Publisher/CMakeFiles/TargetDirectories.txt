@@ -1,0 +1,3 @@
+/mnt/c/Users/thaleef/Documents/Master/ZeroMQ test/C Publisher/CMakeFiles/publisher.dir
+/mnt/c/Users/thaleef/Documents/Master/ZeroMQ test/C Publisher/CMakeFiles/edit_cache.dir
+/mnt/c/Users/thaleef/Documents/Master/ZeroMQ test/C Publisher/CMakeFiles/rebuild_cache.dir

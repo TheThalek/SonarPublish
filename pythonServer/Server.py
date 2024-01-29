@@ -60,7 +60,7 @@ def cleanup_socket(socket_path):
         os.remove(socket_path)
 
 if __name__ == "__main__":
-    socket_path = "/tmp/Mysocket2"
+    socket_path = "/tmp/Mysocket3"
     server_socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
 
     max_retries = 5
