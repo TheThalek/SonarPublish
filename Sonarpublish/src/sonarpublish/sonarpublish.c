@@ -32,8 +32,6 @@
 #include <stdio.h>
 
 #include <stdlib.h>
-#include <sys/socket.h>    // Include the socket functions
-#include <sys/un.h>        // Include the Unix domain socket functions
 #include "sonarData.pb-c.h"
 #include <stdbool.h>
 
@@ -244,26 +242,39 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
             uint8_t* buffer_data = (uint8_t*)malloc(packed_size_data);
             sonar_data__data__pack(&data_message, buffer_data);
 
-            //Create a socket and establish a connection to your Python script's Unix domain socket:
-            int sockfd = socket(AF_UNIX, SOCK_STREAM, 0); // Create a Unix domain socket
-            struct sockaddr_un server_address;
-            server_address.sun_family = AF_UNIX;
-            strcpy(server_address.sun_path, "/tmp/Mysocket3"); // Adjust the socket path, has to be the same as the socket in the script subscibing
+            zmq_msg_t message;
+            zmq_msg_init_size(&message, packed_size_data);
+            memcpy(zmq_msg_data(&message), buffer_data, packed_size_data);
+            int rc = zmq_msg_send(&message, sonarpublish->zmq_publisher, 0);
+            zmq_msg_close(&message);
 
-            if (connect(sockfd, (struct sockaddr*)&server_address, sizeof(server_address)) < 0) {
-                perror("Error connecting to the socket");
-                return -1;
+            if (rc < 0) {
+                perror("Error sending data over ZeroMQ");
+                // Handle error as needed
             }
 
-            // Send the serialized data over the socket
-            if (send(sockfd, buffer_data, packed_size_data, 0) < 0) {
-                perror("Error sending data over the socket");
-                return -1;
-            }
+
+    
+            // //Create a socket and establish a connection to your Python script's Unix domain socket:
+            // int sockfd = socket(AF_UNIX, SOCK_STREAM, 0); // Create a Unix domain socket
+            // struct sockaddr_un server_address;
+            // server_address.sun_family = AF_UNIX;
+            // strcpy(server_address.sun_path, "/tmp/Mysocket3"); // Adjust the socket path, has to be the same as the socket in the script subscibing
+
+            // if (connect(sockfd, (struct sockaddr*)&server_address, sizeof(server_address)) < 0) {
+            //     perror("Error connecting to the socket");
+            //     return -1;
+            // }
+
+            // // Send the serialized data over the socket
+            // if (send(sockfd, buffer_data, packed_size_data, 0) < 0) {
+            //     perror("Error sending data over the socket");
+            //     return -1;
+            // }
 
             // Free the allocated memory and close the socket:
             free(buffer_data);
-            close(sockfd);
+            //close(sockfd);
 
             // Free the allocated memory 
             free(sonar_data.pointx);
@@ -377,6 +388,20 @@ static void gst_sonarpublish_finalize(GObject* object)
 
     free(sonarpublish->vertices);
 
+
+    // ZeroMQ Cleanup (If-sentences so that it is only closed IF they were intialized/used)
+    if (sonarpublish->zmq_publisher) {
+        zmq_close(sonarpublish->zmq_publisher);
+        sonarpublish->zmq_publisher = NULL;
+        printf("Zmq closed successfully.\n");
+    }
+    if (sonarpublish->zmq_context) {
+        zmq_ctx_destroy(sonarpublish->zmq_context);
+        sonarpublish->zmq_context = NULL;
+        printf("Zmq destroyed successfully.\n");
+    }
+
+
     G_OBJECT_CLASS(parent_class)->finalize(object);
 }
 
@@ -416,4 +441,10 @@ static void gst_sonarpublish_init(Gstsonarpublish* sonarpublish)
 
     sonarpublish->zoom = DEFAULT_PROP_ZOOM;
     sonarpublish->gain = DEFAULT_PROP_GAIN;
+
+    // ZeroMQ Initialization
+    sonarpublish->zmq_context = zmq_ctx_new();
+    sonarpublish->zmq_publisher = zmq_socket(sonarpublish->zmq_context, ZMQ_PUB);
+    zmq_bind(sonarpublish->zmq_publisher, "tcp://*:5555"); // Adjust the address/port as needed
+
 }

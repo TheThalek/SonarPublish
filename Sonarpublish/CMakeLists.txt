@@ -46,7 +46,7 @@ if (WIN32)
     set(EXT_LIBS gstbase-1.0 gstreamer-1.0 gobject-2.0 glib-2.0 glew32s OpenGL32 SDL2)
 
     set(CMAKE_INSTALL_PREFIX ${GSTREAMER_ROOT})
-else()
+    else()
     find_package(PkgConfig REQUIRED)
     pkg_check_modules(GST REQUIRED gstreamer-1.0 gstreamer-base-1.0)
     include_directories(${GST_INCLUDE_DIRS})
@@ -54,13 +54,17 @@ else()
     include_directories(${EIGEN_INCLUDE_DIRS})
     pkg_check_modules(PROTOBUFC REQUIRED libprotobuf-c)
     include_directories(${PROTOBUFC_INCLUDE_DIRS})
-    set(EXT_LIBS ${GST_LIBRARIES} ${EIGEN_LIBRARIES} ${PROTOBUFC_LIBRARIES} -lGLEW -lGL -lSDL2)
+    pkg_check_modules(ZMQ REQUIRED libzmq)
+    include_directories(${ZMQ_INCLUDE_DIRS})
+    set(EXT_LIBS ${GST_LIBRARIES} ${EIGEN_LIBRARIES} ${PROTOBUFC_LIBRARIES} ${ZMQ_LIBRARIES} -lGLEW -lGL -lSDL2)
 endif()
 
 
 set(TARGET_LIB gstsonar)
 add_subdirectory(src)
 
+# Linking ZeroMQ along with other external libraries
+target_link_libraries(${TARGET_LIB} PUBLIC ${EXT_LIBS})
 
 install(TARGETS ${TARGET_LIB} DESTINATION lib/gstreamer-1.0)
 

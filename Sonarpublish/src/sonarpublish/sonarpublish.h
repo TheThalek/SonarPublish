@@ -15,6 +15,9 @@
 
 #include "common/sonarmeta.h"
 
+#include <zmq.h>  // Include ZeroMQ header
+
+
 G_BEGIN_DECLS
 
 #define GST_TYPE_sonarpublish            (gst_sonarpublish_get_type())
@@ -46,6 +49,11 @@ struct _Gstsonarpublish
 
     float zoom;    // factor to scale ranges with
     float gain;    // factor to scale intensities with
+
+    // ZeroMQ specific members
+    void *zmq_context;     // ZeroMQ context
+    void *zmq_publisher;   // ZeroMQ publisher socket
+
 };
 
 struct _GstsonarpublishClass
