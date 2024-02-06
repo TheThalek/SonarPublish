@@ -1,41 +1,69 @@
-from pyqtgraph.Qt import QtWidgets, QtCore
-import pyqtgraph as pg
 import numpy as np
+import pyqtgraph.opengl as gl
+from pyqtgraph.Qt import QtWidgets, QtCore
 
-class RealTime3DPlotter:
-    def __init__(self, max_points=1000):
-        # Create the application window
+
+class MBESVisualizer:
+    def __init__(self):
+        # Initialize the app
         self.app = QtWidgets.QApplication([])
-        self.win = pg.GraphicsLayoutWidget(show=True, title="3D Point Cloud Visualization")
-        self.win.resize(800, 600)
-        
-        # Create 3D plot widget
-        self.plot = self.win.addPlot(title="3D Scatter Plot", projection='3d')
-        self.scatter = pg.ScatterPlotItem(size=5, pen=pg.mkPen(None))
-        self.plot.addItem(self.scatter)
+        self.win = gl.GLViewWidget()
+        self.win.setWindowTitle('MBES Data Visualization')
+        self.win.show()
 
-        # Data storage
-        self.x = 0
-        self.data = np.empty((max_points, 3))
+        # Initialize scatter plot item
+        self.scatter = gl.GLScatterPlotItem()
+        self.win.addItem(self.scatter)
 
-        # Timer to update the plot
+        # Data parameters
+        self.max_points = 1000000  # Maximum number of points to be visible
+        self.n_points = 55  # Number of points per set
+        self.x = 0  # Starting x value for the first set
+
+        # Store points data
+        self.data = np.empty((0, 3))  # Initial empty array to store points
+
+        # Timer for real-time updating
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.update)
-        self.timer.start(50)  # milliseconds
-
+        self.timer.start(50)  # Update every 50 ms
+        
     def update(self):
-        # Generate a new set of points and add them to the plot
-        y = np.random.normal(size=50)
-        z = np.random.normal(size=50)
-        points = np.vstack([np.full(50, self.x), y, z]).T
-        self.scatter.addPoints(pos=points)
-        self.x += 1
+        # Generate new set of points
+        newY = np.random.uniform(-50, 50, size=(self.n_points,))
+        newZ = np.random.uniform(0, 3, size=(self.n_points,))  # Simulate depth values
+        newX = np.full((self.n_points,), self.x)
 
-    def start(self):
-        # Start the application loop
+        # Append new points to the data array
+        new_points = np.column_stack((newX, newY, newZ))
+        self.data = np.vstack((self.data, new_points))
+
+        # If we've exceeded the maximum number of points, remove the oldest ones
+        if len(self.data) > self.max_points:
+            self.data = self.data[-self.max_points:]
+
+        # Generate colors for each point based on z value
+        colors = self.get_colors(self.data[:, 2])
+
+        # Update the scatter plot data
+        self.scatter.setData(pos=self.data, color=colors)
+        self.x += 1  # Increment x for the next scan
+
+    def get_colors(self, z_vals):
+        # Normalize z values to the range [0, 1]
+        z_norm = (z_vals - np.min(z_vals)) / np.ptp(z_vals)
+        # Create an array of colors transitioning from blue to red
+        colors = np.zeros((len(z_vals), 4))  # Initialize RGBA color array
+        colors[:, 0] = z_norm  # Red channel
+        colors[:, 2] = 1 - z_norm  # Blue channel
+        colors[:, 3] = 1  # Alpha channel
+        return colors
+
+    def run(self):
+        # Run the application
         self.app.exec_()
 
-# Run the plotter
+# Create and run the visualizer
 if __name__ == '__main__':
-    plotter = RealTime3DPlotter()
-    plotter.start()
+    visualizer = MBESVisualizer()
+    visualizer.run()
