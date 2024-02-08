@@ -16,7 +16,7 @@ class MBESVisualizer:
         self.win.addItem(self.scatter)
 
         # Data parameters
-        self.max_points = 1000000  # Maximum number of points to be visible
+        self.max_points = 10000  # Maximum number of points to be visible
         self.n_points = 55  # Number of points per set
         self.x = 0  # Starting x value for the first set
 
