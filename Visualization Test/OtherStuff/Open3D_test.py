@@ -2,57 +2,58 @@ import open3d as o3d
 import numpy as np
 import time
 
-# Create a point cloud object
-pcd = o3d.geometry.PointCloud()
+def init_window():
+    vis = o3d.visualization.Visualizer()
+    vis.create_window()
+    return vis
 
-# Create a visualizer object
-vis = o3d.visualization.Visualizer()
-vis.create_window()
-vis.add_geometry(pcd)
-
-# Initialize the x coordinate
-x_coordinate = 0
-
-# Set an initial camera target, which will be updated smoothly
-camera_target = np.array([0, 0, 5])  # Example initial target
-
-# Initialize a flag for resetting the view
-first_run = True
-
-while True:
-    # Generate new points
+def generate_points(x_coordinate):
     new_y = np.random.uniform(-50, 50, size=(255,))
     new_z = np.random.uniform(0, 10, size=(255,))
     new_x = np.full((255,), x_coordinate)
     new_points = np.stack((new_x, new_y, new_z), axis=-1)
-    
-    # Convert new points to Open3D point cloud and append
+    return new_points
+
+def plot_points(vis, pcd, points, camera_target, first_run, x_coordinate, new_z):
     temp_pcd = o3d.geometry.PointCloud()
-    temp_pcd.points = o3d.utility.Vector3dVector(new_points)
+    temp_pcd.points = o3d.utility.Vector3dVector(points)
     pcd += temp_pcd
 
-    # Update the visualization
     vis.update_geometry(pcd)
     vis.poll_events()
     vis.update_renderer()
 
-    # Automatically adjust the view
     if first_run:
         vis.reset_view_point(True)
         first_run = False
     else:
-        # Calculate a new target position that's a bit ahead of the latest x_coordinate
-        # Adjust this value to shift the focus more to the right
-        target_x = x_coordinate + 20  # Look ahead by 20 units; adjust as needed
-        
-        # Smoothly update the camera target to reduce shaking
-        smooth_factor = 0.1  # Adjust this for smoother transitions
+        target_x = x_coordinate + 20  
+        smooth_factor = 0.1  
         camera_target = camera_target * (1 - smooth_factor) + np.array([target_x, 0, np.mean(new_z)]) * smooth_factor
-        
         vis.get_view_control().set_lookat(camera_target)
 
-    # Increment x_coordinate
-    x_coordinate += 0.3
+    return first_run, camera_target
 
-    # Wait a bit before adding the next set of points
-    time.sleep(0.01)
+
+def main():
+    # Initialize the window and point cloud object
+    vis = init_window()
+    pcd = o3d.geometry.PointCloud()
+    vis.add_geometry(pcd)
+    first_run = True
+    x_coordinate = 0
+    camera_target = np.array([0, 0, 5])
+
+    while True:
+        points = generate_points(x_coordinate)
+        first_run, camera_target = plot_points(vis, pcd, points, camera_target, first_run, x_coordinate, points[:, 2])
+        
+        # Increment x_coordinate
+        x_coordinate += 0.3
+
+        # Wait a bit before adding the next set of points
+        time.sleep(0.01)
+
+if __name__ == "__main__":
+    main()
+
