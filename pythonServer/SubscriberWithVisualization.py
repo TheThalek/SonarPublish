@@ -10,6 +10,9 @@ import os
 sonar_data_queue = []
 lock = threading.Lock()
 
+# Global running flag
+running = True
+
 def init_window():
     vis = o3d.visualization.Visualizer()
     vis.create_window()
@@ -56,29 +59,33 @@ def plot_points(vis, pcd, points, camera_target, first_run, x_coordinate, new_z)
     return first_run, camera_target
 
 def data_receiver():
+    global running
     context = zmq.Context()
     subscriber = context.socket(zmq.SUB)
     subscriber.connect("tcp://localhost:5555")
     subscriber.setsockopt_string(zmq.SUBSCRIBE, "")
 
     try:
-        while True:
-            message = subscriber.recv()  # Receiving serialized data
-            main_data = sonarData_pb2.Data()
-            main_data.ParseFromString(message)  # Deserialize using Protocol Buffers
+        while running:
+            # Use zmq's poll to wait for a message with a timeout, so it can exit gracefully
+            if subscriber.poll(timeout=1000):  # Timeout in milliseconds
+                message = subscriber.recv()  # Receiving serialized data
+                main_data = sonarData_pb2.Data()
+                main_data.ParseFromString(message)  # Deserialize using Protocol Buffers
 
-            # Process incoming sonar data
-            if main_data.HasField("sonar"):
-                process_sonar_data(main_data.sonar)
+                # Process incoming sonar data
+                if main_data.HasField("sonar"):
+                    process_sonar_data(main_data.sonar)
     except KeyboardInterrupt:
+        running = False
         print("Data receiver stopped.")
     except Exception as e:
+        running = False
         print(f"An error occurred in the data receiver thread: {e}")
     finally:
         subscriber.close()
         context.term()
-
-
+        
 def generate_points(x_coordinate):
     new_y = np.random.uniform(-50, 50, size=(255,))
     new_z = np.random.uniform(0, 10, size=(255,))
@@ -87,6 +94,7 @@ def generate_points(x_coordinate):
     return new_points
 
 def visualize():
+    global running
     vis = init_window()
     pcd = o3d.geometry.PointCloud()
     vis.add_geometry(pcd)
@@ -94,22 +102,33 @@ def visualize():
     x_coordinate = 0
     camera_target = np.array([0, 0, 5])
 
-    while True:
-        # Generate points directly instead of using sonar_data_queue
-        points = generate_points(x_coordinate)
-        first_run, camera_target = plot_points(vis, pcd, points, camera_target, first_run, x_coordinate, points[:, 2])
-        
-        # Increment x_coordinate for the next set of points
-        x_coordinate += 0.3
-        
-        # Wait a bit before adding the next set of points
-        time.sleep(0.01)
+    try:
+        while running:
+            # Generate points directly instead of using sonar_data_queue
+            points = generate_points(x_coordinate)
+            first_run, camera_target = plot_points(vis, pcd, points, camera_target, first_run, x_coordinate, points[:, 2])
+
+            # Increment x_coordinate for the next set of points
+            x_coordinate += 0.3
+
+            # Wait a bit before adding the next set of points
+            time.sleep(0.01)
+    except KeyboardInterrupt:
+        running = False
+        print("Visualization stopped.")
+
 
 
 if __name__ == "__main__":
-    # Start the data receiver thread
     receiver_thread = threading.Thread(target=data_receiver)
     receiver_thread.start()
 
-    # Main thread for visualization
-    visualize()
+    try:
+        visualize()
+    except KeyboardInterrupt:
+        running = False
+        print("Program exiting...")
+    finally:
+        # Ensure threads are joined
+        receiver_thread.join()
+
