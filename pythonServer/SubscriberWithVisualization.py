@@ -20,6 +20,7 @@ def init_window():
 
 # Function to process incoming data
 def process_sonar_data(data):
+    print("Test - In Process_sonar_data")
     global sonar_data_queue
     formatted_data_list = []  # Temporary list to hold formatted data strings
     
@@ -55,6 +56,7 @@ def plot_points(vis, pcd, points, camera_target, first_run, x_coordinate, new_z)
     return first_run, camera_target
 
 def data_receiver():
+    print("Test - In Data receiver")
     global running
     context = zmq.Context()
     subscriber = context.socket(zmq.SUB)
@@ -82,12 +84,6 @@ def data_receiver():
         subscriber.close()
         context.term()
 
-def generate_points(x_coordinate):
-    new_y = np.random.uniform(-50, 50, size=(255,))
-    new_z = np.random.uniform(0, 10, size=(255,))
-    new_x = np.full((255,), x_coordinate)
-    new_points = np.stack((new_x, new_y, new_z), axis=-1)
-    return new_points
 
 def visualize():
     global running, sonar_data_queue
@@ -97,21 +93,29 @@ def visualize():
     first_run = True
     x_coordinate = 0
     camera_target = np.array([0, 0, 5])
+    print("In visualize")
 
     while running:
-        # Check and print sonar data messages if available
         if sonar_data_queue:
             with lock:
-                message_data_list = sonar_data_queue.pop(0)  # Get the next list of formatted data strings
-                for message_data in message_data_list:
-                    print(message_data)  # Print each formatted data string
-
-        # Continue to generate and plot simulated points
-        points = generate_points(x_coordinate)
-        first_run, camera_target = plot_points(vis, pcd, points, camera_target, first_run, x_coordinate, points[:, 2])
-        x_coordinate += 0.3
+                print("In lock")
+                data_list = sonar_data_queue.pop(0)
+                points = []
+                for data_str in data_list:
+                    # Assuming data_str format is "Received sonar data: pointX=..., pointY=..., beamIdx=..., quality=..., intensity=..."
+                    # Extract pointX and pointY values from the string
+                    try:
+                        pointX = float(data_str.split("pointX=")[1].split(",")[0])
+                        pointY = float(data_str.split("pointY=")[1].split(",")[0])
+                        points.append([x_coordinate, pointX, pointY])
+                    except Exception as e:
+                        print(f"Error parsing data string: {e}")
+                
+                if points:
+                    points_np = np.array(points)
+                    first_run, camera_target = plot_points(vis, pcd, points_np, camera_target, first_run, x_coordinate, points_np[:, 2])
+                    x_coordinate += 0.3
         time.sleep(0.01)
-
 
 
 
