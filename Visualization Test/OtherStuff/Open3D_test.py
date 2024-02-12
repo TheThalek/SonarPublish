@@ -34,7 +34,6 @@ def plot_points(vis, pcd, points, camera_target, first_run, x_coordinate, new_z)
 
     return first_run, camera_target
 
-
 def main():
     # Initialize the window and point cloud object
     vis = init_window()
