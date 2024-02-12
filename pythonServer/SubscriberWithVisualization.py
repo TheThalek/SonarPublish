@@ -20,22 +20,18 @@ def init_window():
 
 # Function to process incoming data
 def process_sonar_data(data):
-    # Access the data fields (which are repeated fields)
-    pointX_list = data.pointX
-    pointY_list = data.pointY
-    beamIdx_list = data.beamIdx
-    quality_list = data.quality
-    intensity_list = data.intensity
+    global sonar_data_queue
+    formatted_data_list = []  # Temporary list to hold formatted data strings
+    
+    # Process and format the sonar data
+    for i in range(len(data.pointX)):
+        formatted_data = f"Received sonar data: pointX={data.pointX[i]}, pointY={data.pointY[i]}, beamIdx={data.beamIdx[i]}, quality={data.quality[i]}, intensity={data.intensity[i]}"
+        formatted_data_list.append(formatted_data)
 
-    # Print the received sonar data
-    for i in range(len(pointX_list)):
-        pointX = pointX_list[i]
-        pointY = pointY_list[i]
-        beamIdx = beamIdx_list[i]
-        quality = quality_list[i]
-        intensity = intensity_list[i]
+    # Append the list of formatted data strings to the queue
+    with lock:
+        sonar_data_queue.append(formatted_data_list)
 
-        print(f"Received sonar data: pointX={pointX}, pointY={pointY}, beamIdx={beamIdx}, quality={quality}, intensity={intensity}")
 
 
 def plot_points(vis, pcd, points, camera_target, first_run, x_coordinate, new_z):
@@ -85,7 +81,7 @@ def data_receiver():
     finally:
         subscriber.close()
         context.term()
-        
+
 def generate_points(x_coordinate):
     new_y = np.random.uniform(-50, 50, size=(255,))
     new_z = np.random.uniform(0, 10, size=(255,))
@@ -94,7 +90,7 @@ def generate_points(x_coordinate):
     return new_points
 
 def visualize():
-    global running
+    global running, sonar_data_queue
     vis = init_window()
     pcd = o3d.geometry.PointCloud()
     vis.add_geometry(pcd)
@@ -102,20 +98,20 @@ def visualize():
     x_coordinate = 0
     camera_target = np.array([0, 0, 5])
 
-    try:
-        while running:
-            # Generate points directly instead of using sonar_data_queue
-            points = generate_points(x_coordinate)
-            first_run, camera_target = plot_points(vis, pcd, points, camera_target, first_run, x_coordinate, points[:, 2])
+    while running:
+        # Check and print sonar data messages if available
+        if sonar_data_queue:
+            with lock:
+                message_data_list = sonar_data_queue.pop(0)  # Get the next list of formatted data strings
+                for message_data in message_data_list:
+                    print(message_data)  # Print each formatted data string
 
-            # Increment x_coordinate for the next set of points
-            x_coordinate += 0.3
+        # Continue to generate and plot simulated points
+        points = generate_points(x_coordinate)
+        first_run, camera_target = plot_points(vis, pcd, points, camera_target, first_run, x_coordinate, points[:, 2])
+        x_coordinate += 0.3
+        time.sleep(0.01)
 
-            # Wait a bit before adding the next set of points
-            time.sleep(0.01)
-    except KeyboardInterrupt:
-        running = False
-        print("Visualization stopped.")
 
 
 
