@@ -104,11 +104,18 @@ def visualize():
                         
             if points:
                 points_np = np.array(points)
+
+                # Calculate y_range from the current batch of points
+                y_values = points_np[:, 1]  # Assuming point[0] stores y-coordinate
+                y_range = np.max(y_values) - np.min(y_values)
+
+                # Adjust x_coordinate based on y_range
+                x_coordinate += y_range / 100
+
                 first_run, camera_target = plot_points(vis, pcd, points_np, camera_target, first_run, x_coordinate)
-                x_coordinate += 0.01  # Increment x_coordinate for the next batch of points
                 
-        # time.sleep(0.01)
-        
+
+
 
 if __name__ == "__main__":
     receiver_thread = threading.Thread(target=data_receiver)
