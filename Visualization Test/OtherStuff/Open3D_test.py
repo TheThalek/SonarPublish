@@ -1,58 +1,87 @@
-import open3d as o3d
+import threading
 import numpy as np
+import open3d as o3d
 import time
+import random
 
-def init_window():
+# Global variable for sharing data between threads
+point_queue = []
+lock = threading.Lock()
+
+# Global running flag
+running = True
+
+# Generate random ranges for y and z that will be constant for the whole run
+z_upper = random.uniform(0.01, 0.1)
+y_range = random.uniform(0, 3)
+
+def generate_and_process_points():
+    global running, point_queue
+    x_coordinate = 0
+    # Calculate the step size for x based on the range of y values
+    x_increment_factor = y_range / 150  # Adjust the division factor as needed
+    while running:
+        print("Generating points")
+        new_y = np.random.uniform(-y_range, y_range, size=(255,))
+        new_z = np.random.uniform(0, z_upper, size=(255,))
+        new_x = np.full((255,), x_coordinate)
+        points = np.stack((new_x, new_y, new_z), axis=-1)
+        
+        with lock:
+            point_queue.append(points)
+        
+        # Increment x_coordinate by a factor of the range of y values
+        x_coordinate += x_increment_factor
+        time.sleep(0.01)  # Adjust timing as needed
+
+
+def visualize():
+    global running, point_queue
     vis = o3d.visualization.Visualizer()
     vis.create_window()
-    return vis
-
-def generate_points(x_coordinate):
-    new_y = np.random.uniform(-50, 50, size=(255,))
-    new_z = np.random.uniform(0, 10, size=(255,))
-    new_x = np.full((255,), x_coordinate)
-    new_points = np.stack((new_x, new_y, new_z), axis=-1)
-    return new_points
-
-def plot_points(vis, pcd, points, camera_target, first_run, x_coordinate, new_z):
-    temp_pcd = o3d.geometry.PointCloud()
-    temp_pcd.points = o3d.utility.Vector3dVector(points)
-    pcd += temp_pcd
-
-    vis.update_geometry(pcd)
-    vis.poll_events()
-    vis.update_renderer()
-
-    if first_run:
-        vis.reset_view_point(True)
-        first_run = False
-    else:
-        target_x = x_coordinate + 20  
-        smooth_factor = 0.1  
-        camera_target = camera_target * (1 - smooth_factor) + np.array([target_x, 0, np.mean(new_z)]) * smooth_factor
-        vis.get_view_control().set_lookat(camera_target)
-
-    return first_run, camera_target
-
-def main():
-    # Initialize the window and point cloud object
-    vis = init_window()
     pcd = o3d.geometry.PointCloud()
     vis.add_geometry(pcd)
+
     first_run = True
     x_coordinate = 0
-    camera_target = np.array([0, 0, 5])
 
-    while True:
-        points = generate_points(x_coordinate)
-        first_run, camera_target = plot_points(vis, pcd, points, camera_target, first_run, x_coordinate, points[:, 2])
-        
-        # Increment x_coordinate
-        x_coordinate += 0.3
+    while running:
+        if point_queue:
+            points = None
+            with lock:
+                if point_queue:
+                    points = point_queue.pop(0)
 
-        # Wait a bit before adding the next set of points
-        time.sleep(0.01)
+            if points is not None:
+                temp_pcd = o3d.geometry.PointCloud()
+                temp_pcd.points = o3d.utility.Vector3dVector(points)
+                pcd += temp_pcd
+                vis.update_geometry(pcd)
+                vis.poll_events()
+                vis.update_renderer()
+
+                x_coordinate = points[0, 0]  # Update to the latest x_coordinate of new points
+
+                if first_run:
+                    vis.reset_view_point(True)
+                    first_run = False
+                else:
+                    # Set the camera to look at the new points, effectively pushing old points to the right
+                    camera_target = np.array([x_coordinate, 0, np.mean(points[:, 2])])
+                    vis.get_view_control().set_lookat(camera_target)
+                    # Optionally, adjust the zoom and up direction as needed
+
+        time.sleep(0.005)
+
+    vis.destroy_window()
 
 if __name__ == "__main__":
-    main()
+    point_generation_thread = threading.Thread(target=generate_and_process_points)
+    point_generation_thread.start()
 
+    try:
+        visualize()
+    except KeyboardInterrupt:
+        running = False
+        print("Shutting down...")
+        point_generation_thread.join()
