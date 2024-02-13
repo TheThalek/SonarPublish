@@ -11,10 +11,12 @@ sonar_data_queue = []
 lock = threading.Lock()
 running = True
 
+
 def init_window():
     vis = o3d.visualization.Visualizer()
     vis.create_window()
     return vis
+
 
 def process_sonar_data(data):
     global sonar_data_queue
@@ -27,6 +29,7 @@ def process_sonar_data(data):
 
     with lock:
         sonar_data_queue.append(points)
+
 
 def plot_points(vis, pcd, points, camera_target, first_run, x_coordinate):
     temp_pcd = o3d.geometry.PointCloud()
@@ -104,7 +107,8 @@ def visualize():
                 first_run, camera_target = plot_points(vis, pcd, points_np, camera_target, first_run, x_coordinate)
                 x_coordinate += 0.01  # Increment x_coordinate for the next batch of points
                 
-        time.sleep(0.01)
+        # time.sleep(0.01)
+        
 
 if __name__ == "__main__":
     receiver_thread = threading.Thread(target=data_receiver)
