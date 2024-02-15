@@ -17,11 +17,24 @@ def serialize_data(data):
 
 def save_data_to_file(data, filename="sonar_telemetry_data.json"):
     """
-    Append data to a file in JSON format.
+    Append data to a file in JSON format, ensuring the file remains valid JSON.
     """
-    with open(filename, "a") as file:
-        json.dump(data, file)
-        file.write("\n")  # Ensure each entry is on a new line
+    # Check if the file already exists and has content
+    try:
+        with open(filename, "r") as file:
+            existing_data = json.load(file)
+            if not isinstance(existing_data, list):
+                existing_data = []
+    except (FileNotFoundError, json.JSONDecodeError):
+        existing_data = []
+
+    # Append the new data
+    existing_data.append(data)
+
+    # Write the updated data back to the file
+    with open(filename, "w") as file:
+        json.dump(existing_data, file, indent=4)
+
 
 # Function to process incoming data
 def process_sonar_data(data):

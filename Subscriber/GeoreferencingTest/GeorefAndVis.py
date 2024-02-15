@@ -1,40 +1,48 @@
 import json
+import numpy as np
+import open3d as o3d
 
-def read_data_from_file(filename):
-    """
-    Read data from a JSON file where each line is a separate JSON object.
-    Attempts to decode each line and yields the JSON object if successful.
-    Skips lines that cannot be decoded, logging an error message.
-    """
-    with open(filename, "r") as file:
-        for line_number, line in enumerate(file, 1):
-            try:
-                yield json.loads(line)
-            except json.decoder.JSONDecodeError as e:
-                print(f"Error decoding JSON on line {line_number}: {e}")
 
-def print_data(data):
-    """
-    Print the data in a format similar to the original script.
-    """
-    if "sonar" in data:
-        sonar_data = data["sonar"]
-        for pointX, pointY, beamIdx, quality, intensity in zip(sonar_data["pointX"], sonar_data["pointY"], sonar_data["beamIdx"], sonar_data["quality"], sonar_data["intensity"]):
-            print(f"Received sonar data: pointX={pointX}, pointY={pointY}, beamIdx={beamIdx}, quality={quality}, intensity={intensity}")
 
-    if "position" in data:
-        position_data = data["position"]
-        print(f"Received telemetry position: Latitude={position_data['latitude']}, Longitude={position_data['longitude']}")
+def read_data_from_file_and_collect_points(filename):
+    data_points = []  # List to store all sonar data points
+    x_coordinate = 0  # Initialize x coordinate
+    
+    try:
+        with open(filename, "r") as file:
+            data = json.load(file)  # Read the entire file as a single JSON object
+            for entry in data:  # Assume `data` is a list of objects
+                if "sonar" in entry:
+                    sonar_data = entry["sonar"]
+                    for pointX, pointY in zip(sonar_data["pointX"], sonar_data["pointY"]):
+                        # Append x_coordinate, pointX, and pointY to data_points
+                        data_points.append([x_coordinate, pointX, pointY])
+                    x_coordinate += 0.05  # Increment x coordinate for each set
+    except json.decoder.JSONDecodeError as e:
+        print(f"Error decoding JSON: {e}")
+    
+    return np.array(data_points)  # Convert list to numpy array for visualization
 
-    if "pose" in data:
-        pose_data = data["pose"]
-        print(f"Received telemetry pose: Roll={pose_data['roll']}, Pitch={pose_data['pitch']}")
-
-    if "heading" in data:
-        heading_data = data["heading"]
-        print(f"Received telemetry heading: Heading={heading_data['heading']}")
+def visualize(points):
+    try:
+        vis = o3d.visualization.Visualizer()
+        vis.create_window()
+        pcd = o3d.geometry.PointCloud()
+        
+        pcd.points = o3d.utility.Vector3dVector(points)
+        vis.add_geometry(pcd)
+        vis.run()  # Run the visualizer
+    except KeyboardInterrupt:
+        print("Visualization interrupted by user.")
+    finally:
+        vis.destroy_window()  # Ensure the window is closed properly
 
 if __name__ == "__main__":
-    filename = "sonar_telemetry_data_Nyhavna_firstXsecs.json"  # Change this to your actual file path
-    for data in read_data_from_file(filename):
-        print_data(data)
+    # filename = "sonar_telemetry_data_Nyhavna_firstXsecs.json"
+    filename = "sonar_telemetry_data_Nyhavna_LongVersion.json"
+    
+    try:
+        points = read_data_from_file_and_collect_points(filename)
+        visualize(points)
+    except KeyboardInterrupt:
+        print("Program exited by user.")
