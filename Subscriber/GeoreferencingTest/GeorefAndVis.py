@@ -28,6 +28,7 @@ def read_data_from_file_and_collect_points_and_poses(filename):
     data_points = []
     poses = []
     x_coordinate = 0
+    yaw = 0  # Initial yaw angle
     
     with open(filename, "r") as file:
         data = json.load(file)
@@ -37,15 +38,26 @@ def read_data_from_file_and_collect_points_and_poses(filename):
                 for pointX, pointY in zip(sonar_data["pointX"], sonar_data["pointY"]):
                     data_points.append([x_coordinate, pointX, pointY])
                 
-                # Assuming pose and heading information is available in each entry
-                if "pose" in entry and "heading" in entry:
-                    pose = entry["pose"]
-                    heading = entry["heading"]["heading"]
-                    # print("roll", pose["roll"], "pitch", pose["pitch"], "heading", heading)
-                    # Use euler_to_rotation_matrix to compute rotation matrix
-                    R = euler_to_rotation_matrix(pose["roll"], pose["pitch"], heading)
-                    # Append pose information (position and orientation) for visualization
-                    poses.append((x_coordinate, R))
+                # Generate rotation matrix for the current pose
+                R = euler_to_rotation_matrix(0, 0, yaw)  # Assuming zero roll and pitch
+                
+
+                # # Assuming pose and heading information is available in each entry
+                # if "pose" in entry and "heading" in entry:
+                #     pose = entry["pose"]
+                #     heading = entry["heading"]["heading"]
+                #     # print("roll", pose["roll"], "pitch", pose["pitch"], "heading", heading)
+                #     # Use euler_to_rotation_matrix to compute rotation matrix
+                #     R = euler_to_rotation_matrix(pose["roll"], pose["pitch"], heading)
+                #     # Append pose information (position and orientation) for visualization
+                #     poses.append((x_coordinate, R))
+                
+
+                # Append pose information (position and orientation) for visualization
+                poses.append((x_coordinate, R))
+                
+                # Increment yaw angle by 1 degree for the next iteration
+                yaw += 1
                 
                 x_coordinate += 0.1
     
