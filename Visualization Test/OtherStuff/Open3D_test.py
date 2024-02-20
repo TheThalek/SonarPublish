@@ -19,7 +19,7 @@ def generate_and_process_points():
     global running, point_queue
     x_coordinate = 0
     # Calculate the step size for x based on the range of y values
-    x_increment_factor = y_range / 150  # Adjust the division factor as needed
+    x_increment_factor = y_range / 150  # Adjust the division factor as needed (happens only once)
     while running:
         print("Generating points")
         new_y = np.random.uniform(-y_range, y_range, size=(255,))
@@ -43,7 +43,6 @@ def visualize():
     vis.add_geometry(pcd)
 
     first_run = True
-    x_coordinate = 0
 
     while running:
         if point_queue:
