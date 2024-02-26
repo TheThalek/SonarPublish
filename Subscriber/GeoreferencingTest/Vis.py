@@ -41,18 +41,6 @@ def read_data_from_file_and_collect_points_and_poses(filename):
                 # Generate rotation matrix for the current pose
                 R = euler_to_rotation_matrix(0, 0, yaw)  # Assuming zero roll and pitch
                 
-
-                # # Assuming pose and heading information is available in each entry
-                # if "pose" in entry and "heading" in entry:
-                #     pose = entry["pose"]
-                #     heading = entry["heading"]["heading"]
-                #     # print("roll", pose["roll"], "pitch", pose["pitch"], "heading", heading)
-                #     # Use euler_to_rotation_matrix to compute rotation matrix
-                #     R = euler_to_rotation_matrix(pose["roll"], pose["pitch"], heading)
-                #     # Append pose information (position and orientation) for visualization
-                #     poses.append((x_coordinate, R))
-                
-
                 # Append pose information (position and orientation) for visualization
                 poses.append((x_coordinate, R))
                 
