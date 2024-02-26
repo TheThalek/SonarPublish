@@ -97,41 +97,41 @@ def visualize(points, poses):
 
 
 
-def visualize_check(points_sonar, points_body, poses_sonar, poses_body):
-    vis = o3d.visualization.Visualizer()
-    vis.create_window()
+# def visualize_check(points_sonar, points_body, poses_sonar, poses_body):
+#     vis = o3d.visualization.Visualizer()
+#     vis.create_window()
 
-    # SONAR points in red, BODY points in blue
-    pcd_sonar = o3d.geometry.PointCloud()
-    pcd_sonar.points = o3d.utility.Vector3dVector(points_sonar)
-    pcd_sonar.paint_uniform_color([1, 0, 0])
-    vis.add_geometry(pcd_sonar)
+#     # SONAR points in red, BODY points in blue
+#     pcd_sonar = o3d.geometry.PointCloud()
+#     pcd_sonar.points = o3d.utility.Vector3dVector(points_sonar)
+#     pcd_sonar.paint_uniform_color([1, 0, 0])
+#     vis.add_geometry(pcd_sonar)
 
-    pcd_body = o3d.geometry.PointCloud()
-    pcd_body.points = o3d.utility.Vector3dVector(points_body)
-    pcd_body.paint_uniform_color([0, 0, 1])
-    vis.add_geometry(pcd_body)
+#     pcd_body = o3d.geometry.PointCloud()
+#     pcd_body.points = o3d.utility.Vector3dVector(points_body)
+#     pcd_body.paint_uniform_color([0, 0, 1])
+#     vis.add_geometry(pcd_body)
 
-    # Visualize SONAR and BODY frames
-    T_B = [-0.6881, 0.007, -0.061]  # Re-use this for BODY frame origin
-    for (x_s, R_s), (x_b, R_b) in zip(poses_sonar, poses_body):
-        mesh_frame_sonar = o3d.geometry.TriangleMesh.create_coordinate_frame(size=0.1, origin=[x_s, 0, 0])
-        mesh_frame_sonar.rotate(R_s, center=[x_s, 0, 0])
-        vis.add_geometry(mesh_frame_sonar)
+#     # Visualize SONAR and BODY frames
+#     T_B = [-0.6881, 0.007, -0.061]  # Re-use this for BODY frame origin
+#     for (x_s, R_s), (x_b, R_b) in zip(poses_sonar, poses_body):
+#         mesh_frame_sonar = o3d.geometry.TriangleMesh.create_coordinate_frame(size=0.1, origin=[x_s, 0, 0])
+#         mesh_frame_sonar.rotate(R_s, center=[x_s, 0, 0])
+#         vis.add_geometry(mesh_frame_sonar)
 
-        mesh_frame_body = o3d.geometry.TriangleMesh.create_coordinate_frame(size=0.1, origin=[x_b, T_B[1], T_B[2]])
-        # mesh_frame_body.rotate(R_b, center=[x_b, T_B[1], T_B[2]])
-        mesh_frame_body.rotate(R_b, center=[x_b, T_B[1], T_B[2]])
+#         mesh_frame_body = o3d.geometry.TriangleMesh.create_coordinate_frame(size=0.1, origin=[x_b, T_B[1], T_B[2]])
+#         # mesh_frame_body.rotate(R_b, center=[x_b, T_B[1], T_B[2]])
+#         mesh_frame_body.rotate(R_b, center=[x_b, T_B[1], T_B[2]])
 
-        print("x_b", x_b, "T_B[1]", T_B[1], "T_B[2]", T_B[2])
-        vis.add_geometry(mesh_frame_body)
+#         print("x_b", x_b, "T_B[1]", T_B[1], "T_B[2]", T_B[2])
+#         vis.add_geometry(mesh_frame_body)
 
-    vis.run()
-    vis.destroy_window()
-    # In this code:
-    # Red points represent the SONAR data, and blue points represent the BODY data.
-    # Both the SONAR and BODY frames are visualized, with their origins and orientations represented by the coordinate frames.
-    # By visually inspecting the overlap or alignment of the red and blue points in the 3D visualization, you can determine if the transformation was applied correctly.
+#     vis.run()
+#     vis.destroy_window()
+#     # In this code:
+#     # Red points represent the SONAR data, and blue points represent the BODY data.
+#     # Both the SONAR and BODY frames are visualized, with their origins and orientations represented by the coordinate frames.
+#     # By visually inspecting the overlap or alignment of the red and blue points in the 3D visualization, you can determine if the transformation was applied correctly.
 
 
 
