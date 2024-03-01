@@ -145,10 +145,17 @@ GstSonarTelemetry gst_sonar_telemetry_timed_interpolate(GstSonarTelemetryTimed* 
         .time  = second->attitude_time,
     };
 
+
+
     linalg_euler_angles_t euler_angles;
     linalg_interpolate_euler_angles(&euler_angles, &first_angles, &second_angles, interpolation_time);
 
     GstSonarTelemetry ret;
+    // Assign raw data from 'first' telemetry
+    ret.raw_roll = first_angles.roll;  // Raw roll from 'first'
+    ret.raw_pitch = first_angles.pitch; // Raw pitch from 'first'
+    ret.raw_yaw = first_angles.yaw;    // Raw yaw from 'first'
+
     ret.roll  = euler_angles.roll;
     ret.pitch = euler_angles.pitch;
     ret.yaw   = euler_angles.yaw;
@@ -158,6 +165,7 @@ GstSonarTelemetry gst_sonar_telemetry_timed_interpolate(GstSonarTelemetryTimed* 
     ret.depth     = linalg_interpolate_scalar(first->tel.depth, first->position_time, second->tel.depth, second->depth_time, interpolation_time);
     ret.altitude  = linalg_interpolate_scalar(first->tel.altitude, first->position_time, second->tel.altitude, second->altitude_time, interpolation_time);
     ret.presence  = GST_SONAR_TELEMETRY_PRESENCE_FULL;
+
 
     return ret;
 }

@@ -163,7 +163,7 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
                 sonar_data.quality[beam_index] = quality;
                 sonar_data.intensity[beam_index] = intensity;
 
-                printf("beamIdx=%d, PointX=%f, PointY=%f, quality=%u, intensity =%f\n", sonar_data.beamidx[beam_index], sonar_data.pointx[beam_index], sonar_data.pointy[beam_index], sonar_data.quality[beam_index], sonar_data.intensity[beam_index]);
+                // printf("beamIdx=%d, PointX=%f, PointY=%f, quality=%u, intensity =%f\n", sonar_data.beamidx[beam_index], sonar_data.pointx[beam_index], sonar_data.pointy[beam_index], sonar_data.quality[beam_index], sonar_data.intensity[beam_index]);
             }
 
 
@@ -201,17 +201,33 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
 
                 tel_Altitude.altitude = tele_meta->tel.altitude;
                 tel_Altitude.altitude_timestep = 1;
-                printf("Telemetry Data:\n"
-                    "Position: Latitude=%.6f  Longitude=%.6f\n"
-                    "Pose: Roll=%.2f  Pitch=%.2f\n"
-                    "Heading: Heading=%.2f\n"
-                    "Depth: Depth=%.2f\n"
-                    "Altitude: Altitude=%.2f\n",
-                    tel_Position.latitude, tel_Position.longitude,
-                    tel_Pose.roll, tel_Pose.pitch,
-                    tel_Heading.heading,
-                    tel_Depth.depth,
-                    tel_Altitude.altitude);
+
+                // Access raw angles
+                gfloat raw_roll = tele_meta->tel.raw_roll;
+                gfloat raw_pitch = tele_meta->tel.raw_pitch;
+                gfloat raw_yaw = tele_meta->tel.raw_yaw;
+
+                printf("Raw angles - Roll: %f, Pitch: %f, Yaw: %f\n",
+                    tele_meta->tel.raw_roll,
+                    tele_meta->tel.raw_pitch,
+                    tele_meta->tel.raw_yaw);
+                
+                printf("Interpolated angles - Roll: %f, Pitch: %f, Yaw: %f\n",
+                    tel_Pose.roll/rad2deg_sonarpub,
+                    tel_Pose.pitch/rad2deg_sonarpub,
+                    tel_Heading.heading/rad2deg_sonarpub);
+
+                // printf("Telemetry Data:\n"
+                //     "Position: Latitude=%.6f  Longitude=%.6f\n"
+                //     "Pose: Roll=%.2f  Pitch=%.2f\n"
+                //     "Heading: Heading=%.2f\n"
+                //     "Depth: Depth=%.2f\n"
+                //     "Altitude: Altitude=%.2f\n",
+                //     tel_Position.latitude, tel_Position.longitude,
+                //     tel_Pose.roll, tel_Pose.pitch,
+                //     tel_Heading.heading,
+                //     tel_Depth.depth,
+                //     tel_Altitude.altitude);
             }
             else
             {

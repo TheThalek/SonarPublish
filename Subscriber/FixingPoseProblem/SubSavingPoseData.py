@@ -3,19 +3,8 @@ import sonarData_pb2
 import json
 import os
 
-def serialize_data(data):
-    """
-    Convert Protocol Buffers data to a serializable Python dictionary.
-    """
-    return {
-        "pointX": list(data.pointX),
-        "pointY": list(data.pointY),
-        "beamIdx": list(data.beamIdx),
-        "quality": list(data.quality),
-        "intensity": list(data.intensity)
-    }
 
-def save_data_to_file(data, filename="sonar_telemetry_data.json"):
+def save_data_to_file(data, filename="pose_data.json"):
     """
     Append data to a file in JSON format, ensuring the file remains valid JSON.
     """
@@ -28,25 +17,11 @@ def save_data_to_file(data, filename="sonar_telemetry_data.json"):
     except (FileNotFoundError, json.JSONDecodeError):
         existing_data = []
 
-    # Append the new data
     existing_data.append(data)
 
-    # Write the updated data back to the file
     with open(filename, "w") as file:
         json.dump(existing_data, file, indent=4)
 
-
-# Function to process incoming data
-def process_sonar_data(data):
-    serialized_data = serialize_data(data)
-    print(f"Received sonar data: {serialized_data}")
-
-    # Additional telemetry data will be appended here before saving
-    return serialized_data  # Return the serialized data for further processing
-
-def process_telemetry_position(data):
-    print(f"Received telemetry position: Latitude={data.latitude}, Longitude={data.longitude}, Position Timestep={data.position_timestep}")
-    return {"latitude": data.latitude, "longitude": data.longitude}
 
 def process_telemetry_pose(data):
     print(f"Received telemetry pose: Roll={data.roll}, Pitch={data.pitch}, Pose Timestep={data.pose_timestep}")
@@ -70,11 +45,11 @@ if __name__ == "__main__":
 
             combined_data = {}
 
-            if main_data.HasField("sonar"):
-                combined_data["sonar"] = process_sonar_data(main_data.sonar)
+            # if main_data.HasField("sonar"):
+            #     combined_data["sonar"] = process_sonar_data(main_data.sonar)
 
-            if main_data.HasField("position"):
-                combined_data["position"] = process_telemetry_position(main_data.position)
+            # if main_data.HasField("position"):
+            #     combined_data["position"] = process_telemetry_position(main_data.position)
 
             if main_data.HasField("pose"):
                 combined_data["pose"] = process_telemetry_pose(main_data.pose)

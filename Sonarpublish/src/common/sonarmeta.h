@@ -95,6 +95,10 @@ typedef struct
     GstSonarTelemetryField altitude;               // in meters
     guint8 presence;                               // composed of bitfields GST_SONAR_TELEMETRY_PRESENCE_ROLL etc.
 
+    gfloat raw_roll; // To get uninterpolated roll
+    gfloat raw_pitch; // To get uninterpolated pitch
+    gfloat raw_yaw; // To get uninterpolated yaw
+
 } GstSonarTelemetry;
 
 // telemetry, along with associated timestamps
