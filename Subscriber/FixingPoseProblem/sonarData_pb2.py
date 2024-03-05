@@ -19,96 +19,57 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0fsonarData.proto\x12\tsonarData\"\x87\x01\n\x0f\x63ompleteMessage\x12=\n\rungeoref_data\x18\x01 \x01(\x0b\x32&.sonarData.Data_UnGeoref_and_Telemetry\x12\x35\n\x0crawPose_data\x18\x02 \x01(\x0b\x32\x1f.sonarData.TestData_RawposeData\"\xbb\x02\n\x1b\x44\x61ta_UnGeoref_and_Telemetry\x12#\n\x05sonar\x18\x01 \x01(\x0b\x32\x14.sonarData.sonarData\x12\x33\n\x08position\x18\x02 \x01(\x0b\x32!.sonarData.telemetryData_position\x12+\n\x04pose\x18\x03 \x01(\x0b\x32\x1d.sonarData.telemetryData_pose\x12\x31\n\x07heading\x18\x04 \x01(\x0b\x32 .sonarData.telemetryData_heading\x12-\n\x05\x64\x65pth\x18\x05 \x01(\x0b\x32\x1e.sonarData.telemetryData_depth\x12\x33\n\x08\x61ltitude\x18\x06 \x01(\x0b\x32!.sonarData.telemetryData_altitude\"`\n\tsonarData\x12\x0e\n\x06pointX\x18\x01 \x03(\x02\x12\x0e\n\x06pointY\x18\x02 \x03(\x02\x12\x0f\n\x07\x62\x65\x61mIdx\x18\x03 \x03(\x05\x12\x0f\n\x07quality\x18\x04 \x03(\r\x12\x11\n\tintensity\x18\x05 \x03(\x02\"X\n\x16telemetryData_position\x12\x10\n\x08latitude\x18\x01 \x01(\x02\x12\x11\n\tlongitude\x18\x02 \x01(\x02\x12\x19\n\x11position_timestep\x18\x03 \x01(\x05\"H\n\x12telemetryData_pose\x12\x0c\n\x04roll\x18\x01 \x01(\x02\x12\r\n\x05pitch\x18\x02 \x01(\x02\x12\x15\n\rpose_timestep\x18\x03 \x01(\x05\"B\n\x15telemetryData_heading\x12\x0f\n\x07heading\x18\x01 \x01(\x02\x12\x18\n\x10heading_timestep\x18\x02 \x01(\x05\"<\n\x13telemetryData_depth\x12\r\n\x05\x64\x65pth\x18\x01 \x01(\x02\x12\x16\n\x0e\x64\x65pth_timestep\x18\x02 \x01(\x05\"E\n\x16telemetryData_altitude\x12\x10\n\x08\x61ltitude\x18\x01 \x01(\x02\x12\x19\n\x11\x61ltitude_timestep\x18\x02 \x01(\x05\"\x8e\x01\n\x14TestData_RawposeData\x12;\n\x10raw_RollAndPitch\x18\x01 \x01(\x0b\x32!.sonarData.raw_telemetryData_pose\x12\x39\n\x0braw_heading\x18\x02 \x01(\x0b\x32$.sonarData.raw_telemetryData_heading\"X\n\x16raw_telemetryData_pose\x12\x10\n\x08raw_roll\x18\x01 \x01(\x02\x12\x11\n\traw_pitch\x18\x02 \x01(\x02\x12\x19\n\x11raw_pose_timestep\x18\x03 \x01(\x05\"N\n\x19raw_telemetryData_heading\x12\x13\n\x0braw_heading\x18\x01 \x01(\x02\x12\x1c\n\x14raw_heading_timestep\x18\x02 \x01(\x05\x62\x06proto3'
+  serialized_pb=b'\n\x0fsonarData.proto\x12\tsonarData\"\xb6\x02\n\x16Ungeoref_And_Telemetry\x12#\n\x05sonar\x18\x01 \x01(\x0b\x32\x14.sonarData.sonarData\x12\x33\n\x08position\x18\x02 \x01(\x0b\x32!.sonarData.telemetryData_position\x12+\n\x04pose\x18\x03 \x01(\x0b\x32\x1d.sonarData.telemetryData_pose\x12\x31\n\x07heading\x18\x04 \x01(\x0b\x32 .sonarData.telemetryData_heading\x12-\n\x05\x64\x65pth\x18\x05 \x01(\x0b\x32\x1e.sonarData.telemetryData_depth\x12\x33\n\x08\x61ltitude\x18\x06 \x01(\x0b\x32!.sonarData.telemetryData_altitude\"`\n\tsonarData\x12\x0e\n\x06pointX\x18\x01 \x03(\x02\x12\x0e\n\x06pointY\x18\x02 \x03(\x02\x12\x0f\n\x07\x62\x65\x61mIdx\x18\x03 \x03(\x05\x12\x0f\n\x07quality\x18\x04 \x03(\r\x12\x11\n\tintensity\x18\x05 \x03(\x02\"X\n\x16telemetryData_position\x12\x10\n\x08latitude\x18\x01 \x01(\x02\x12\x11\n\tlongitude\x18\x02 \x01(\x02\x12\x19\n\x11position_timestep\x18\x03 \x01(\x05\"H\n\x12telemetryData_pose\x12\x0c\n\x04roll\x18\x01 \x01(\x02\x12\r\n\x05pitch\x18\x02 \x01(\x02\x12\x15\n\rpose_timestep\x18\x03 \x01(\x05\"B\n\x15telemetryData_heading\x12\x0f\n\x07heading\x18\x01 \x01(\x02\x12\x18\n\x10heading_timestep\x18\x02 \x01(\x05\"<\n\x13telemetryData_depth\x12\r\n\x05\x64\x65pth\x18\x01 \x01(\x02\x12\x16\n\x0e\x64\x65pth_timestep\x18\x02 \x01(\x05\"E\n\x16telemetryData_altitude\x12\x10\n\x08\x61ltitude\x18\x01 \x01(\x02\x12\x19\n\x11\x61ltitude_timestep\x18\x02 \x01(\x05\"w\n\x11TestData_RawPoses\x12\x35\n\x10raw_rollAndpitch\x18\x01 \x01(\x0b\x32\x1b.sonarData.raw_rollAndpitch\x12+\n\x0braw_heading\x18\x02 \x01(\x0b\x32\x16.sonarData.raw_heading\"R\n\x10raw_rollAndpitch\x12\x10\n\x08raw_roll\x18\x01 \x01(\x02\x12\x11\n\traw_pitch\x18\x02 \x01(\x02\x12\x19\n\x11raw_pose_timestep\x18\x03 \x01(\x05\"@\n\x0braw_heading\x12\x13\n\x0braw_heading\x18\x01 \x01(\x02\x12\x1c\n\x14raw_heading_timestep\x18\x02 \x01(\x05\x62\x06proto3'
 )
 
 
 
 
-_COMPLETEMESSAGE = _descriptor.Descriptor(
-  name='completeMessage',
-  full_name='sonarData.completeMessage',
+_UNGEOREF_AND_TELEMETRY = _descriptor.Descriptor(
+  name='Ungeoref_And_Telemetry',
+  full_name='sonarData.Ungeoref_And_Telemetry',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='ungeoref_data', full_name='sonarData.completeMessage.ungeoref_data', index=0,
+      name='sonar', full_name='sonarData.Ungeoref_And_Telemetry.sonar', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='rawPose_data', full_name='sonarData.completeMessage.rawPose_data', index=1,
-      number=2, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=31,
-  serialized_end=166,
-)
-
-
-_DATA_UNGEOREF_AND_TELEMETRY = _descriptor.Descriptor(
-  name='Data_UnGeoref_and_Telemetry',
-  full_name='sonarData.Data_UnGeoref_and_Telemetry',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='sonar', full_name='sonarData.Data_UnGeoref_and_Telemetry.sonar', index=0,
-      number=1, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='position', full_name='sonarData.Data_UnGeoref_and_Telemetry.position', index=1,
+      name='position', full_name='sonarData.Ungeoref_And_Telemetry.position', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='pose', full_name='sonarData.Data_UnGeoref_and_Telemetry.pose', index=2,
+      name='pose', full_name='sonarData.Ungeoref_And_Telemetry.pose', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='heading', full_name='sonarData.Data_UnGeoref_and_Telemetry.heading', index=3,
+      name='heading', full_name='sonarData.Ungeoref_And_Telemetry.heading', index=3,
       number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='depth', full_name='sonarData.Data_UnGeoref_and_Telemetry.depth', index=4,
+      name='depth', full_name='sonarData.Ungeoref_And_Telemetry.depth', index=4,
       number=5, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='altitude', full_name='sonarData.Data_UnGeoref_and_Telemetry.altitude', index=5,
+      name='altitude', full_name='sonarData.Ungeoref_And_Telemetry.altitude', index=5,
       number=6, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -126,8 +87,8 @@ _DATA_UNGEOREF_AND_TELEMETRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=169,
-  serialized_end=484,
+  serialized_start=31,
+  serialized_end=341,
 )
 
 
@@ -186,8 +147,8 @@ _SONARDATA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=486,
-  serialized_end=582,
+  serialized_start=343,
+  serialized_end=439,
 )
 
 
@@ -232,8 +193,8 @@ _TELEMETRYDATA_POSITION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=584,
-  serialized_end=672,
+  serialized_start=441,
+  serialized_end=529,
 )
 
 
@@ -278,8 +239,8 @@ _TELEMETRYDATA_POSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=674,
-  serialized_end=746,
+  serialized_start=531,
+  serialized_end=603,
 )
 
 
@@ -317,8 +278,8 @@ _TELEMETRYDATA_HEADING = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=748,
-  serialized_end=814,
+  serialized_start=605,
+  serialized_end=671,
 )
 
 
@@ -356,8 +317,8 @@ _TELEMETRYDATA_DEPTH = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=816,
-  serialized_end=876,
+  serialized_start=673,
+  serialized_end=733,
 )
 
 
@@ -395,28 +356,28 @@ _TELEMETRYDATA_ALTITUDE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=878,
-  serialized_end=947,
+  serialized_start=735,
+  serialized_end=804,
 )
 
 
-_TESTDATA_RAWPOSEDATA = _descriptor.Descriptor(
-  name='TestData_RawposeData',
-  full_name='sonarData.TestData_RawposeData',
+_TESTDATA_RAWPOSES = _descriptor.Descriptor(
+  name='TestData_RawPoses',
+  full_name='sonarData.TestData_RawPoses',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='raw_RollAndPitch', full_name='sonarData.TestData_RawposeData.raw_RollAndPitch', index=0,
+      name='raw_rollAndpitch', full_name='sonarData.TestData_RawPoses.raw_rollAndpitch', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='raw_heading', full_name='sonarData.TestData_RawposeData.raw_heading', index=1,
+      name='raw_heading', full_name='sonarData.TestData_RawPoses.raw_heading', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -434,35 +395,35 @@ _TESTDATA_RAWPOSEDATA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=950,
-  serialized_end=1092,
+  serialized_start=806,
+  serialized_end=925,
 )
 
 
-_RAW_TELEMETRYDATA_POSE = _descriptor.Descriptor(
-  name='raw_telemetryData_pose',
-  full_name='sonarData.raw_telemetryData_pose',
+_RAW_ROLLANDPITCH = _descriptor.Descriptor(
+  name='raw_rollAndpitch',
+  full_name='sonarData.raw_rollAndpitch',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='raw_roll', full_name='sonarData.raw_telemetryData_pose.raw_roll', index=0,
+      name='raw_roll', full_name='sonarData.raw_rollAndpitch.raw_roll', index=0,
       number=1, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='raw_pitch', full_name='sonarData.raw_telemetryData_pose.raw_pitch', index=1,
+      name='raw_pitch', full_name='sonarData.raw_rollAndpitch.raw_pitch', index=1,
       number=2, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='raw_pose_timestep', full_name='sonarData.raw_telemetryData_pose.raw_pose_timestep', index=2,
+      name='raw_pose_timestep', full_name='sonarData.raw_rollAndpitch.raw_pose_timestep', index=2,
       number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -480,28 +441,28 @@ _RAW_TELEMETRYDATA_POSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1094,
-  serialized_end=1182,
+  serialized_start=927,
+  serialized_end=1009,
 )
 
 
-_RAW_TELEMETRYDATA_HEADING = _descriptor.Descriptor(
-  name='raw_telemetryData_heading',
-  full_name='sonarData.raw_telemetryData_heading',
+_RAW_HEADING = _descriptor.Descriptor(
+  name='raw_heading',
+  full_name='sonarData.raw_heading',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='raw_heading', full_name='sonarData.raw_telemetryData_heading.raw_heading', index=0,
+      name='raw_heading', full_name='sonarData.raw_heading.raw_heading', index=0,
       number=1, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='raw_heading_timestep', full_name='sonarData.raw_telemetryData_heading.raw_heading_timestep', index=1,
+      name='raw_heading_timestep', full_name='sonarData.raw_heading.raw_heading_timestep', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -519,46 +480,36 @@ _RAW_TELEMETRYDATA_HEADING = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1184,
-  serialized_end=1262,
+  serialized_start=1011,
+  serialized_end=1075,
 )
 
-_COMPLETEMESSAGE.fields_by_name['ungeoref_data'].message_type = _DATA_UNGEOREF_AND_TELEMETRY
-_COMPLETEMESSAGE.fields_by_name['rawPose_data'].message_type = _TESTDATA_RAWPOSEDATA
-_DATA_UNGEOREF_AND_TELEMETRY.fields_by_name['sonar'].message_type = _SONARDATA
-_DATA_UNGEOREF_AND_TELEMETRY.fields_by_name['position'].message_type = _TELEMETRYDATA_POSITION
-_DATA_UNGEOREF_AND_TELEMETRY.fields_by_name['pose'].message_type = _TELEMETRYDATA_POSE
-_DATA_UNGEOREF_AND_TELEMETRY.fields_by_name['heading'].message_type = _TELEMETRYDATA_HEADING
-_DATA_UNGEOREF_AND_TELEMETRY.fields_by_name['depth'].message_type = _TELEMETRYDATA_DEPTH
-_DATA_UNGEOREF_AND_TELEMETRY.fields_by_name['altitude'].message_type = _TELEMETRYDATA_ALTITUDE
-_TESTDATA_RAWPOSEDATA.fields_by_name['raw_RollAndPitch'].message_type = _RAW_TELEMETRYDATA_POSE
-_TESTDATA_RAWPOSEDATA.fields_by_name['raw_heading'].message_type = _RAW_TELEMETRYDATA_HEADING
-DESCRIPTOR.message_types_by_name['completeMessage'] = _COMPLETEMESSAGE
-DESCRIPTOR.message_types_by_name['Data_UnGeoref_and_Telemetry'] = _DATA_UNGEOREF_AND_TELEMETRY
+_UNGEOREF_AND_TELEMETRY.fields_by_name['sonar'].message_type = _SONARDATA
+_UNGEOREF_AND_TELEMETRY.fields_by_name['position'].message_type = _TELEMETRYDATA_POSITION
+_UNGEOREF_AND_TELEMETRY.fields_by_name['pose'].message_type = _TELEMETRYDATA_POSE
+_UNGEOREF_AND_TELEMETRY.fields_by_name['heading'].message_type = _TELEMETRYDATA_HEADING
+_UNGEOREF_AND_TELEMETRY.fields_by_name['depth'].message_type = _TELEMETRYDATA_DEPTH
+_UNGEOREF_AND_TELEMETRY.fields_by_name['altitude'].message_type = _TELEMETRYDATA_ALTITUDE
+_TESTDATA_RAWPOSES.fields_by_name['raw_rollAndpitch'].message_type = _RAW_ROLLANDPITCH
+_TESTDATA_RAWPOSES.fields_by_name['raw_heading'].message_type = _RAW_HEADING
+DESCRIPTOR.message_types_by_name['Ungeoref_And_Telemetry'] = _UNGEOREF_AND_TELEMETRY
 DESCRIPTOR.message_types_by_name['sonarData'] = _SONARDATA
 DESCRIPTOR.message_types_by_name['telemetryData_position'] = _TELEMETRYDATA_POSITION
 DESCRIPTOR.message_types_by_name['telemetryData_pose'] = _TELEMETRYDATA_POSE
 DESCRIPTOR.message_types_by_name['telemetryData_heading'] = _TELEMETRYDATA_HEADING
 DESCRIPTOR.message_types_by_name['telemetryData_depth'] = _TELEMETRYDATA_DEPTH
 DESCRIPTOR.message_types_by_name['telemetryData_altitude'] = _TELEMETRYDATA_ALTITUDE
-DESCRIPTOR.message_types_by_name['TestData_RawposeData'] = _TESTDATA_RAWPOSEDATA
-DESCRIPTOR.message_types_by_name['raw_telemetryData_pose'] = _RAW_TELEMETRYDATA_POSE
-DESCRIPTOR.message_types_by_name['raw_telemetryData_heading'] = _RAW_TELEMETRYDATA_HEADING
+DESCRIPTOR.message_types_by_name['TestData_RawPoses'] = _TESTDATA_RAWPOSES
+DESCRIPTOR.message_types_by_name['raw_rollAndpitch'] = _RAW_ROLLANDPITCH
+DESCRIPTOR.message_types_by_name['raw_heading'] = _RAW_HEADING
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-completeMessage = _reflection.GeneratedProtocolMessageType('completeMessage', (_message.Message,), {
-  'DESCRIPTOR' : _COMPLETEMESSAGE,
+Ungeoref_And_Telemetry = _reflection.GeneratedProtocolMessageType('Ungeoref_And_Telemetry', (_message.Message,), {
+  'DESCRIPTOR' : _UNGEOREF_AND_TELEMETRY,
   '__module__' : 'sonarData_pb2'
-  # @@protoc_insertion_point(class_scope:sonarData.completeMessage)
+  # @@protoc_insertion_point(class_scope:sonarData.Ungeoref_And_Telemetry)
   })
-_sym_db.RegisterMessage(completeMessage)
-
-Data_UnGeoref_and_Telemetry = _reflection.GeneratedProtocolMessageType('Data_UnGeoref_and_Telemetry', (_message.Message,), {
-  'DESCRIPTOR' : _DATA_UNGEOREF_AND_TELEMETRY,
-  '__module__' : 'sonarData_pb2'
-  # @@protoc_insertion_point(class_scope:sonarData.Data_UnGeoref_and_Telemetry)
-  })
-_sym_db.RegisterMessage(Data_UnGeoref_and_Telemetry)
+_sym_db.RegisterMessage(Ungeoref_And_Telemetry)
 
 sonarData = _reflection.GeneratedProtocolMessageType('sonarData', (_message.Message,), {
   'DESCRIPTOR' : _SONARDATA,
@@ -602,26 +553,26 @@ telemetryData_altitude = _reflection.GeneratedProtocolMessageType('telemetryData
   })
 _sym_db.RegisterMessage(telemetryData_altitude)
 
-TestData_RawposeData = _reflection.GeneratedProtocolMessageType('TestData_RawposeData', (_message.Message,), {
-  'DESCRIPTOR' : _TESTDATA_RAWPOSEDATA,
+TestData_RawPoses = _reflection.GeneratedProtocolMessageType('TestData_RawPoses', (_message.Message,), {
+  'DESCRIPTOR' : _TESTDATA_RAWPOSES,
   '__module__' : 'sonarData_pb2'
-  # @@protoc_insertion_point(class_scope:sonarData.TestData_RawposeData)
+  # @@protoc_insertion_point(class_scope:sonarData.TestData_RawPoses)
   })
-_sym_db.RegisterMessage(TestData_RawposeData)
+_sym_db.RegisterMessage(TestData_RawPoses)
 
-raw_telemetryData_pose = _reflection.GeneratedProtocolMessageType('raw_telemetryData_pose', (_message.Message,), {
-  'DESCRIPTOR' : _RAW_TELEMETRYDATA_POSE,
+raw_rollAndpitch = _reflection.GeneratedProtocolMessageType('raw_rollAndpitch', (_message.Message,), {
+  'DESCRIPTOR' : _RAW_ROLLANDPITCH,
   '__module__' : 'sonarData_pb2'
-  # @@protoc_insertion_point(class_scope:sonarData.raw_telemetryData_pose)
+  # @@protoc_insertion_point(class_scope:sonarData.raw_rollAndpitch)
   })
-_sym_db.RegisterMessage(raw_telemetryData_pose)
+_sym_db.RegisterMessage(raw_rollAndpitch)
 
-raw_telemetryData_heading = _reflection.GeneratedProtocolMessageType('raw_telemetryData_heading', (_message.Message,), {
-  'DESCRIPTOR' : _RAW_TELEMETRYDATA_HEADING,
+raw_heading = _reflection.GeneratedProtocolMessageType('raw_heading', (_message.Message,), {
+  'DESCRIPTOR' : _RAW_HEADING,
   '__module__' : 'sonarData_pb2'
-  # @@protoc_insertion_point(class_scope:sonarData.raw_telemetryData_heading)
+  # @@protoc_insertion_point(class_scope:sonarData.raw_heading)
   })
-_sym_db.RegisterMessage(raw_telemetryData_heading)
+_sym_db.RegisterMessage(raw_heading)
 
 
 # @@protoc_insertion_point(module_scope)

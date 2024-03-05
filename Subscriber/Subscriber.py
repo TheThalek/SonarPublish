@@ -65,10 +65,6 @@ def process_rawheading(data):
 
 
 
-def cleanup_socket(socket_path):
-    if os.path.exists(socket_path):
-        os.remove(socket_path)
-
 if __name__ == "__main__":
     context = zmq.Context()
     subscriber = context.socket(zmq.SUB)

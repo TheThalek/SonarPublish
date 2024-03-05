@@ -158,7 +158,7 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
                 subMsg_sonarData.beamidx[beam_index] = beam_index;
                 subMsg_sonarData.quality[beam_index] = quality;
                 subMsg_sonarData.intensity[beam_index] = intensity;
-                printf("beamIdx=%d, PointX=%f, PointY=%f, quality=%u, intensity =%f\n", subMsg_sonarData.beamidx[beam_index], subMsg_sonarData.pointx[beam_index], subMsg_sonarData.pointy[beam_index], subMsg_sonarData.quality[beam_index], subMsg_sonarData.intensity[beam_index]);
+                // printf("beamIdx=%d, PointX=%f, PointY=%f, quality=%u, intensity =%f\n", subMsg_sonarData.beamidx[beam_index], subMsg_sonarData.pointx[beam_index], subMsg_sonarData.pointy[beam_index], subMsg_sonarData.quality[beam_index], subMsg_sonarData.intensity[beam_index]);
             }
 
             // Initializing and populating telemetry and rawPoses subMessages
@@ -205,7 +205,7 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
                 subMsg_rawHeading.raw_heading =  tele_meta->tel.raw_yaw*rad2deg_sonarpub;
                 subMsg_rawHeading.raw_heading_timestep = 1;
 
-                bool print = 1;
+                bool print = 0;
                 if (print == true){
                     printf("Raw angles - Roll: %f, Pitch: %f, Yaw: %f\n",
                         tele_meta->tel.raw_roll,
