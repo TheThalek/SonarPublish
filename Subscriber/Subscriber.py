@@ -53,6 +53,18 @@ def process_telemetry_altitude(data):
 
     print(f"Received telemetry altitude: Altitude={altitude}, Altitude Timestep={altitude_timestep}")
 
+def process_rawPoses(data):
+    raw_roll = data.raw_roll
+    raw_pitch = data.raw_pitch
+    print(f"Received raw poses: Roll={raw_roll}, Pitch={raw_pitch}")
+
+def process_rawheading(data):
+    raw_heading = data.raw_heading
+    print(f"Received raw heading: Heading={raw_heading}")
+
+
+
+
 def cleanup_socket(socket_path):
     if os.path.exists(socket_path):
         os.remove(socket_path)
@@ -63,29 +75,43 @@ if __name__ == "__main__":
     subscriber.connect("tcp://localhost:5555")
     subscriber.setsockopt_string(zmq.SUBSCRIBE, "")
 
+
     try:
         while True:
-            message = subscriber.recv() # REceiving serialized data
-            main_data = sonarData_pb2.Data() 
-            main_data.ParseFromString(message)  # Deserialize using Protocol Buffers
+            # multipart_message = subscriber.recv()
+            multipart_message = subscriber.recv_multipart()  # Receiving serialized data
+                
 
-            if main_data.HasField("sonar"):
-                process_sonar_data(main_data.sonar)
+            # Deserializing the Ungeoreferences Point Cloud and Its Telemetry Data
+            Ungeoref_And_Telemetry = sonarData_pb2.Ungeoref_And_Telemetry()
+            Ungeoref_And_Telemetry.ParseFromString(multipart_message[0])
 
-            if main_data.HasField("position"):
-                process_telemetry_position(main_data.position)
+            if Ungeoref_And_Telemetry.HasField("sonar"):
+                process_sonar_data(Ungeoref_And_Telemetry.sonar)
 
-            if main_data.HasField("pose"):
-                process_telemetry_pose(main_data.pose)
+            if Ungeoref_And_Telemetry.HasField("position"):
+                process_telemetry_position(Ungeoref_And_Telemetry.position)
 
-            if main_data.HasField("heading"):
-                process_telemetry_heading(main_data.heading)
+            if Ungeoref_And_Telemetry.HasField("pose"):
+                process_telemetry_pose(Ungeoref_And_Telemetry.pose)
 
-            if main_data.HasField("depth"):
-                process_telemetry_depth(main_data.depth)
+            if Ungeoref_And_Telemetry.HasField("heading"):
+                process_telemetry_heading(Ungeoref_And_Telemetry.heading)
 
-            if main_data.HasField("altitude"):
-                process_telemetry_altitude(main_data.altitude)
+            if Ungeoref_And_Telemetry.HasField("depth"):
+                process_telemetry_depth(Ungeoref_And_Telemetry.depth)
+
+            if Ungeoref_And_Telemetry.HasField("altitude"):
+                process_telemetry_altitude(Ungeoref_And_Telemetry.altitude)
+
+            # Deserializing the Raw Pose Data (From before the interpolation) For Testing
+            TestData_RawPoses = sonarData_pb2.TestData_RawPoses()
+            TestData_RawPoses.ParseFromString(multipart_message[1])
+
+            if TestData_RawPoses.HasField("raw_rollAndpitch"):
+                process_rawPoses(TestData_RawPoses.raw_rollAndpitch)
+            if TestData_RawPoses.HasField("raw_heading"):
+                process_rawheading(TestData_RawPoses.raw_heading)
 
     except KeyboardInterrupt:
         print("Subscriber stopped")

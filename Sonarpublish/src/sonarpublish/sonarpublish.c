@@ -60,14 +60,12 @@ bool metadata_warning_shown_sonarpub = false;
 static GstStaticPadTemplate gst_sonarpublish_sink_template = GST_STATIC_PAD_TEMPLATE("sink", GST_PAD_SINK, GST_PAD_ALWAYS, GST_STATIC_CAPS("sonar/multibeam ; sonar/bathymetry"));
 
 
-static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* buf)
-{
+static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* buf) {
     Gstsonarpublish* sonarpublish = GST_sonarpublish(basesink);
-
     GST_OBJECT_LOCK(sonarpublish);
 
-    // GstSonarMeta *meta = GST_SONAR_META_GET(buf);
-    const GstSonarMeta* meta     = GST_SONAR_META_GET(buf);
+    // Extract the metadata from the buffer
+    const GstSonarMeta* meta = GST_SONAR_META_GET(buf);
     const GstSonarFormat* format = &meta->format;
     const GstSonarParams* params = &meta->params;
 
@@ -130,22 +128,20 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
         {
             g_assert(sonarpublish->resolution == 1);
 
-            // Initialize a Point message
-            SonarData__SonarData sonar_data = SONAR_DATA__SONAR_DATA__INIT;
+            // Initialize your main messages
+            SonarData__UngeorefAndTelemetry Ungeoref_And_Telemetry = SONAR_DATA__UNGEOREF__AND__TELEMETRY__INIT;
+            SonarData__TestDataRawPoses TestData_RawPoses = SONAR_DATA__TEST_DATA__RAW_POSES__INIT;
+
+            // Initializing and populating sonarData subMessage 
+            SonarData__SonarData subMsg_sonarData = SONAR_DATA__SONAR_DATA__INIT; // In Ungeoref_And_Telemetry
 
             int num_points = sonarpublish->n_beams;
 
-            // Allocate memory for arrays
-            sonar_data.n_pointx = num_points;
-            sonar_data.pointx = (float*)malloc(sizeof(float) * num_points);
-            sonar_data.n_pointy = num_points;
-            sonar_data.pointy = (float*)malloc(sizeof(float) * num_points);
-            sonar_data.n_beamidx = num_points;
-            sonar_data.beamidx = (int*)malloc(sizeof(int) * num_points);
-            sonar_data.n_quality = num_points;
-            sonar_data.quality = (uint32_t*)malloc(sizeof(uint32_t) * num_points);
-            sonar_data.n_intensity = num_points;
-            sonar_data.intensity = (float*)malloc(sizeof(float) * num_points);
+            subMsg_sonarData.n_pointx = num_points; subMsg_sonarData.pointx = (float*)malloc(sizeof(float) * num_points);
+            subMsg_sonarData.n_pointy = num_points; subMsg_sonarData.pointy = (float*)malloc(sizeof(float) * num_points);
+            subMsg_sonarData.n_beamidx = num_points; subMsg_sonarData.beamidx = (int*)malloc(sizeof(int) * num_points);
+            subMsg_sonarData.n_quality = num_points; subMsg_sonarData.quality = (uint32_t*)malloc(sizeof(uint32_t) * num_points);
+            subMsg_sonarData.n_intensity = num_points; subMsg_sonarData.intensity = (float*)malloc(sizeof(float) * num_points);
             
             for (int beam_index = 0; beam_index < sonarpublish->n_beams; ++beam_index)
             {
@@ -157,27 +153,26 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
                 float range = (sample_number * params->sound_speed) / (2 * params->sample_rate);
 
                 // Set values for the array elements
-                sonar_data.pointx[beam_index] = sin(angle) * range * sonarpublish->zoom;
-                sonar_data.pointy[beam_index] = -cos(angle) * range * sonarpublish->zoom;
-                sonar_data.beamidx[beam_index] = beam_index;
-                sonar_data.quality[beam_index] = quality;
-                sonar_data.intensity[beam_index] = intensity;
-
-                // printf("beamIdx=%d, PointX=%f, PointY=%f, quality=%u, intensity =%f\n", sonar_data.beamidx[beam_index], sonar_data.pointx[beam_index], sonar_data.pointy[beam_index], sonar_data.quality[beam_index], sonar_data.intensity[beam_index]);
+                subMsg_sonarData.pointx[beam_index] = sin(angle) * range * sonarpublish->zoom;
+                subMsg_sonarData.pointy[beam_index] = -cos(angle) * range * sonarpublish->zoom;
+                subMsg_sonarData.beamidx[beam_index] = beam_index;
+                subMsg_sonarData.quality[beam_index] = quality;
+                subMsg_sonarData.intensity[beam_index] = intensity;
+                printf("beamIdx=%d, PointX=%f, PointY=%f, quality=%u, intensity =%f\n", subMsg_sonarData.beamidx[beam_index], subMsg_sonarData.pointx[beam_index], subMsg_sonarData.pointy[beam_index], subMsg_sonarData.quality[beam_index], subMsg_sonarData.intensity[beam_index]);
             }
 
-
-            // TELEMETRY
+            // Initializing and populating telemetry and rawPoses subMessages
             GstTelemetryMeta* tele_meta = GST_TELEMETRY_META_GET(buf);
 
-            // Initialize a Telemetry messages
-            SonarData__TelemetryDataPosition tel_Position = SONAR_DATA__TELEMETRY_DATA_POSITION__INIT;
-            SonarData__TelemetryDataPose tel_Pose = SONAR_DATA__TELEMETRY_DATA_POSE__INIT;
-            SonarData__TelemetryDataHeading tel_Heading = SONAR_DATA__TELEMETRY_DATA_HEADING__INIT;
-            SonarData__TelemetryDataDepth tel_Depth = SONAR_DATA__TELEMETRY_DATA_DEPTH__INIT;
-            SonarData__TelemetryDataAltitude tel_Altitude = SONAR_DATA__TELEMETRY_DATA_ALTITUDE__INIT;
-            // When you use *_INIT to initialize the structures, Protocol Buffers handles memory allocation and management for scalar (non-repeated) fields, so you don't need to allocate or free memory for those fields explicitly.
-                        
+            SonarData__TelemetryDataPosition subMsg_tel_Position = SONAR_DATA__TELEMETRY_DATA_POSITION__INIT;
+            SonarData__TelemetryDataPose subMsg_tel_Pose = SONAR_DATA__TELEMETRY_DATA_POSE__INIT;
+            SonarData__TelemetryDataHeading subMsg_tel_Heading = SONAR_DATA__TELEMETRY_DATA_HEADING__INIT;
+            SonarData__TelemetryDataDepth subMsg_tel_Depth = SONAR_DATA__TELEMETRY_DATA_DEPTH__INIT;
+            SonarData__TelemetryDataAltitude subMsg_tel_Altitude = SONAR_DATA__TELEMETRY_DATA_ALTITUDE__INIT;
+
+            SonarData__RawRollAndpitch subMsg_rawRollAndpitch = SONAR_DATA__RAW_ROLL_ANDPITCH__INIT;
+            SonarData__RawHeading subMsg_rawHeading = SONAR_DATA__RAW_HEADING__INIT;
+            
             if(tele_meta != NULL)
             {
                 GST_INFO_OBJECT(sonarpublish, "telemetry: lat: %.6f  long: %.6f  roll: %.2f  pitch: %.2f  heading: %.2f  depth: %.2f m  altitude: %.2f m", 
@@ -185,49 +180,55 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
                     tele_meta->tel.roll*rad2deg_sonarpub, tele_meta->tel.pitch*rad2deg_sonarpub,  tele_meta->tel.yaw*rad2deg_sonarpub,
                     tele_meta->tel.depth, tele_meta->tel.altitude);
                 
-                tel_Position.latitude = tele_meta->tel.latitude;
-                tel_Position.longitude = tele_meta->tel.longitude;
-                tel_Position.position_timestep = 1;
+                subMsg_tel_Position.latitude = tele_meta->tel.latitude;
+                subMsg_tel_Position.longitude = tele_meta->tel.longitude;
+                subMsg_tel_Position.position_timestep = 1;
 
-                tel_Pose.pitch = tele_meta->tel.pitch*rad2deg_sonarpub;
-                tel_Pose.roll = tele_meta->tel.roll*rad2deg_sonarpub;
-                tel_Pose.pose_timestep = 1;
+                subMsg_tel_Pose.pitch = tele_meta->tel.pitch*rad2deg_sonarpub;
+                subMsg_tel_Pose.roll = tele_meta->tel.roll*rad2deg_sonarpub;
+                subMsg_tel_Pose.pose_timestep = 1;
 
-                tel_Heading.heading =  tele_meta->tel.yaw*rad2deg_sonarpub;
-                tel_Heading.heading_timestep = 1;
+                subMsg_tel_Heading.heading =  tele_meta->tel.yaw*rad2deg_sonarpub; 
+                subMsg_tel_Heading.heading_timestep = 1;
 
-                tel_Depth.depth = tele_meta->tel.depth;
-                tel_Depth.depth_timestep = 1;
+                subMsg_tel_Depth.depth = tele_meta->tel.depth;
+                subMsg_tel_Depth.depth_timestep = 1;
 
-                tel_Altitude.altitude = tele_meta->tel.altitude;
-                tel_Altitude.altitude_timestep = 1;
+                subMsg_tel_Altitude.altitude = tele_meta->tel.altitude;
+                subMsg_tel_Altitude.altitude_timestep = 1;
 
                 // Access raw angles
-                gfloat raw_roll = tele_meta->tel.raw_roll;
-                gfloat raw_pitch = tele_meta->tel.raw_pitch;
-                gfloat raw_yaw = tele_meta->tel.raw_yaw;
+                subMsg_rawRollAndpitch.raw_pitch = tele_meta->tel.raw_roll*rad2deg_sonarpub;
+                subMsg_rawRollAndpitch.raw_roll = tele_meta->tel.raw_pitch*rad2deg_sonarpub;
+                subMsg_rawRollAndpitch.raw_pose_timestep = 1;
 
-                printf("Raw angles - Roll: %f, Pitch: %f, Yaw: %f\n",
-                    tele_meta->tel.raw_roll,
-                    tele_meta->tel.raw_pitch,
-                    tele_meta->tel.raw_yaw);
-                
-                printf("Interpolated angles - Roll: %f, Pitch: %f, Yaw: %f\n",
-                    tel_Pose.roll/rad2deg_sonarpub,
-                    tel_Pose.pitch/rad2deg_sonarpub,
-                    tel_Heading.heading/rad2deg_sonarpub);
+                subMsg_rawHeading.raw_heading =  tele_meta->tel.raw_yaw*rad2deg_sonarpub;
+                subMsg_rawHeading.raw_heading_timestep = 1;
 
-                // printf("Telemetry Data:\n"
-                //     "Position: Latitude=%.6f  Longitude=%.6f\n"
-                //     "Pose: Roll=%.2f  Pitch=%.2f\n"
-                //     "Heading: Heading=%.2f\n"
-                //     "Depth: Depth=%.2f\n"
-                //     "Altitude: Altitude=%.2f\n",
-                //     tel_Position.latitude, tel_Position.longitude,
-                //     tel_Pose.roll, tel_Pose.pitch,
-                //     tel_Heading.heading,
-                //     tel_Depth.depth,
-                //     tel_Altitude.altitude);
+                bool print = 1;
+                if (print == true){
+                    printf("Raw angles - Roll: %f, Pitch: %f, Yaw: %f\n",
+                        tele_meta->tel.raw_roll,
+                        tele_meta->tel.raw_pitch,
+                        tele_meta->tel.raw_yaw);
+                    
+                    printf("Interpolated angles - Roll: %f, Pitch: %f, Yaw: %f\n",
+                        subMsg_rawRollAndpitch.raw_roll/rad2deg_sonarpub,
+                        subMsg_rawRollAndpitch.raw_pitch/rad2deg_sonarpub,
+                        subMsg_rawHeading.raw_heading/rad2deg_sonarpub);
+
+                    printf("Telemetry Data:\n"
+                        "Position: Latitude=%.6f  Longitude=%.6f\n"
+                        "Pose: Roll=%.2f  Pitch=%.2f\n"
+                        "Heading: Heading=%.2f\n"
+                        "Depth: Depth=%.2f\n"
+                        "Altitude: Altitude=%.2f\n",
+                        subMsg_tel_Position.latitude, subMsg_tel_Position.longitude,
+                        subMsg_tel_Pose.roll, subMsg_tel_Pose.pitch,
+                        subMsg_tel_Heading.heading,
+                        subMsg_tel_Depth.depth,
+                        subMsg_tel_Altitude.altitude);
+                }
             }
             else
             {
@@ -238,65 +239,66 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
                 }
                 metadata_warning_shown_sonarpub = true;
             }
-        
 
-            // Create a Data message and initialize it
-            SonarData__Data data_message = SONAR_DATA__DATA__INIT;
+            // Add sonarData and telemetryData to Ungeoref_And_Telemetry
+            Ungeoref_And_Telemetry.sonar = &subMsg_sonarData;
+            Ungeoref_And_Telemetry.altitude = &subMsg_tel_Altitude;
+            Ungeoref_And_Telemetry.depth = &subMsg_tel_Depth;
+            Ungeoref_And_Telemetry.heading = &subMsg_tel_Heading;
+            Ungeoref_And_Telemetry.pose = &subMsg_tel_Pose;
+            Ungeoref_And_Telemetry.position = &subMsg_tel_Position;
 
-            // Populate the fields of the Data message
-            // Set sonar_data (assuming you already have the sonar_data populated)
-            data_message.sonar = &sonar_data;
-            // Populate the telemetry data
-            data_message.position = &tel_Position;
-            data_message.pose = &tel_Pose;
-            data_message.heading = &tel_Heading;
-            data_message.depth = &tel_Depth;
-            data_message.altitude = &tel_Altitude;
+            // Adding heading and roll/pitch raw data
+            TestData_RawPoses.raw_heading = &subMsg_rawHeading;
+            TestData_RawPoses.raw_rollandpitch = &subMsg_rawRollAndpitch;
 
-            // Serialize the Data message into a binary format
-            size_t packed_size_data = sonar_data__data__get_packed_size(&data_message);
-            uint8_t* buffer_data = (uint8_t*)malloc(packed_size_data);
-            sonar_data__data__pack(&data_message, buffer_data);
 
-            zmq_msg_t message;
-            zmq_msg_init_size(&message, packed_size_data);
-            memcpy(zmq_msg_data(&message), buffer_data, packed_size_data);
-            int rc = zmq_msg_send(&message, sonarpublish->zmq_publisher, 0);
-            zmq_msg_close(&message);
 
-            if (rc < 0) {
+            // Serialize the Ungeoref_And_Telemetry message into a binary format and publish the message
+            size_t packed_size_data_UnRefAndTel = sonar_data__ungeoref__and__telemetry__get_packed_size(&Ungeoref_And_Telemetry); // serialize
+            uint8_t* buffer_data_UnRefAndTel = (uint8_t*)malloc(packed_size_data_UnRefAndTel);
+            sonar_data__ungeoref__and__telemetry__pack(&Ungeoref_And_Telemetry, buffer_data_UnRefAndTel);
+
+            zmq_msg_t message_UnRefAndTel; // create zeromq multipart message with the Ungeoref data as one part
+            zmq_msg_init_size(&message_UnRefAndTel, packed_size_data_UnRefAndTel);
+            memcpy(zmq_msg_data(&message_UnRefAndTel), buffer_data_UnRefAndTel, packed_size_data_UnRefAndTel);
+            
+            int rc_UnRefAndTel = zmq_msg_send(&message_UnRefAndTel, sonarpublish->zmq_publisher, ZMQ_SNDMORE); // send message
+            
+            zmq_msg_close(&message_UnRefAndTel); // close message
+
+
+            // Serialize the TestData_RawPoses message into a binary format and publish the message
+            size_t packed_size_data_RawPose = sonar_data__test_data__raw_poses__get_packed_size(&TestData_RawPoses); // serialize
+            uint8_t* buffer_data_RawPose = (uint8_t*)malloc(packed_size_data_RawPose);
+            sonar_data__test_data__raw_poses__pack(&TestData_RawPoses, buffer_data_RawPose);      
+
+            zmq_msg_t message_RawPose; // create zeromq messages for serialized data
+            zmq_msg_init_size(&message_RawPose, packed_size_data_RawPose);
+            memcpy(zmq_msg_data(&message_RawPose), buffer_data_RawPose, packed_size_data_RawPose);
+
+            int rc_RawPose = zmq_msg_send(&message_RawPose, sonarpublish->zmq_publisher, 0); // send message
+
+            zmq_msg_close(&message_RawPose);  // close message
+
+
+            // Check for errors
+            if (rc_UnRefAndTel < 0 || rc_RawPose < 0) {
                 perror("Error sending data over ZeroMQ");
                 // Handle error as needed
             }
 
-
-    
-            // //Create a socket and establish a connection to your Python script's Unix domain socket:
-            // int sockfd = socket(AF_UNIX, SOCK_STREAM, 0); // Create a Unix domain socket
-            // struct sockaddr_un server_address;
-            // server_address.sun_family = AF_UNIX;
-            // strcpy(server_address.sun_path, "/tmp/Mysocket3"); // Adjust the socket path, has to be the same as the socket in the script subscibing
-
-            // if (connect(sockfd, (struct sockaddr*)&server_address, sizeof(server_address)) < 0) {
-            //     perror("Error connecting to the socket");
-            //     return -1;
-            // }
-
-            // // Send the serialized data over the socket
-            // if (send(sockfd, buffer_data, packed_size_data, 0) < 0) {
-            //     perror("Error sending data over the socket");
-            //     return -1;
-            // }
-
             // Free the allocated memory and close the socket:
-            free(buffer_data);
-            //close(sockfd);
+            free(buffer_data_UnRefAndTel);
+            free(buffer_data_RawPose);
 
-            // Free the allocated memory 
-            free(sonar_data.pointx);
-            free(sonar_data.pointy);
-            free(sonar_data.beamidx);
-            free(sonar_data.quality);
+
+            // Free the allocated memory (Specifically for the arrays of data, unnecessary otherwise)
+            free(subMsg_sonarData.pointx);
+            free(subMsg_sonarData.pointy);
+            free(subMsg_sonarData.beamidx);
+            free(subMsg_sonarData.quality);
+
             break;
         }
     }

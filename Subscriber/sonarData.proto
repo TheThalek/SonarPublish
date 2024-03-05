@@ -2,8 +2,16 @@ syntax = "proto3";
 
 package sonarData;  // Optional: Replace with your desired package name
 
+// To include new data, add it to this code and run "protoc --c_out=. sonarData.proto" 
+//      from the same folder as the data.proto is in
+// For python: protoc --python_out=. sonarData.proto
 
-message Data {
+
+
+
+
+// --------------------- Ungeoreferenced point cloud and telemetry data ---------------------
+message Ungeoref_And_Telemetry{
     sonarData sonar = 1;
     telemetryData_position position = 2;
     telemetryData_pose pose = 3;
@@ -12,7 +20,6 @@ message Data {
     telemetryData_altitude altitude = 6;
 }
 
-// Define a message type for an array of points.
 message sonarData {
     repeated float pointX = 1;
     repeated float pointY = 2;
@@ -50,6 +57,22 @@ message telemetryData_altitude {
 
 
 
-// To include new data, add it to this code and run "protoc --c_out=. sonarData.proto" 
-//      from the same folder as the data.proto is in
-// For python: protoc --python_out=. sonarData.proto
+// --------------- Poses before interpolation ("raw poses") for testing --------------------------
+message TestData_RawPoses {
+    raw_rollAndpitch raw_rollAndpitch = 1;
+    raw_heading raw_heading = 2; 
+}
+
+message raw_rollAndpitch {
+    float raw_roll = 1;
+    float raw_pitch = 2;
+    int32 raw_pose_timestep = 3;
+}
+
+message raw_heading {
+    float raw_heading = 1;
+    int32 raw_heading_timestep = 2;
+}
+
+
+
