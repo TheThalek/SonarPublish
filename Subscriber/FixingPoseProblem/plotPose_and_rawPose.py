@@ -73,8 +73,8 @@ def plot_combined_data(data, total_duration):
 
 
 if __name__ == "__main__":
-    filename = "pose_and_rawPose_data_Nyhavna90sek.json"
-    total_duration = 90  # Adjust based on your data
+    filename = "pose_and_rawPose_data_Nyhavna2min.json"
+    total_duration = 120  # Adjust based on your data
     data = read_data(filename)
 
     # Uncomment the function you wish to use

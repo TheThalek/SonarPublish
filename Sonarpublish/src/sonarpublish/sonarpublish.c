@@ -198,8 +198,8 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
                 subMsg_tel_Altitude.altitude_timestep = 1;
 
                 // Access raw angles
-                subMsg_rawRollAndpitch.raw_pitch = tele_meta->tel.raw_roll*rad2deg_sonarpub;
-                subMsg_rawRollAndpitch.raw_roll = tele_meta->tel.raw_pitch*rad2deg_sonarpub;
+                subMsg_rawRollAndpitch.raw_pitch = tele_meta->tel.raw_pitch*rad2deg_sonarpub;
+                subMsg_rawRollAndpitch.raw_roll = tele_meta->tel.raw_roll*rad2deg_sonarpub;
                 subMsg_rawRollAndpitch.raw_pose_timestep = 1;
 
                 subMsg_rawHeading.raw_heading =  tele_meta->tel.raw_yaw*rad2deg_sonarpub;

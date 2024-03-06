@@ -45,6 +45,8 @@ if __name__ == "__main__":
     subscriber.connect("tcp://localhost:5555")
     subscriber.setsockopt_string(zmq.SUBSCRIBE, "")
 
+    # Set a timeout for the recv operation
+    subscriber.setsockopt(zmq.RCVTIMEO, 1000)
 
     try:
         while True:
