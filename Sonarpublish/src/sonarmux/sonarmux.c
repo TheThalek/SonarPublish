@@ -24,6 +24,10 @@
 #include "nmeaparse/nmeaparse.h"
 #include "sonarmux/sonarmux.h"
 
+// *** Thale code
+#include <math.h>
+// ***
+
 #include <stdio.h>
 
 #define SONAR_CAPS                "sonar/multibeam; sonar/bathymetry"
@@ -132,29 +136,43 @@ static void gst_sonarmux_update_pretel_posttel(gpointer data, gpointer user_data
 GstSonarTelemetry gst_sonar_telemetry_timed_interpolate(GstSonarTelemetryTimed* first, GstSonarTelemetryTimed* second, guint64 interpolation_time)
 {
     const linalg_euler_angles_t first_angles = {
-        .roll  = first->tel.roll,
-        .pitch = first->tel.pitch,
-        .yaw   = first->tel.yaw,
+        // ***THALE CODE
+        .roll  = fmod(first->tel.roll + M_PI, 2 * M_PI),
+        .pitch = fmod(first->tel.pitch + M_PI, 2 * M_PI),
+        .yaw   = first->tel.yaw, // assuming yaw is already in the range 0 to 2*pi
+        // ***
         .time  = first->attitude_time,
     };
 
     const linalg_euler_angles_t second_angles = {
-        .roll  = second->tel.roll,
-        .pitch = second->tel.pitch,
-        .yaw   = second->tel.yaw,
+        // ***THALE CODE
+        .roll  = fmod(first->tel.roll + M_PI, 2 * M_PI),
+        .pitch = fmod(first->tel.pitch + M_PI, 2 * M_PI),
+        .yaw   = second->tel.yaw, // assuming yaw is already in the range 0 to 2*pi
+        // ***
         .time  = second->attitude_time,
     };
-
-
 
     linalg_euler_angles_t euler_angles;
     linalg_interpolate_euler_angles(&euler_angles, &first_angles, &second_angles, interpolation_time);
 
+    // ***THALE CODE
+    // Normalize the interpolated roll and pitch angles back to -pi to pi after interpolation
+    euler_angles.roll = fmod(euler_angles.roll, 2 * M_PI);
+    if (euler_angles.roll > M_PI)
+        euler_angles.roll -= M_PI;
+
+    euler_angles.pitch = fmod(euler_angles.pitch, 2 * M_PI);
+    if (euler_angles.pitch > M_PI)
+        euler_angles.pitch -= M_PI;
+    // ***
+
     GstSonarTelemetry ret;
     // Assign raw data from 'first' telemetry
-    ret.raw_roll = first_angles.roll;  // Raw roll from 'first'
-    ret.raw_pitch = first_angles.pitch; // Raw pitch from 'first'
+    ret.raw_roll = first->tel.roll;  // Raw roll from 'first'
+    ret.raw_pitch = first->tel.pitch; // Raw pitch from 'first'
     ret.raw_yaw = first_angles.yaw;    // Raw yaw from 'first'
+
 
     ret.roll  = euler_angles.roll;
     ret.pitch = euler_angles.pitch;

@@ -24,19 +24,19 @@ def save_data_to_file(data, filename="pose_and_rawPose_data.json"):
 
 
 def process_telemetry_pose(data):
-    print(f"Received telemetry pose: Roll={data.roll}, Pitch={data.pitch}, Pose Timestep={data.pose_timestep}")
+    # print(f"Received telemetry pose: Roll={data.roll}, Pitch={data.pitch}, Pose Timestep={data.pose_timestep}")
     return {"roll": data.roll, "pitch": data.pitch}
 
 def process_telemetry_heading(data):
-    print(f"Received telemetry heading: Heading={data.heading}, Heading Timestep={data.heading_timestep}")
+    # print(f"Received telemetry heading: Heading={data.heading}, Heading Timestep={data.heading_timestep}")
     return {"heading": data.heading}
 
 def process_telemetry_rawPose(data):
-    print(f"Received raw pose: raw Roll={data.raw_roll}, raw Pitch={data.raw_pitch}, raw Pose Timestep={data.raw_pose_timestep}")
+    # print(f"Received raw pose: raw Roll={data.raw_roll}, raw Pitch={data.raw_pitch}, raw Pose Timestep={data.raw_pose_timestep}")
     return {"rawRoll": data.raw_roll, "rawPitch": data.raw_pitch}
 
 def process_telemetry_rawHeading(data):
-    print(f"Received raw heading: rawHeading={data.raw_heading}, raw Heading Timestep={data.raw_heading_timestep}")
+    # print(f"Received raw heading: rawHeading={data.raw_heading}, raw Heading Timestep={data.raw_heading_timestep}")
     return {"rawHeading": data.raw_heading}
 
 if __name__ == "__main__":
@@ -44,9 +44,6 @@ if __name__ == "__main__":
     subscriber = context.socket(zmq.SUB)
     subscriber.connect("tcp://localhost:5555")
     subscriber.setsockopt_string(zmq.SUBSCRIBE, "")
-
-    # Set a timeout for the recv operation
-    subscriber.setsockopt(zmq.RCVTIMEO, 1000)
 
     try:
         while True:
