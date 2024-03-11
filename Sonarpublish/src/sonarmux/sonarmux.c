@@ -146,8 +146,8 @@ GstSonarTelemetry gst_sonar_telemetry_timed_interpolate(GstSonarTelemetryTimed* 
 
     const linalg_euler_angles_t second_angles = {
         // ***THALE CODE
-        .roll  = fmod(first->tel.roll + M_PI, 2 * M_PI),
-        .pitch = fmod(first->tel.pitch + M_PI, 2 * M_PI),
+        .roll  = fmod(second->tel.roll + M_PI, 2 * M_PI),
+        .pitch = fmod(second->tel.pitch + M_PI, 2 * M_PI),
         .yaw   = second->tel.yaw, // assuming yaw is already in the range 0 to 2*pi
         // ***
         .time  = second->attitude_time,
