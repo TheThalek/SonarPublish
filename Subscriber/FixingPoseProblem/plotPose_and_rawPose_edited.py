@@ -236,7 +236,7 @@ def plot_combined_data(data, total_duration):
     """
     Plots combined "smoothed" and raw telemetry data.
     """
-    attributes = [
+    sanity_checkattributes = [
         'pose roll', 'rawPose rawRoll',
         'pose pitch', 'rawPose rawPitch',
         'heading heading', 'rawHeading rawHeading'
