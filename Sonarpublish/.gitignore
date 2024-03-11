@@ -50,3 +50,7 @@
 *.pdb
 
 ### C++ ###
+
+
+# Samples
+*.SBD

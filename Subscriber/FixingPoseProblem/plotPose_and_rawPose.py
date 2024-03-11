@@ -83,7 +83,7 @@ if __name__ == "__main__":
     # total_duration = 30  # Adjust based on your data
 
     filename = "pose_and_rawPose_data.json"
-    total_duration = 250  # Adjust based on your data
+    total_duration = 50  # Adjust based on your data
 
     data = read_data(filename)
 

@@ -45,6 +45,9 @@ if __name__ == "__main__":
     subscriber.connect("tcp://localhost:5555")
     subscriber.setsockopt_string(zmq.SUBSCRIBE, "")
 
+    # Set a timeout for the recv operation
+    subscriber.setsockopt(zmq.RCVTIMEO, 1000)
+
     try:
         while True:
             multipart_message = subscriber.recv_multipart()  # Receiving serialized data
@@ -75,6 +78,7 @@ if __name__ == "__main__":
 
             # Save the combined data to file
             if combined_data:
+                print("Saving Data")
                 save_data_to_file(combined_data)
 
 
