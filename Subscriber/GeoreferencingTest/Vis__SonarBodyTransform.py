@@ -140,7 +140,7 @@ if __name__ == "__main__":
     filename = "sonar_telemetry_data_Nyhavna_firstXsecs.json"
     points_sonar, poses_sonar, points_body, poses_body = read_data_from_file_and_collect_points_and_poses(filename)
     # visualize(points_sonar, poses_sonar)
-    # visualize(points_body, poses_body)
-    visualize_check(points_sonar, points_body, poses_sonar, poses_body)
+    visualize(points_body, poses_body)
+    # visualize_check(points_sonar, points_body, poses_sonar, poses_body)
 
     
