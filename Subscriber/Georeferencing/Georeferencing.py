@@ -1,7 +1,10 @@
 import json
-from Classes import SonarData, TelemetryDataPosition, TelemetryDataPose, TelemetryDataHeading, TelemetryDataDepth, TelemetryDataAltitude
 import math
 import numpy as np
+
+from Classes import SonarData, TelemetryDataPosition, TelemetryDataPose, TelemetryDataHeading, TelemetryDataDepth, TelemetryDataAltitude
+from Visualization import visualize_all_rotations
+
 
 # Function to load data from JSON file
 def load_data_from_json(filename):
@@ -26,6 +29,9 @@ def process_message(message):
 if __name__ == "__main__":
     filename = "sonar_telemetry_data_Nyhavna30sek.json"  # Name of your JSON file
     data = load_data_from_json(filename)
+
+    # Lists for saving data from loop 
+    all_R_BN = []
 
     for message in data:
         sonar, position, pose, heading, depth, altitude = process_message(message)
@@ -60,6 +66,7 @@ if __name__ == "__main__":
 
         R_BN = R_Z @ R_Y @ R_X # Rotation matrix from body to NED
             # TO DO; Visualize this rotation matrix, to see if the rotation makes sense
+        all_R_BN.append(R_BN) # For visualization later
 
         # Calculate the transformed points
         P_N = R_BN @ P_B  # Assuming P_B is correctly shaped for matrix multiplication
@@ -71,6 +78,9 @@ if __name__ == "__main__":
 
         P_N += T_N  # Add T_N to each column of P_N
             # TO DO; Visualize these points, to see that they follow the rotation matrix as well
+    
+
+    visualize_all_rotations(all_R_BN)
 
 
 
