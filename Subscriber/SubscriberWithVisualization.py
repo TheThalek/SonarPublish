@@ -18,6 +18,7 @@ def init_window():
     return vis
 
 
+
 def process_sonar_data(data):
     global sonar_data_queue
     points = []  # Prepare to store processed points directly
@@ -53,7 +54,6 @@ def plot_points(vis, pcd, points, camera_target, first_run, x_coordinate):
 
 
 def data_receiver():
-    print("Test - In Data receiver")
     global running
     context = zmq.Context()
     subscriber = context.socket(zmq.SUB)
@@ -62,15 +62,15 @@ def data_receiver():
 
     try:
         while running:
-            # Use zmq's poll to wait for a message with a timeout, so it can exit gracefully
-            if subscriber.poll(timeout=1000):  # Timeout in milliseconds
-                message = subscriber.recv()  # Receiving serialized data
-                main_data = sonarData_pb2.Data()
-                main_data.ParseFromString(message)  # Deserialize using Protocol Buffers
+            multipart_message = subscriber.recv_multipart()  # Receiving serialized data
 
-                # Process incoming sonar data
-                if main_data.HasField("sonar"):
-                    process_sonar_data(main_data.sonar)
+            # Deserializing the Ungeoreferenced Point Cloud and Its Telemetry Data
+            Ungeoref_And_Telemetry = sonarData_pb2.Ungeoref_And_Telemetry()
+            Ungeoref_And_Telemetry.ParseFromString(multipart_message[0])
+
+            if Ungeoref_And_Telemetry.HasField("sonar"):
+                process_sonar_data(Ungeoref_And_Telemetry.sonar)
+
     except KeyboardInterrupt:
         running = False
         print("Data receiver stopped.")
@@ -80,6 +80,7 @@ def data_receiver():
     finally:
         subscriber.close()
         context.term()
+
 
 
 def visualize():
