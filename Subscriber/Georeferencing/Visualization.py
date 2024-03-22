@@ -4,32 +4,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-def visualize_data(all_R_BN, all_P_N, all_T_N):
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-
-    # Plotting all the points (P_N)
-    for P_N in all_P_N:
-        ax.scatter(P_N[0,:], P_N[1,:], P_N[2,:], marker='.')
-
-    # Visualizing rotation matrices
-    for R_BN, T_N in zip(all_R_BN, all_T_N):
-        # Origin of the rotation matrix in ECEF frame
-        origin = T_N.flatten()
-        # Unit vectors for axes
-        axes = np.identity(3)
-        
-        # Transforming axes according to the rotation matrix and translating
-        transformed_axes = R_BN @ axes + origin[:, np.newaxis]
-        
-        # Drawing axes
-        for i, color in zip(range(3), ['r', 'g', 'b']): # RGB for XYZ axes
-            ax.quiver(*origin, *(transformed_axes[:,i] - origin), length=0.1, color=color)
-
-    ax.set_xlabel('X')
-    ax.set_ylabel('Y')
-    ax.set_zlabel('Z')
-    plt.show()
 
 
 
