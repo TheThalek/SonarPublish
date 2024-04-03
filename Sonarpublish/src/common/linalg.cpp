@@ -57,14 +57,14 @@ void linalg_interpolate_euler_angles(linalg_euler_angles_t* out, const linalg_eu
 float linalg_interpolate_scalar(float first, uint64_t first_time, float second, uint64_t second_time, uint64_t interpolation_time)
 {
     assert((interpolation_time >= first_time) && (interpolation_time <= second_time));
-    // printf("New set of data \n");
-    // printf("First Time: %llu\n", first_time);
-    // printf("Second Time: %llu\n", second_time);
-    // printf("Interpolation Time: %llu\n", interpolation_time);
-    // printf("First: %f\n", first);
-    // printf("Second: %f\n", second);
+    printf("New set of data \n");
+    printf("First Time: %llu\n", first_time);
+    printf("Second Time: %llu\n", second_time);
+    printf("Interpolation Time: %llu\n", interpolation_time);
+    printf("First: %.18f\n", first);
+    printf("Second: %.18f\n", second);
     float interpolated_value = first + ((float)(interpolation_time - first_time) / (second_time - first_time)) * (second - first);
-    // printf("Interpolated: %f\n", interpolated_value);
+    printf("Interpolated: %.18f\n", interpolated_value);
 
     return interpolated_value;
 
