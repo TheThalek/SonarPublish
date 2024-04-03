@@ -41,7 +41,9 @@ def process_message(message):
 
 if __name__ == "__main__":
     # filename = "sonar_telemetry_data_Nyhavna30sek.json"  # Name of your JSON file
-    filename = "sonar_telemetry_data_Nyhavna10sek_MyInterpolation.json"  # Name of your JSON file
+    # filename = "sonar_telemetry_data_Nyhavna10sek_MyInterpolation.json"  # Name of your JSON file
+    filename = "sonar_telemetry_data_withBetterDepthInterpolation.json"  # Name of your JSON file
+
 
     data = load_data_from_json(filename)
 
@@ -189,62 +191,62 @@ if __name__ == "__main__":
 
 
 
-    # # Now plot the latitude, longitude, and depth data with formatted y-axis
-    # # Latitude over time
-    # plt.figure(figsize=(10, 4))
-    # plt.plot(latitudes, label='Latitude')
-    # plt.xlabel('Time')
-    # plt.ylabel('Latitude (radians)')
-    # plt.gca().yaxis.set_major_formatter(FuncFormatter(format_func))  # Format y-axis
-    # plt.title('Latitude over Time')
-    # plt.legend()
-    # plt.show()
-
-    # # Longitude over time
-    # plt.figure(figsize=(10, 4))
-    # plt.plot(longitudes, label='Longitude')
-    # plt.xlabel('Time')
-    # plt.ylabel('Longitude (radians)')
-    # plt.gca().yaxis.set_major_formatter(FuncFormatter(format_func))  # Format y-axis
-    # plt.title('Longitude over Time')
-    # plt.legend()
-    # plt.show()
-
-    # # Depth over time
-    # plt.figure(figsize=(10, 4))
-    # plt.plot(depths, label='Depth')
-    # plt.xlabel('Time')
-    # plt.ylabel('Depth (meters)')
-    # plt.gca().yaxis.set_major_formatter(FuncFormatter(format_func))  # Format y-axis
-    # plt.title('Depth over Time')
-    # plt.legend()
-    # plt.show()
-
-
-
-
-
-
-    # Initialize lists for x, y, and z coordinates
-    x_data = []
-    y_data = []
-    z_data = []
-
-    # Iterate through the first 100 scans only
-    for scan in all_P_N[:100]:  # This slices the list to include only the first 100 scans
-        x_data.extend(scan[0])
-        y_data.extend(scan[1])
-        z_data.extend(scan[2])
-
-    # Now x_data, y_data, and z_data contain points from the first 100 scans
-    # Proceed with plotting
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-    ax.scatter(x_data, y_data, z_data, c='r', marker='o')
-    ax.set_xlabel('X Label')
-    ax.set_ylabel('Y Label')
-    ax.set_zlabel('Z Label')
+    # Now plot the latitude, longitude, and depth data with formatted y-axis
+    # Latitude over time
+    plt.figure(figsize=(10, 4))
+    plt.plot(latitudes, label='Latitude')
+    plt.xlabel('Time')
+    plt.ylabel('Latitude (radians)')
+    plt.gca().yaxis.set_major_formatter(FuncFormatter(format_func))  # Format y-axis
+    plt.title('Latitude over Time')
+    plt.legend()
     plt.show()
+
+    # Longitude over time
+    plt.figure(figsize=(10, 4))
+    plt.plot(longitudes, label='Longitude')
+    plt.xlabel('Time')
+    plt.ylabel('Longitude (radians)')
+    plt.gca().yaxis.set_major_formatter(FuncFormatter(format_func))  # Format y-axis
+    plt.title('Longitude over Time')
+    plt.legend()
+    plt.show()
+
+    # Depth over time
+    plt.figure(figsize=(10, 4))
+    plt.plot(depths, label='Depth')
+    plt.xlabel('Time')
+    plt.ylabel('Depth (meters)')
+    plt.gca().yaxis.set_major_formatter(FuncFormatter(format_func))  # Format y-axis
+    plt.title('Depth over Time')
+    plt.legend()
+    plt.show()
+
+
+
+
+
+
+    # # Initialize lists for x, y, and z coordinates
+    # x_data = []
+    # y_data = []
+    # z_data = []
+
+    # # Iterate through the first 100 scans only
+    # for scan in all_P_N[:100]:  # This slices the list to include only the first 100 scans
+    #     x_data.extend(scan[0])
+    #     y_data.extend(scan[1])
+    #     z_data.extend(scan[2])
+
+    # # Now x_data, y_data, and z_data contain points from the first 100 scans
+    # # Proceed with plotting
+    # fig = plt.figure()
+    # ax = fig.add_subplot(111, projection='3d')
+    # ax.scatter(x_data, y_data, z_data, c='r', marker='o')
+    # ax.set_xlabel('X Label')
+    # ax.set_ylabel('Y Label')
+    # ax.set_zlabel('Z Label')
+    # plt.show()
 
 
 

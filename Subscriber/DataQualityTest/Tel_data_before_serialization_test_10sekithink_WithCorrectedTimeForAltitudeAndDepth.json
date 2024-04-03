@@ -1,0 +1,2576 @@
+[
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417553901672363,
+            "roll": 179.44001770019531,
+            "pitch": 179.94000244140625,
+            "heading": -178.68000793457031,
+            "depth": 6.880000114440918,
+            "altitude": 3.7400000095367432
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417553901672363,
+            "roll": 179.42985534667969,
+            "pitch": 179.91233825683594,
+            "heading": -178.80589294433594,
+            "depth": 6.8787188529968262,
+            "altitude": 3.7438440322875977
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417553901672363,
+            "roll": 179.419677734375,
+            "pitch": 179.88444519042969,
+            "heading": -178.93272399902344,
+            "depth": 6.8774280548095703,
+            "altitude": 3.7477161884307861
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417553901672363,
+            "roll": 179.40968322753906,
+            "pitch": 179.85688781738281,
+            "heading": -179.05793762207031,
+            "depth": 6.8761534690856934,
+            "altitude": 3.751539945602417
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417553901672363,
+            "roll": 179.637451171875,
+            "pitch": -179.99089050292969,
+            "heading": -178.492431640625,
+            "depth": 6.8748784065246582,
+            "altitude": 3.7553648948669434
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417553901672363,
+            "roll": 179.53294372558594,
+            "pitch": 179.97262573242188,
+            "heading": -178.59170532226562,
+            "depth": 6.8735494613647461,
+            "altitude": 3.7593522071838379
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417553901672363,
+            "roll": 0.20698395371437073,
+            "pitch": -0.00049243570538237691,
+            "heading": 2.0193240642547607,
+            "depth": 6.8721675872802734,
+            "altitude": 3.7634963989257812
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417553901672363,
+            "roll": 0.056597910821437836,
+            "pitch": -0.0035054762847721577,
+            "heading": 1.8842282295227051,
+            "depth": 6.8708705902099609,
+            "altitude": 3.7673881053924561
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417552947998047,
+            "roll": 179.90739440917969,
+            "pitch": -179.99385070800781,
+            "heading": -178.24981689453125,
+            "depth": 6.849672794342041,
+            "altitude": 3.7713091373443604
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417552947998047,
+            "roll": 179.75982666015625,
+            "pitch": -179.99159240722656,
+            "heading": -178.38236999511719,
+            "depth": 6.8486723899841309,
+            "altitude": 3.775310754776001
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417552947998047,
+            "roll": 0.73700600862503052,
+            "pitch": 0.0089154550805687904,
+            "heading": 2.3387725353240967,
+            "depth": 6.8476705551147461,
+            "altitude": 3.7793171405792236
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417552947998047,
+            "roll": 0.454039067029953,
+            "pitch": 0.0036134957335889339,
+            "heading": 2.1720256805419922,
+            "depth": 6.8466601371765137,
+            "altitude": 3.7833595275878906
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417552947998047,
+            "roll": 1.461764931678772,
+            "pitch": -0.026048395782709122,
+            "heading": 2.6924257278442383,
+            "depth": 6.8456516265869141,
+            "altitude": 3.7873942852020264
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417552947998047,
+            "roll": 1.0862213373184204,
+            "pitch": -0.0063634486868977547,
+            "heading": 2.5121297836303711,
+            "depth": 6.8446502685546875,
+            "altitude": 3.7913999557495117
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417552947998047,
+            "roll": 3.1574664115905762,
+            "pitch": -0.19144986569881439,
+            "heading": 3.5244393348693848,
+            "depth": 6.8436436653137207,
+            "altitude": 3.7954251766204834
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417552947998047,
+            "roll": 2.7233154773712158,
+            "pitch": -0.15034192800521851,
+            "heading": 3.310833215713501,
+            "depth": 6.8426284790039062,
+            "altitude": 3.7994856834411621
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.41755199432373,
+            "roll": 2.2956972122192383,
+            "pitch": -0.10825417190790176,
+            "heading": 3.1006989479064941,
+            "depth": 6.8416285514831543,
+            "altitude": 3.8034863471984863
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.41755199432373,
+            "roll": 1.8665786981582642,
+            "pitch": -0.064425081014633179,
+            "heading": 2.890094518661499,
+            "depth": 6.8406243324279785,
+            "altitude": 3.8075025081634521
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.41755199432373,
+            "roll": 3.9322538375854492,
+            "pitch": -0.24407173693180084,
+            "heading": 3.9635806083679199,
+            "depth": 6.8296093940734863,
+            "altitude": 3.8111717700958252
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.41755199432373,
+            "roll": 3.5384783744812012,
+            "pitch": -0.21920967102050781,
+            "heading": 3.7363686561584473,
+            "depth": 6.8285999298095703,
+            "altitude": 3.8142006397247314
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.41755199432373,
+            "roll": 4.4991979598999023,
+            "pitch": -0.27630916237831116,
+            "heading": 4.4109935760498047,
+            "depth": 6.8275976181030273,
+            "altitude": 3.8172063827514648
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417551040649414,
+            "roll": 4.2287635803222656,
+            "pitch": -0.26153761148452759,
+            "heading": 4.1856236457824707,
+            "depth": 6.8265962600708008,
+            "altitude": 3.8202111721038818
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417551040649414,
+            "roll": 4.942720890045166,
+            "pitch": -0.32678461074829102,
+            "heading": 5.2713990211486816,
+            "depth": 6.8255877494812012,
+            "altitude": 3.823237419128418
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417551040649414,
+            "roll": 4.8424196243286133,
+            "pitch": -0.31471711397171021,
+            "heading": 5.0558652877807617,
+            "depth": 6.8245849609375,
+            "altitude": 3.826244592666626
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417551040649414,
+            "roll": 4.742103099822998,
+            "pitch": -0.30226325988769531,
+            "heading": 4.8402080535888672,
+            "depth": 6.8235821723937988,
+            "altitude": 3.8292536735534668
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417551040649414,
+            "roll": 4.6419177055358887,
+            "pitch": -0.28944143652915955,
+            "heading": 4.6247367858886719,
+            "depth": 6.8225798606872559,
+            "altitude": 3.8322603702545166
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417551040649414,
+            "roll": 5.0127482414245605,
+            "pitch": -0.38991484045982361,
+            "heading": 5.6722397804260254,
+            "depth": 6.8215713500976562,
+            "altitude": 3.8352861404418945
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417551040649414,
+            "roll": 4.9874730110168457,
+            "pitch": -0.35458648204803467,
+            "heading": 5.4702558517456055,
+            "depth": 6.820561408996582,
+            "altitude": 3.8383159637451172
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417551040649414,
+            "roll": 4.8442020416259766,
+            "pitch": -0.57561886310577393,
+            "heading": 6.4235877990722656,
+            "depth": 6.7795591354370117,
+            "altitude": 3.8417637348175049
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417551040649414,
+            "roll": 4.8915038108825684,
+            "pitch": -0.52793210744857788,
+            "heading": 6.2361183166503906,
+            "depth": 6.7785592079162598,
+            "altitude": 3.8457639217376709
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 4.9390344619750977,
+            "pitch": -0.48033732175827026,
+            "heading": 6.0483741760253906,
+            "depth": 6.7775578498840332,
+            "altitude": 3.8497693538665771
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 4.9867453575134277,
+            "pitch": -0.43288552761077881,
+            "heading": 5.8605494499206543,
+            "depth": 6.7765560150146484,
+            "altitude": 3.8537757396697998
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 4.5419754981994629,
+            "pitch": -0.67456990480422974,
+            "heading": 6.7680158615112305,
+            "depth": 6.7755541801452637,
+            "altitude": 3.8577840328216553
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 4.7131867408752441,
+            "pitch": -0.62410718202590942,
+            "heading": 6.5967965126037598,
+            "depth": 6.7745466232299805,
+            "altitude": 3.8618133068084717
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 3.2834229469299316,
+            "pitch": -0.75387036800384521,
+            "heading": 7.4831595420837402,
+            "depth": 6.7735443115234375,
+            "altitude": 3.8658237457275391
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 3.6123678684234619,
+            "pitch": -0.7350623607635498,
+            "heading": 7.3023686408996582,
+            "depth": 6.7725396156311035,
+            "altitude": 3.8698427677154541
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 3.9435701370239258,
+            "pitch": -0.717182457447052,
+            "heading": 7.1203322410583496,
+            "depth": 6.7715282440185547,
+            "altitude": 3.8738880157470703
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 4.2723445892333984,
+            "pitch": -0.70048165321350098,
+            "heading": 6.9396276473999023,
+            "depth": 6.7705245018005371,
+            "altitude": 3.8779027462005615
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 2.7312989234924316,
+            "pitch": -0.73481941223144531,
+            "heading": 7.8557257652282715,
+            "depth": 6.7399997711181641,
+            "altitude": 3.8819127082824707
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 3.0062918663024902,
+            "pitch": -0.74995672702789307,
+            "heading": 7.6621994972229004,
+            "depth": 6.7399997711181641,
+            "altitude": 3.8859865665435791
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 2.930377721786499,
+            "pitch": -0.69388490915298462,
+            "heading": 8.6186742782592773,
+            "depth": 6.7399997711181641,
+            "altitude": 3.8900423049926758
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 2.8503990173339844,
+            "pitch": -0.70418852567672729,
+            "heading": 8.4261465072631836,
+            "depth": 6.7399997711181641,
+            "altitude": 3.8940432071685791
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 2.770291805267334,
+            "pitch": -0.71423685550689697,
+            "heading": 8.2333793640136719,
+            "depth": 6.7399997711181641,
+            "altitude": 3.8980488777160645
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 2.690126895904541,
+            "pitch": -0.72402036190032959,
+            "heading": 8.0405435562133789,
+            "depth": 6.7399997711181641,
+            "altitude": 3.9020555019378662
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 3.2200236320495605,
+            "pitch": -0.69827008247375488,
+            "heading": 8.9662714004516602,
+            "depth": 6.7399997711181641,
+            "altitude": 3.9060595035552979
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 3.0567147731781006,
+            "pitch": -0.6932222843170166,
+            "heading": 8.7927541732788086,
+            "depth": 6.7399997711181641,
+            "altitude": 3.910142183303833
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 3.5767974853515625,
+            "pitch": -0.70817512273788452,
+            "heading": 9.2706384658813477,
+            "depth": 6.7399997711181641,
+            "altitude": 3.9141428470611572
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 3.3879759311676025,
+            "pitch": -0.70311826467514038,
+            "heading": 9.1175394058227539,
+            "depth": 6.7399997711181641,
+            "altitude": 3.9182255268096924
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 3.6215200424194336,
+            "pitch": -0.70521175861358643,
+            "heading": 9.4771623611450195,
+            "depth": 6.7188091278076172,
+            "altitude": 3.9211907386779785
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 1.8938103914260864,
+            "pitch": -0.52236104011535645,
+            "heading": 10.261235237121582,
+            "depth": 6.7178044319152832,
+            "altitude": 3.9221954345703125
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 2.3249540328979492,
+            "pitch": -0.56574970483779907,
+            "heading": 10.102723121643066,
+            "depth": 6.7168021202087402,
+            "altitude": 3.9231977462768555
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 2.7562477588653564,
+            "pitch": -0.61035841703414917,
+            "heading": 9.9445629119873047,
+            "depth": 6.7157993316650391,
+            "altitude": 3.9242007732391357
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 3.1902604103088379,
+            "pitch": -0.65646237134933472,
+            "heading": 9.7858257293701172,
+            "depth": 6.714789867401123,
+            "altitude": 3.9252102375030518
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 1.0987197160720825,
+            "pitch": -0.4235113263130188,
+            "heading": 10.578485488891602,
+            "depth": 6.7137880325317383,
+            "altitude": 3.9262118339538574
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 1.5013114213943481,
+            "pitch": -0.47334972023963928,
+            "heading": 10.417274475097656,
+            "depth": 6.7127819061279297,
+            "altitude": 3.9272181987762451
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 0.5722801685333252,
+            "pitch": -0.36250659823417664,
+            "heading": 10.915421485900879,
+            "depth": 6.7117743492126465,
+            "altitude": 3.9282257556915283
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 0.83372962474822998,
+            "pitch": -0.3923499584197998,
+            "heading": 10.744418144226074,
+            "depth": 6.7107686996459961,
+            "altitude": 3.9292311668395996
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 0.35460346937179565,
+            "pitch": -0.32089164853096008,
+            "heading": 11.623669624328613,
+            "depth": 6.679999828338623,
+            "altitude": 3.9306960105895996
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 0.40485894680023193,
+            "pitch": -0.33071476221084595,
+            "heading": 11.445375442504883,
+            "depth": 6.679999828338623,
+            "altitude": 3.9337091445922852
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 0.45518466830253601,
+            "pitch": -0.34071487188339233,
+            "heading": 11.266751289367676,
+            "depth": 6.679999828338623,
+            "altitude": 3.9367282390594482
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 0.50547891855239868,
+            "pitch": -0.35087218880653381,
+            "heading": 11.088159561157227,
+            "depth": 6.679999828338623,
+            "altitude": 3.939746618270874
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 0.0573003850877285,
+            "pitch": -0.25384962558746338,
+            "heading": 11.998793601989746,
+            "depth": 6.679999828338623,
+            "altitude": 3.9427547454833984
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 0.2125045508146286,
+            "pitch": -0.28868564963340759,
+            "heading": 11.808547973632812,
+            "depth": 6.679999828338623,
+            "altitude": 3.9457578659057617
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 179.76864624023438,
+            "pitch": -179.83427429199219,
+            "heading": -167.62442016601562,
+            "depth": 6.679999828338623,
+            "altitude": 3.9488050937652588
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 179.91378784179688,
+            "pitch": -179.7894287109375,
+            "heading": -167.81460571289062,
+            "depth": 6.679999828338623,
+            "altitude": 3.9518074989318848
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 179.71305847167969,
+            "pitch": -179.9139404296875,
+            "heading": -167.23957824707031,
+            "depth": 6.679999828338623,
+            "altitude": 3.9548749923706055
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 179.73341369628906,
+            "pitch": -179.87335205078125,
+            "heading": -167.43760681152344,
+            "depth": 6.679999828338623,
+            "altitude": 3.9579217433929443
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 179.76492309570312,
+            "pitch": -179.98403930664062,
+            "heading": -166.83486938476562,
+            "depth": 6.6696901321411133,
+            "altitude": 3.9603102207183838
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 179.73492431640625,
+            "pitch": -179.94895935058594,
+            "heading": -167.04011535644531,
+            "depth": 6.6686887741088867,
+            "altitude": 3.9613113403320312
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 179.80827331542969,
+            "pitch": 179.92398071289062,
+            "heading": -166.0067138671875,
+            "depth": 6.6676831245422363,
+            "altitude": 3.9623169898986816
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 179.79837036132812,
+            "pitch": 179.946533203125,
+            "heading": -166.21426391601562,
+            "depth": 6.6666827201843262,
+            "altitude": 3.9633171558380127
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 179.78834533691406,
+            "pitch": 179.96916198730469,
+            "heading": -166.4227294921875,
+            "depth": 6.6656780242919922,
+            "altitude": 3.9643218517303467
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 179.77828979492188,
+            "pitch": 179.99163818359375,
+            "heading": -166.63032531738281,
+            "depth": 6.664677619934082,
+            "altitude": 3.9653222560882568
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 0.055274978280067444,
+            "pitch": 0.07992156594991684,
+            "heading": 14.393364906311035,
+            "depth": 6.6636767387390137,
+            "altitude": 3.9663231372833252
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 179.91862487792969,
+            "pitch": 179.92022705078125,
+            "heading": -165.80908203125,
+            "depth": 6.6626644134521484,
+            "altitude": 3.9673354625701904
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 0.60311764478683472,
+            "pitch": 0.051316261291503906,
+            "heading": 15.067239761352539,
+            "depth": 6.6616644859313965,
+            "altitude": 3.9683356285095215
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417550086975098,
+            "roll": 0.4651208221912384,
+            "pitch": 0.058315854519605637,
+            "heading": 14.899101257324219,
+            "depth": 6.6606607437133789,
+            "altitude": 3.96933913230896
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 0.32686212658882141,
+            "pitch": 0.065736286342144012,
+            "heading": 14.730672836303711,
+            "depth": 6.6399998664855957,
+            "altitude": 3.9710338115692139
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 0.18934592604637146,
+            "pitch": 0.073521539568901062,
+            "heading": 14.563170433044434,
+            "depth": 6.6399998664855957,
+            "altitude": 3.9740340709686279
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 0.65672439336776733,
+            "pitch": 0.041083827614784241,
+            "heading": 15.349448204040527,
+            "depth": 6.6399998664855957,
+            "altitude": 3.9770746231079102
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 0.64160579442977905,
+            "pitch": 0.046111911535263062,
+            "heading": 15.208367347717285,
+            "depth": 6.6399998664855957,
+            "altitude": 3.980097770690918
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 0.67771846055984497,
+            "pitch": 0.031134000048041344,
+            "heading": 15.645816802978516,
+            "depth": 6.6399998664855957,
+            "altitude": 3.9831037521362305
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 0.66770821809768677,
+            "pitch": 0.036130141466856003,
+            "heading": 15.495710372924805,
+            "depth": 6.6399998664855957,
+            "altitude": 3.9861056804656982
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 0.74158662557601929,
+            "pitch": -0.031630683690309525,
+            "heading": 15.979235649108887,
+            "depth": 6.6399998664855957,
+            "altitude": 3.9891393184661865
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 0.70655816793441772,
+            "pitch": 0.0033434575889259577,
+            "heading": 15.809213638305664,
+            "depth": 6.6399998664855957,
+            "altitude": 3.9921395778656006
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 0.74996048212051392,
+            "pitch": -0.13612549006938934,
+            "heading": 16.34332275390625,
+            "depth": 6.6399998664855957,
+            "altitude": 3.9951767921447754
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 0.74991625547409058,
+            "pitch": -0.081088222563266754,
+            "heading": 16.15818977355957,
+            "depth": 6.6399998664855957,
+            "altitude": 3.9981789588928223
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 0.13179130852222443,
+            "pitch": -0.28086677193641663,
+            "heading": 17.092466354370117,
+            "depth": 6.6296062469482422,
+            "altitude": 4.0003938674926758
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 0.29787731170654297,
+            "pitch": -0.24492911994457245,
+            "heading": 16.903627395629883,
+            "depth": 6.628598690032959,
+            "altitude": 4.001401424407959
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 0.46459075808525085,
+            "pitch": -0.20943222939968109,
+            "heading": 16.714162826538086,
+            "depth": 6.6275882720947266,
+            "altitude": 4.0024118423461914
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 0.62983196973800659,
+            "pitch": -0.17481757700443268,
+            "heading": 16.526453018188477,
+            "depth": 6.6265873908996582,
+            "altitude": 4.0034127235412598
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 179.693603515625,
+            "pitch": -179.70158386230469,
+            "heading": -162.51531982421875,
+            "depth": 6.6255836486816406,
+            "altitude": 4.0044164657592773
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 179.92442321777344,
+            "pitch": -179.70677185058594,
+            "heading": -162.716064453125,
+            "depth": 6.624579906463623,
+            "altitude": 4.0054202079772949
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 179.08186340332031,
+            "pitch": -179.66313171386719,
+            "heading": -161.67036437988281,
+            "depth": 6.6235756874084473,
+            "altitude": 4.0064244270324707
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 179.22967529296875,
+            "pitch": -179.673828125,
+            "heading": -161.88340759277344,
+            "depth": 6.6225733757019043,
+            "altitude": 4.0074267387390137
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 179.37820434570312,
+            "pitch": -179.68400573730469,
+            "heading": -162.09742736816406,
+            "depth": 6.6215662956237793,
+            "altitude": 4.0084338188171387
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 179.52616882324219,
+            "pitch": -179.693603515625,
+            "heading": -162.31050109863281,
+            "depth": 6.6205635070800781,
+            "altitude": 4.0094366073608398
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 178.8697509765625,
+            "pitch": -179.64306640625,
+            "heading": -161.22694396972656,
+            "depth": 6.6100001335144043,
+            "altitude": 4.0104379653930664
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 178.97030639648438,
+            "pitch": -179.65321350097656,
+            "heading": -161.4532470703125,
+            "depth": 6.6100001335144043,
+            "altitude": 4.0114436149597168
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 178.79777526855469,
+            "pitch": -179.59780883789062,
+            "heading": -160.76325988769531,
+            "depth": 6.6100001335144043,
+            "altitude": 4.0124521255493164
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 178.82304382324219,
+            "pitch": -179.62312316894531,
+            "heading": -161.00102233886719,
+            "depth": 6.6100001335144043,
+            "altitude": 4.0134634971618652
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 179.00093078613281,
+            "pitch": -179.45223999023438,
+            "heading": -159.80929565429688,
+            "depth": 6.6100001335144043,
+            "altitude": 4.0144705772399902
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 178.94306945800781,
+            "pitch": -179.48957824707031,
+            "heading": -160.05012512207031,
+            "depth": 6.6100001335144043,
+            "altitude": 4.0154738426208496
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 178.88467407226562,
+            "pitch": -179.52760314941406,
+            "heading": -160.2938232421875,
+            "depth": 6.6100001335144043,
+            "altitude": 4.0164890289306641
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 178.82725524902344,
+            "pitch": -179.56533813476562,
+            "heading": -160.53390502929688,
+            "depth": 6.6100001335144043,
+            "altitude": 4.0174894332885742
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 179.19023132324219,
+            "pitch": -179.39933776855469,
+            "heading": -159.35708618164062,
+            "depth": 6.6100001335144043,
+            "altitude": 4.0185184478759766
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 179.0845947265625,
+            "pitch": -179.4244384765625,
+            "heading": -159.58845520019531,
+            "depth": 6.6100001335144043,
+            "altitude": 4.0195245742797852
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 179.33502197265625,
+            "pitch": -179.38993835449219,
+            "heading": -158.96305847167969,
+            "depth": 6.5900001525878906,
+            "altitude": 4.0199999809265137
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 179.26930236816406,
+            "pitch": -179.38990783691406,
+            "heading": -159.15516662597656,
+            "depth": 6.5900001525878906,
+            "altitude": 4.0199999809265137
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 179.27244567871094,
+            "pitch": -179.40597534179688,
+            "heading": -158.619384765625,
+            "depth": 6.5900001525878906,
+            "altitude": 4.0199999809265137
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 179.32759094238281,
+            "pitch": -179.39596557617188,
+            "heading": -158.78976440429688,
+            "depth": 6.5900001525878906,
+            "altitude": 4.0199999809265137
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 179.12744140625,
+            "pitch": -179.42977905273438,
+            "heading": -158.39802551269531,
+            "depth": 6.5900001525878906,
+            "altitude": 4.0199999809265137
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 178.67607116699219,
+            "pitch": -179.46965026855469,
+            "heading": -157.94551086425781,
+            "depth": 6.5900001525878906,
+            "altitude": 4.0199999809265137
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 178.84259033203125,
+            "pitch": -179.45974731445312,
+            "heading": -158.096923828125,
+            "depth": 6.5900001525878906,
+            "altitude": 4.0199999809265137
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 178.38697814941406,
+            "pitch": -179.44073486328125,
+            "heading": -157.66673278808594,
+            "depth": 6.5900001525878906,
+            "altitude": 4.0199999809265137
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 178.53263854980469,
+            "pitch": -179.45596313476562,
+            "heading": -157.80738830566406,
+            "depth": 6.5900001525878906,
+            "altitude": 4.0199999809265137
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 178.38983154296875,
+            "pitch": -179.37123107910156,
+            "heading": -157.14910888671875,
+            "depth": 6.5799999237060547,
+            "altitude": 4.0202102661132812
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.417551040649414,
+            "roll": 178.38725280761719,
+            "pitch": -179.38887023925781,
+            "heading": -157.28021240234375,
+            "depth": 6.5799999237060547,
+            "altitude": 4.0212182998657227
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.41755199432373,
+            "roll": 178.38471984863281,
+            "pitch": -179.40640258789062,
+            "heading": -157.41061401367188,
+            "depth": 6.5799999237060547,
+            "altitude": 4.022221565246582
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.41755199432373,
+            "roll": 178.3822021484375,
+            "pitch": -179.42422485351562,
+            "heading": -157.5428466796875,
+            "depth": 6.5799999237060547,
+            "altitude": 4.0232386589050293
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441600799560547,
+            "longitude": 10.41755199432373,
+            "roll": 178.26739501953125,
+            "pitch": -179.39830017089844,
+            "heading": -156.90420532226562,
+            "depth": 6.5799999237060547,
+            "altitude": 4.0242538452148438
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.41755199432373,
+            "roll": 178.33253479003906,
+            "pitch": -179.38333129882812,
+            "heading": -157.02949523925781,
+            "depth": 6.5799999237060547,
+            "altitude": 4.0252556800842285
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.41755199432373,
+            "roll": 178.03598022460938,
+            "pitch": -179.4373779296875,
+            "heading": -156.65666198730469,
+            "depth": 6.5799999237060547,
+            "altitude": 4.026273250579834
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.41755199432373,
+            "roll": 178.15615844726562,
+            "pitch": -179.41744995117188,
+            "heading": -156.78182983398438,
+            "depth": 6.5799999237060547,
+            "altitude": 4.0272746086120605
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.41755199432373,
+            "roll": 177.23175048828125,
+            "pitch": -179.44013977050781,
+            "heading": -156.1785888671875,
+            "depth": 6.5799999237060547,
+            "altitude": 4.0282950401306152
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.41755199432373,
+            "roll": 177.44113159179688,
+            "pitch": -179.44071960449219,
+            "heading": -156.30125427246094,
+            "depth": 6.5799999237060547,
+            "altitude": 4.0293164253234863
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.41755199432373,
+            "roll": 177.64633178710938,
+            "pitch": -179.44085693359375,
+            "heading": -156.42140197753906,
+            "depth": 6.570000171661377,
+            "altitude": 4.0300002098083496
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.41755199432373,
+            "roll": 177.85223388671875,
+            "pitch": -179.4405517578125,
+            "heading": -156.54188537597656,
+            "depth": 6.570000171661377,
+            "altitude": 4.0300002098083496
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.41755199432373,
+            "roll": 176.95455932617188,
+            "pitch": -179.39459228515625,
+            "heading": -155.950927734375,
+            "depth": 6.570000171661377,
+            "altitude": 4.0300002098083496
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417552947998047,
+            "roll": 177.09060668945312,
+            "pitch": -179.41987609863281,
+            "heading": -156.06681823730469,
+            "depth": 6.570000171661377,
+            "altitude": 4.0300002098083496
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417552947998047,
+            "roll": 176.74244689941406,
+            "pitch": -179.36323547363281,
+            "heading": -155.742431640625,
+            "depth": 6.570000171661377,
+            "altitude": 4.0300002098083496
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417552947998047,
+            "roll": 176.84846496582031,
+            "pitch": -179.37844848632812,
+            "heading": -155.84846496582031,
+            "depth": 6.570000171661377,
+            "altitude": 4.0300002098083496
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417552947998047,
+            "roll": 176.64401245117188,
+            "pitch": -179.36001586914062,
+            "heading": -155.55113220214844,
+            "depth": 6.570000171661377,
+            "altitude": 4.0300002098083496
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417552947998047,
+            "roll": 176.68913269042969,
+            "pitch": -179.36003112792969,
+            "heading": -155.65139770507812,
+            "depth": 6.570000171661377,
+            "altitude": 4.0300002098083496
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417552947998047,
+            "roll": 176.57473754882812,
+            "pitch": -179.39950561523438,
+            "heading": -155.37783813476562,
+            "depth": 6.570000171661377,
+            "altitude": 4.0300002098083496
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417553901672363,
+            "roll": 176.60972595214844,
+            "pitch": -179.37451171875,
+            "heading": -155.46784973144531,
+            "depth": 6.570000171661377,
+            "altitude": 4.0300002098083496
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417553901672363,
+            "roll": 176.60684204101562,
+            "pitch": -179.47676086425781,
+            "heading": -155.11285400390625,
+            "depth": 6.559999942779541,
+            "altitude": 4.0344038009643555
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417553901672363,
+            "roll": 176.58772277832031,
+            "pitch": -179.44944763183594,
+            "heading": -155.20571899414062,
+            "depth": 6.559999942779541,
+            "altitude": 4.0376815795898438
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.417553901672363,
+            "roll": 176.72477722167969,
+            "pitch": -179.49417114257812,
+            "heading": -154.88153076171875,
+            "depth": 6.559999942779541,
+            "altitude": 4.0436811447143555
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.41755485534668,
+            "roll": 176.66477966308594,
+            "pitch": -179.50418090820312,
+            "heading": -154.95652770996094,
+            "depth": 6.559999942779541,
+            "altitude": 4.0466809272766113
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.41755485534668,
+            "roll": 176.90794372558594,
+            "pitch": -179.45046997070312,
+            "heading": -154.74734497070312,
+            "depth": 6.559999942779541,
+            "altitude": 4.0496811866760254
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.41755485534668,
+            "roll": 177.77336120605469,
+            "pitch": -179.40402221679688,
+            "heading": -154.50529479980469,
+            "depth": 6.559999942779541,
+            "altitude": 4.0556807518005371
+        }
+    },
+    {
+        "sonarData": {
+            "n_pointx": 256,
+            "n_pointy": 256,
+            "n_beamidx": 256,
+            "n_quality": 256,
+            "n_intensity": 256
+        },
+        "telemetry": {
+            "latitude": 63.441604614257812,
+            "longitude": 10.41755485534668,
+            "roll": 177.40440368652344,
+            "pitch": -179.41976928710938,
+            "heading": -154.6016845703125,
+            "depth": 6.559999942779541,
+            "altitude": 4.059999942779541
+        }
+    }
+]

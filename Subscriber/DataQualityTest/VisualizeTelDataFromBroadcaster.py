@@ -1,14 +1,21 @@
 import json
 import matplotlib.pyplot as plt
 
+# Maximum number of datasets to process
+max_datasets = 150
+
+
 # Read the JSON file
-with open('tel_data_before_serialization_Nyhavna20sek.json') as file:
+name = 'Tel_data_before_serialization_Nyhavna20sek.json'
+# name = 'Tel_data_before_serialization_test_10sekithink_WithCorrectedTimeForAltitudeAndDepth.json'
+
+with open(name) as file:
     data = json.load(file)
 
 # Check if data is a list
 if isinstance(data, list):
     # Extract the telemetry data from each dictionary in the list
-    telemetry = [item['telemetry'] for item in data if 'telemetry' in item]
+    telemetry = [item['telemetry'] for item in data[:max_datasets] if 'telemetry' in item]
 else:
     # Extract the telemetry data
     telemetry = data['telemetry']
