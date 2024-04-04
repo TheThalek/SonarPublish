@@ -159,7 +159,7 @@ GstSonarTelemetry gst_sonar_telemetry_timed_interpolate(GstSonarTelemetryTimed* 
 
     ret.latitude  = linalg_interpolate_scalar(first->tel.latitude, first->position_time, second->tel.latitude, second->position_time, interpolation_time);
     ret.longitude = linalg_interpolate_scalar(first->tel.longitude, first->position_time, second->tel.longitude, second->position_time, interpolation_time);
-    ret.depth     = linalg_interpolate_scalar(first->tel.depth, first->depth_time, second->tel.depth, second->depth_time, interpolation_time);
+    ret.depth     = linalg_interpolate_scalar_with_print(first->tel.depth, first->depth_time, second->tel.depth, second->depth_time, interpolation_time);
     ret.altitude  = linalg_interpolate_scalar(first->tel.altitude, first->altitude_time, second->tel.altitude, second->altitude_time, interpolation_time);
     ret.presence  = GST_SONAR_TELEMETRY_PRESENCE_FULL;
 
