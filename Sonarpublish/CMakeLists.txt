@@ -23,6 +23,7 @@ cmake_minimum_required (VERSION 3.15)
 # endif()
 
 project(gstsonar)
+find_package(GSL REQUIRED)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2")
 
@@ -48,6 +49,7 @@ if (WIN32)
     set(CMAKE_INSTALL_PREFIX ${GSTREAMER_ROOT})
     else()
     find_package(PkgConfig REQUIRED)
+
     pkg_check_modules(GST REQUIRED gstreamer-1.0 gstreamer-base-1.0)
     include_directories(${GST_INCLUDE_DIRS})
     pkg_check_modules(EIGEN REQUIRED eigen3)
@@ -64,7 +66,7 @@ set(TARGET_LIB gstsonar)
 
 
 
-
+# For json 
 # Find the Jansson library
 pkg_check_modules(JANSSON REQUIRED jansson)
 

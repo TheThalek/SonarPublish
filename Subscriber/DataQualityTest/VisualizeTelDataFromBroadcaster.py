@@ -8,6 +8,7 @@ max_datasets = 150
 # Read the JSON file
 name = 'Tel_data_before_serialization_Nyhavna20sek.json'
 # name = 'Tel_data_before_serialization_test_10sekithink_WithCorrectedTimeForAltitudeAndDepth.json'
+# name = 'Tel_data_before_serialization_Nyhavna25sek_WithCubicSplineInterpolation.json'
 
 with open(name) as file:
     data = json.load(file)

@@ -11,6 +11,9 @@
 
 #include <stdint.h>
 
+
+
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -28,6 +31,8 @@ extern "C"
     void linalg_interpolate_euler_angles(linalg_euler_angles_t* out, const linalg_euler_angles_t* first, const linalg_euler_angles_t* second, uint64_t interpolation_time);
     float linalg_interpolate_scalar(float first, uint64_t first_time, float second, uint64_t second_time, uint64_t interpolation_time);
     float linalg_interpolate_scalar_with_print(float first, uint64_t first_time, float second, uint64_t second_time, uint64_t interpolation_time);
+    double cubicSpline_interpolate_scalar(double first, uint64_t first_time, double second, uint64_t second_time, uint64_t interpolation_time, const char* data_name);
+
 
 #ifdef __cplusplus
 }    // extern "C"

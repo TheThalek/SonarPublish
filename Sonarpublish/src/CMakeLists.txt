@@ -22,7 +22,10 @@ target_include_directories(${TARGET_LIB} PUBLIC ${CMAKE_CURRENT_LIST_DIR})
 target_link_libraries(
     ${TARGET_LIB}
     PRIVATE
-        ${EXT_LIBS})
+        ${EXT_LIBS}
+        GSL::gsl
+        GSL::gslcblas
+)
 
 add_subdirectory(common)
 add_subdirectory(eelnmeadec)

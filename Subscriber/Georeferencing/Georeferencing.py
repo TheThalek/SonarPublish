@@ -42,8 +42,12 @@ def process_message(message):
 if __name__ == "__main__":
     # filename = "sonar_telemetry_data_Nyhavna30sek.json"  # Name of your JSON file
     # filename = "sonar_telemetry_data_Nyhavna10sek_MyInterpolation.json"  # Name of your JSON file
-    filename = "sonar_telemetry_data_withBetterDepthInterpolation.json"  # Name of your JSON file
+    # filename = "sonar_telemetry_data_withBetterDepthInterpolation.json"  # Name of your JSON file
+    # filename = "sonar_telemetry_data_Nyhavna15sek_WithCubicSplineInterpolation_20ControlPoints.json"  # Name of your JSON file
+    # filename = "sonar_telemetry_data_Nyhavna15sek_WithCubicSplineInterpolation_40ControlPoints.json"  # Name of your JSON file
 
+    # filename = "sonar_telemetry_data_Nyhavna23sek_WithCubicSplineInterpolation_50ControlPoints_AndNoDataDuplicates.json"  # Name of your JSON file
+    filename = "sonar_telemetry_data.json"  # Name of your JSON file
 
     data = load_data_from_json(filename)
 
@@ -110,11 +114,12 @@ if __name__ == "__main__":
         latitude = math.radians(position.latitude)
         # print("long", longitude, "lat", latitude, "\n")
         x_ecef, y_ecef, z_ecef = llh2ecef(longitude, latitude, -depth.depth)
-        print(-depth.depth)
+        # print(-depth.depth)
         # print("x_ecef", x_ecef, "y_ecef", y_ecef, "z_ecef", z_ecef, "\n")
         robot_positions_ecef.append((x_ecef, y_ecef, z_ecef))
         latitudes.append(math.radians(position.latitude))
         longitudes.append(math.radians(position.longitude))
+        print(f"Latitude: {position.latitude:.16f}")
         depths.append(-depth.depth)  # Assuming depth is positive downwards
 
 
@@ -175,15 +180,15 @@ if __name__ == "__main__":
 
 
 
-    # # # Now plot the robot's positions in ECEF coordinates
-    # # x_data, y_data, z_data = zip(*robot_positions_ecef)
-    # # fig = plt.figure()
-    # # ax = fig.add_subplot(111, projection='3d')
-    # # ax.plot(x_data, y_data, z_data, 'r')  # Use 'plot' to connect the points with a line
-    # # ax.set_xlabel('X Label')
-    # # ax.set_ylabel('Y Label')
-    # # ax.set_zlabel('Z Label')
-    # # plt.show()
+    # # Now plot the robot's positions in ECEF coordinates
+    # x_data, y_data, z_data = zip(*robot_positions_ecef)
+    # fig = plt.figure()
+    # ax = fig.add_subplot(111, projection='3d')
+    # ax.plot(x_data, y_data, z_data, 'r')  # Use 'plot' to connect the points with a line
+    # ax.set_xlabel('X Label')
+    # ax.set_ylabel('Y Label')
+    # ax.set_zlabel('Z Label')
+    # plt.show()
 
 
 

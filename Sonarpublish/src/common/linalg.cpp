@@ -18,6 +18,13 @@
 #include <vector>
 #include <utility> // For std::pair
 
+#include <gsl/gsl_spline.h>
+
+#include <string>
+
+
+
+
 Eigen::Vector3f linalg_calculate_rotation_vector(const linalg_euler_angles_t* angles)
 {
     Eigen::Quaternionf q =
@@ -88,22 +95,42 @@ float linalg_interpolate_scalar_with_print(float first, uint64_t first_time, flo
 
 
 
-std::map<char, std::vector<std::pair<float, uint64_t>>> datapoints_and_time;
+std::map<std::string, std::vector<std::pair<double, uint64_t>>> datapoints_and_time;
 
-auto getValue = [](const std::pair<float, uint64_t>& p) { return p.first; };
-auto getTime = [](const std::pair<float, uint64_t>& p) { return p.second; };
+auto getValue = [](const std::pair<double, uint64_t>& p) { return p.first; };
+auto getTime = [](const std::pair<double, uint64_t>& p) { return p.second; };
 
-void appendNewDataToDatapoints(float data, uint64_t data_time, char data_name, int maxNumPoints = 50) {
+void appendNewDataToDatapoints(double data, uint64_t data_time, std::string data_name, int maxNumPoints = 50) {
     auto& dataPoints = datapoints_and_time[data_name];
-    dataPoints.push_back(std::make_pair(data, data_time));
-    
-    while (dataPoints.size() > maxNumPoints) {
-        dataPoints.erase(dataPoints.begin());
+    printf("\n", "\n");
+    printf("Data name: %s\n", data_name.c_str());
+    printf("Total data points: %lu\n", dataPoints.size());
+
+    if (!dataPoints.empty() && dataPoints.back().second == data_time ) {
+        // Found a duplicate time, decide how to handle this, e.g., average
+        dataPoints.back().first = (dataPoints.back().first + data) / 2.0;
+        printf("Found duplicate data at time: %llu\n", data_time);
+        printf("Data time: %llu\n", data_time);
+        printf("Data points back: %llu\n", dataPoints.back().second);
+    }  
+    else {
+        // Append new data point
+        printf("No duplicate data found\n");
+        dataPoints.push_back(std::make_pair(data, data_time));
+        printf("Data time: %llu\n", data_time);
+        printf("Data points back: %llu\n", dataPoints.back().second);
+
+        // Ensure dataPoints doesn't exceed maxNumPoints by removing the oldest
+        while (dataPoints.size() > maxNumPoints) {
+            dataPoints.erase(dataPoints.begin());
+        }
     }
 }
 
-float cubicSpline_interpolate_scalar(float first, uint64_t first_time, float second, uint64_t second_time, uint64_t interpolation_time, char data_name) {
-    int maxNumOfControlPoints = 50;
+double cubicSpline_interpolate_scalar(double first, uint64_t first_time, double second, uint64_t second_time, uint64_t interpolation_time, const char* data_name) {
+    std::string dataNameStr(data_name);
+    
+    int maxNumOfControlPoints = 100;
     
     assert((interpolation_time >= first_time) && (interpolation_time <= second_time));
 
@@ -113,68 +140,51 @@ float cubicSpline_interpolate_scalar(float first, uint64_t first_time, float sec
     }   
     appendNewDataToDatapoints(second, second_time, data_name, maxNumOfControlPoints); 
 
-    // Extract data from datapoints_and_time, and prepare it for GSL
-    const auto& all_data = datapoints_and_time[data_name];
-    std::vector<double> data_points, data_time;
-    for (const auto& pair : all_data) {
-        data_points.push_back(static_cast<double>(getTime(pair)));
-        data_time.push_back(static_cast<double>(getValue(pair)));
+
+    if (datapoints_and_time[data_name].size() < 4) {
+        // Not enough data to perform cubic spline interpolation, instead performing Linear interpolation
+        return linalg_interpolate_scalar(first, first_time, second, second_time, interpolation_time);
+    }
+    else { // Enough data to perform cubic spline interpolation
+        // Extract data from datapoints_and_time, and prepare it for GSL
+        const auto& all_data = datapoints_and_time[data_name];
+        std::vector<double> data_points, data_time;
+        for (const auto& pair : all_data) {
+            data_points.push_back(static_cast<double>(getValue(pair)));
+            data_time.push_back(static_cast<double>(getTime(pair)));
+        }
+
+        // Print all content of data_time
+        // printf("Data Time:\n");
+        // for (const auto& time : data_time) {
+        //     printf("%f\n", time);
+        // }
+
+        // Cubic Spline Interpolation
+        // GSL setup for cubic spline interpolation
+        gsl_interp_accel *acc = gsl_interp_accel_alloc();
+        gsl_spline *spline = gsl_spline_alloc(gsl_interp_cspline, data_time.size());
+
+        gsl_spline_init(spline, data_time.data(), data_points.data(), data_time.size());
+
+        // Perform the interpolation for the given interpolation_time.
+        // Ensure interpolation_time is within the bounds of your data.
+        double interpolated_data = gsl_spline_eval(spline, static_cast<double>(interpolation_time), acc);
+
+        // Free GSL resources
+        gsl_spline_free(spline);
+        gsl_interp_accel_free(acc);
+
+        if (std::string(data_name) == "latitude") {
+            printf("First: %.16f\n", first);
+            printf("Second: %.16f\n", second);
+            printf("Interpolated Data: %.16f\n", interpolated_data);
+        }
+
+        return interpolated_data;
     }
 
-    // Cubic Spline Interpolation
-    // GSL setup for cubic spline interpolation
-    gsl_interp_accel *acc = gsl_interp_accel_alloc();
-    gsl_spline *spline = gsl_spline_alloc(gsl_interp_cspline, data_time.size());
-
-    gsl_spline_init(spline, data_time.data(), data_points.data(), data_time.size());
-
-    // Perform the interpolation for the given interpolation_time.
-    // Ensure interpolation_time is within the bounds of your data.
-    double interpolated_data = gsl_spline_eval(spline, static_cast<double>(interpolation_time), acc);
-
-    // Free GSL resources
-    gsl_spline_free(spline);
-    gsl_interp_accel_free(acc);
-
-    return interpolated_data;
 }
 
 
-
-
-// void appendNewDataToDataMatrix(double data, uint64_t data_time, char data_name) {
-//     Eigen::MatrixXd& matrix = dataMatrices[data_name]; // Using MatrixXd (double) instead of MatrixXf (float) to avoid precision loss
-    
-//     // Convert uint64_t to double (no significant precision loss expected).
-//     double timeAsDouble = static_cast<double>(data_time);
-    
-//     // If this is the first data for data_name, initialize the matrix.
-//     if (matrix.size() == 0) {
-//         matrix.resize(2, 1); // 2 rows for second and second_time, 1 column for the data pair.
-//         matrix(0, 0) = data;
-//         matrix(1, 0) = timeAsDouble;
-//     } else {
-//         // Append a new column for the new data pair.
-//         Eigen::MatrixXd newColumn(2, 1);
-//         newColumn(0, 0) = data;
-//         newColumn(1, 0) = timeAsDouble;
-//         matrix.conservativeResize(Eigen::NoChange, matrix.cols() + 1);
-//         matrix.col(matrix.cols() - 1) = newColumn;
-// }
-
-
-// float cubicSpline_interpolate_scalar(float first, uint64_t first_time, float second, uint64_t second_time, uint64_t interpolation_time, char data_name) {
-//     assert((interpolation_time >= first_time) && (interpolation_time <= second_time));
-
-//     // Save new data to list, if first time function is called save both first and second data
-//     if (dataMatrices[data_name].cols() == 0) {
-//         appendNewDataToDataMatrix(first, first_time, data_name);
-//     }   
-//     appendNewDataToDataMatrix(second, second_time, data_name); 
-
-//     // Eigen::Spline<float, 1> spline = Eigen::SplineFitting<Eigen::Spline<float, 1>>::Interpolate(y_values, 3);
-//     // interpolated_value = spline(interpolation_time);
-//     float interpolated_value = 0.0;
-//     return interpolated_value;
-// }
 
