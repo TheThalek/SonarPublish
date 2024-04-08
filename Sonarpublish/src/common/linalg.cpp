@@ -100,37 +100,40 @@ std::map<std::string, std::vector<std::pair<double, uint64_t>>> datapoints_and_t
 auto getValue = [](const std::pair<double, uint64_t>& p) { return p.first; };
 auto getTime = [](const std::pair<double, uint64_t>& p) { return p.second; };
 
-void appendNewDataToDatapoints(double data, uint64_t data_time, std::string data_name, int maxNumPoints = 50) {
+void appendNewDataToDatapoints(double data, uint64_t data_time, std::string data_name, int maxNumPoints) {
     auto& dataPoints = datapoints_and_time[data_name];
-    printf("\n", "\n");
-    printf("Data name: %s\n", data_name.c_str());
-    printf("Total data points: %lu\n", dataPoints.size());
 
-    if (!dataPoints.empty() && dataPoints.back().second == data_time ) {
-        // Found a duplicate time, decide how to handle this, e.g., average
-        dataPoints.back().first = (dataPoints.back().first + data) / 2.0;
-        printf("Found duplicate data at time: %llu\n", data_time);
-        printf("Data time: %llu\n", data_time);
-        printf("Data points back: %llu\n", dataPoints.back().second);
-    }  
-    else {
-        // Append new data point
-        printf("No duplicate data found\n");
-        dataPoints.push_back(std::make_pair(data, data_time));
-        printf("Data time: %llu\n", data_time);
-        printf("Data points back: %llu\n", dataPoints.back().second);
+    // Check if there are any data points already saved for this data_name
+    if (!dataPoints.empty()) {
+        // If the incoming timestamp is the same as the last saved data point's timestamp
+        if (dataPoints.back().second == data_time) {
+            // If the incoming data's value is different from the last saved data point's value, consider it a data mismatch
+            if (data != dataPoints.back().first) {
+                // printf("Data mismatch\n");
+            }
+            // If the value is the same, it's a duplicate in time and value, so we do nothing
+        } else {
+            // If the incoming timestamp is different from the last saved timestamp
+            // We don't check for the value here because we want to save the data point anyway if the timestamp is new
+            dataPoints.push_back(std::make_pair(data, data_time));
 
-        // Ensure dataPoints doesn't exceed maxNumPoints by removing the oldest
-        while (dataPoints.size() > maxNumPoints) {
-            dataPoints.erase(dataPoints.begin());
+            // Ensure the size of dataPoints doesn't exceed maxNumPoints by removing the oldest entries
+            while (dataPoints.size() > maxNumPoints) {
+                dataPoints.erase(dataPoints.begin());
+            }
         }
+    } else {
+        // If there are no data points for this data_name, add the new data point regardless of its value
+        dataPoints.push_back(std::make_pair(data, data_time));
     }
 }
+
+
 
 double cubicSpline_interpolate_scalar(double first, uint64_t first_time, double second, uint64_t second_time, uint64_t interpolation_time, const char* data_name) {
     std::string dataNameStr(data_name);
     
-    int maxNumOfControlPoints = 100;
+    int maxNumOfControlPoints = 30;
     
     assert((interpolation_time >= first_time) && (interpolation_time <= second_time));
 
@@ -154,19 +157,22 @@ double cubicSpline_interpolate_scalar(double first, uint64_t first_time, double 
             data_time.push_back(static_cast<double>(getTime(pair)));
         }
 
-        // Print all content of data_time
-        // printf("Data Time:\n");
-        // for (const auto& time : data_time) {
-        //     printf("%f\n", time);
-        // }
-
         // Cubic Spline Interpolation
         // GSL setup for cubic spline interpolation
         gsl_interp_accel *acc = gsl_interp_accel_alloc();
         gsl_spline *spline = gsl_spline_alloc(gsl_interp_cspline, data_time.size());
+        // Print the content of data_points
+        for (int i = 0; i < data_points.size(); i++) {
+            // printf("Data Point %d: %.18f\n", i, data_points[i]);
+        }
 
+        for (int i = 0; i < data_time.size(); i++) {
+            // printf("Data Time %d: %llu\n", i, static_cast<uint64_t>(data_time[i]));
+        }
         gsl_spline_init(spline, data_time.data(), data_points.data(), data_time.size());
 
+        // printf("Interpolation Time: %llu\n", interpolation_time);
+        
         // Perform the interpolation for the given interpolation_time.
         // Ensure interpolation_time is within the bounds of your data.
         double interpolated_data = gsl_spline_eval(spline, static_cast<double>(interpolation_time), acc);
@@ -175,15 +181,9 @@ double cubicSpline_interpolate_scalar(double first, uint64_t first_time, double 
         gsl_spline_free(spline);
         gsl_interp_accel_free(acc);
 
-        if (std::string(data_name) == "latitude") {
-            printf("First: %.16f\n", first);
-            printf("Second: %.16f\n", second);
-            printf("Interpolated Data: %.16f\n", interpolated_data);
-        }
-
         return interpolated_data;
-    }
 
+    }
 }
 
 

@@ -308,7 +308,7 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
 
 
             // Save data before serialization
-            saveDataToFile("Tel_data_before_serialization.json", &Ungeoref_And_Telemetry);
+            // saveDataToFile("Tel_data_before_serialization.json", &Ungeoref_And_Telemetry);
 
             // Serialize the Ungeoref_And_Telemetry message into a binary format and publish the message
             size_t packed_size_data_UnRefAndTel = sonar_data__ungeoref__and__telemetry__get_packed_size(&Ungeoref_And_Telemetry); // serialize

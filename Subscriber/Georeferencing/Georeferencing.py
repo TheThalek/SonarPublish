@@ -199,7 +199,7 @@ if __name__ == "__main__":
     # Now plot the latitude, longitude, and depth data with formatted y-axis
     # Latitude over time
     plt.figure(figsize=(10, 4))
-    plt.plot(latitudes, label='Latitude')
+    plt.plot(latitudes, marker='x', linestyle='-', label='Latitude')  # Add marker specification here
     plt.xlabel('Time')
     plt.ylabel('Latitude (radians)')
     plt.gca().yaxis.set_major_formatter(FuncFormatter(format_func))  # Format y-axis
@@ -209,7 +209,7 @@ if __name__ == "__main__":
 
     # Longitude over time
     plt.figure(figsize=(10, 4))
-    plt.plot(longitudes, label='Longitude')
+    plt.plot(longitudes, marker='x', linestyle='-', label='Longitude')  # Add marker specification here
     plt.xlabel('Time')
     plt.ylabel('Longitude (radians)')
     plt.gca().yaxis.set_major_formatter(FuncFormatter(format_func))  # Format y-axis
@@ -217,9 +217,10 @@ if __name__ == "__main__":
     plt.legend()
     plt.show()
 
+
     # Depth over time
     plt.figure(figsize=(10, 4))
-    plt.plot(depths, label='Depth')
+    plt.plot(depths, marker='x', linestyle='-', label='Depth')  # Add marker specification here
     plt.xlabel('Time')
     plt.ylabel('Depth (meters)')
     plt.gca().yaxis.set_major_formatter(FuncFormatter(format_func))  # Format y-axis
