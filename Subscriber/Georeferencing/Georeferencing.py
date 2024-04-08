@@ -54,7 +54,7 @@ if __name__ == "__main__":
     # Lists for saving data from loop 
     all_R_BN = []
     all_T_N = []
-    all_P_N = []  # This will now accumulate P_N points from all scans
+    all_P_N = []  # This will now accumulate P_N points from all scans 
     # R_BN_first = 0
     # R_BN_second = 0
     robot_positions_ecef = []

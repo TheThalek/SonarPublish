@@ -9,23 +9,24 @@ package sonarData;  // Optional: Replace with your desired package name
 
 
 
-
-// --------------------- Ungeoreferenced point cloud and telemetry data ---------------------
-message Ungeoref_And_Telemetry{
-    sonarData sonar = 1;
-    telemetryData_position position = 2;
-    telemetryData_pose pose = 3;
-    telemetryData_heading heading = 4;
-    telemetryData_depth depth = 5;
-    telemetryData_altitude altitude = 6;
-}
-
-message sonarData {
+// --------------------- Georeferences point cloud data ---------------------
+message Georef{
     repeated float pointX = 1;
     repeated float pointY = 2;
-    repeated int32 beamIdx = 3;
-    repeated uint32 quality = 4;
-    repeated float intensity = 5;
+    repeated float pointZ = 3; 
+    repeated int32 beamIdx = 4;
+    repeated uint32 quality = 5;
+    repeated float intensity = 6;
+}
+
+
+// --------------------- telemetry data ---------------------
+message Telemetry{
+    telemetryData_position position = 1;
+    telemetryData_pose pose = 2;
+    telemetryData_heading heading = 3;
+    telemetryData_depth depth = 4;
+    telemetryData_altitude altitude = 5;
 }
 
 message telemetryData_position {
@@ -55,6 +56,15 @@ message telemetryData_altitude {
     int32 altitude_timestep = 2;
 }
 
+
+// --------------------- Ungeoreferenced point cloud data ---------------------
+message Ungeoref_And_Telemetry{
+    repeated float pointX = 1;
+    repeated float pointY = 2;
+    repeated int32 beamIdx = 3;
+    repeated uint32 quality = 4;
+    repeated float intensity = 5;
+}
 
 
 // --------------- Poses before interpolation ("raw poses") for testing --------------------------

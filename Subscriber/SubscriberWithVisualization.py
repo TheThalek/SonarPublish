@@ -18,7 +18,6 @@ def init_window():
     return vis
 
 
-
 def process_sonar_data(data):
     global sonar_data_queue
     points = []  # Prepare to store processed points directly
@@ -70,6 +69,7 @@ def data_receiver():
 
             if Ungeoref_And_Telemetry.HasField("sonar"):
                 process_sonar_data(Ungeoref_And_Telemetry.sonar)
+
 
     except KeyboardInterrupt:
         running = False

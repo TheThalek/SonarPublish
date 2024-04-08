@@ -84,7 +84,7 @@ typedef struct
 #define GST_SONAR_TELEMETRY_PRESENCE_N_FIELDS  (7)
 #define GST_SONAR_TELEMETRY_PRESENCE_FULL      ((1 << GST_SONAR_TELEMETRY_PRESENCE_N_FIELDS) - 1)
 
-typedef float GstSonarTelemetryField;
+typedef double GstSonarTelemetryField;
 
 // contains telemetry data. which data is specified in the presence field
 typedef struct

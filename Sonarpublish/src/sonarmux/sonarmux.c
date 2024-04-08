@@ -214,11 +214,11 @@ static GstFlowReturn gst_sonarmux_aggregate(GstAggregator* aggregator, gboolean 
             if (gst_sonar_telemetry_has_full_presence(&sonarmux->pretel.tel))
             {
                 const GstSonarTelemetry* tel = &sonarmux->posttel.tel;
-                GST_LOG_OBJECT(sonarmux, "%lu:\tposttel: pitch=%f, roll=%f, yaw=%f, latitude=%f, longitude=%f, depth=%f, altitude=%f, presence: %#02x", telbuf->pts, tel->pitch, tel->roll, tel->yaw,
+                GST_LOG_OBJECT(sonarmux, "%lu:\tposttel: pitch=%f, roll=%f, yaw=%f, latitude=%d, longitude=%d, depth=%d, altitude=%d, presence: %#02x", telbuf->pts, tel->pitch, tel->roll, tel->yaw,
                     tel->latitude, tel->longitude, tel->depth, tel->altitude, tel->presence);
 
                 tel = &sonarmux->pretel.tel;
-                GST_LOG_OBJECT(sonarmux, "%lu:\tpretel: pitch=%f, roll=%f, yaw=%f, latitude=%f, longitude=%f, depth=%f, altitude=%f, presence: %#02x", telbuf->pts, tel->pitch, tel->roll, tel->yaw,
+                GST_LOG_OBJECT(sonarmux, "%lu:\tpretel: pitch=%f, roll=%f, yaw=%f, latitude=%d, longitude=%d, depth=%d, altitude=%d, presence: %#02x", telbuf->pts, tel->pitch, tel->roll, tel->yaw,
                     tel->latitude, tel->longitude, tel->depth, tel->altitude, tel->presence);
 
                 // prepare and release sonar buffer
