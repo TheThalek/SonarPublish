@@ -55,31 +55,15 @@ message telemetryData_altitude {
 }
 
 
+
+
 // --------------------- Ungeoreferenced point cloud data ---------------------
-message Ungeoref_And_Telemetry{
+message Ungeoref{
     repeated float pointX = 1;
     repeated float pointY = 2;
     repeated int32 beamIdx = 3;
     repeated uint32 quality = 4;
     repeated float intensity = 5;
-}
-
-
-// --------------- Poses before interpolation ("raw poses") for testing --------------------------
-message TestData_RawPoses {
-    raw_rollAndpitch raw_rollAndpitch = 1;
-    raw_heading raw_heading = 2; 
-}
-
-message raw_rollAndpitch {
-    float raw_roll = 1;
-    float raw_pitch = 2;
-    int32 raw_pose_timestep = 3;
-}
-
-message raw_heading {
-    float raw_heading = 1;
-    int32 raw_heading_timestep = 2;
 }
 
 

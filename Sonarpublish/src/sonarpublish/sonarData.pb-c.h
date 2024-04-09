@@ -15,16 +15,14 @@ PROTOBUF_C__BEGIN_DECLS
 #endif
 
 
-typedef struct _SonarData__UngeorefAndTelemetry SonarData__UngeorefAndTelemetry;
-typedef struct _SonarData__SonarData SonarData__SonarData;
+typedef struct _SonarData__Georef SonarData__Georef;
+typedef struct _SonarData__Telemetry SonarData__Telemetry;
 typedef struct _SonarData__TelemetryDataPosition SonarData__TelemetryDataPosition;
 typedef struct _SonarData__TelemetryDataPose SonarData__TelemetryDataPose;
 typedef struct _SonarData__TelemetryDataHeading SonarData__TelemetryDataHeading;
 typedef struct _SonarData__TelemetryDataDepth SonarData__TelemetryDataDepth;
 typedef struct _SonarData__TelemetryDataAltitude SonarData__TelemetryDataAltitude;
-typedef struct _SonarData__TestDataRawPoses SonarData__TestDataRawPoses;
-typedef struct _SonarData__RawRollAndpitch SonarData__RawRollAndpitch;
-typedef struct _SonarData__RawHeading SonarData__RawHeading;
+typedef struct _SonarData__Ungeoref SonarData__Ungeoref;
 
 
 /* --- enums --- */
@@ -33,40 +31,52 @@ typedef struct _SonarData__RawHeading SonarData__RawHeading;
 /* --- messages --- */
 
 /*
- * --------------------- Ungeoreferenced point cloud and telemetry data ---------------------
+ * Georeferenced point cloud data with rotation matrix
  */
-struct  _SonarData__UngeorefAndTelemetry
+struct  _SonarData__Georef
 {
   ProtobufCMessage base;
-  SonarData__SonarData *sonar;
+  /*
+   * X coordinates of points
+   */
+  size_t n_pointx;
+  float *pointx;
+  /*
+   * Y coordinates of points
+   */
+  size_t n_pointy;
+  float *pointy;
+  /*
+   * Z coordinates of points
+   */
+  size_t n_pointz;
+  float *pointz;
+  /*
+   * Rotation matrix (flattened 3x3 matrix)
+   */
+  size_t n_rotationmatrix;
+  float *rotationmatrix;
+};
+#define SONAR_DATA__GEOREF__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&sonar_data__georef__descriptor) \
+    , 0,NULL, 0,NULL, 0,NULL, 0,NULL }
+
+
+/*
+ * --------------------- telemetry data ---------------------
+ */
+struct  _SonarData__Telemetry
+{
+  ProtobufCMessage base;
   SonarData__TelemetryDataPosition *position;
   SonarData__TelemetryDataPose *pose;
   SonarData__TelemetryDataHeading *heading;
   SonarData__TelemetryDataDepth *depth;
   SonarData__TelemetryDataAltitude *altitude;
 };
-#define SONAR_DATA__UNGEOREF__AND__TELEMETRY__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&sonar_data__ungeoref__and__telemetry__descriptor) \
-    , NULL, NULL, NULL, NULL, NULL, NULL }
-
-
-struct  _SonarData__SonarData
-{
-  ProtobufCMessage base;
-  size_t n_pointx;
-  float *pointx;
-  size_t n_pointy;
-  float *pointy;
-  size_t n_beamidx;
-  int32_t *beamidx;
-  size_t n_quality;
-  uint32_t *quality;
-  size_t n_intensity;
-  float *intensity;
-};
-#define SONAR_DATA__SONAR_DATA__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&sonar_data__sonar_data__descriptor) \
-    , 0,NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL }
+#define SONAR_DATA__TELEMETRY__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&sonar_data__telemetry__descriptor) \
+    , NULL, NULL, NULL, NULL, NULL }
 
 
 struct  _SonarData__TelemetryDataPosition
@@ -127,79 +137,64 @@ struct  _SonarData__TelemetryDataAltitude
 
 
 /*
- * --------------- Poses before interpolation ("raw poses") for testing --------------------------
+ * --------------------- Ungeoreferenced point cloud data ---------------------
  */
-struct  _SonarData__TestDataRawPoses
+struct  _SonarData__Ungeoref
 {
   ProtobufCMessage base;
-  SonarData__RawRollAndpitch *raw_rollandpitch;
-  SonarData__RawHeading *raw_heading;
+  size_t n_pointx;
+  float *pointx;
+  size_t n_pointy;
+  float *pointy;
+  size_t n_beamidx;
+  int32_t *beamidx;
+  size_t n_quality;
+  uint32_t *quality;
+  size_t n_intensity;
+  float *intensity;
 };
-#define SONAR_DATA__TEST_DATA__RAW_POSES__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&sonar_data__test_data__raw_poses__descriptor) \
-    , NULL, NULL }
+#define SONAR_DATA__UNGEOREF__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&sonar_data__ungeoref__descriptor) \
+    , 0,NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL }
 
 
-struct  _SonarData__RawRollAndpitch
-{
-  ProtobufCMessage base;
-  float raw_roll;
-  float raw_pitch;
-  int32_t raw_pose_timestep;
-};
-#define SONAR_DATA__RAW_ROLL_ANDPITCH__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&sonar_data__raw_roll_andpitch__descriptor) \
-    , 0, 0, 0 }
-
-
-struct  _SonarData__RawHeading
-{
-  ProtobufCMessage base;
-  float raw_heading;
-  int32_t raw_heading_timestep;
-};
-#define SONAR_DATA__RAW_HEADING__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&sonar_data__raw_heading__descriptor) \
-    , 0, 0 }
-
-
-/* SonarData__UngeorefAndTelemetry methods */
-void   sonar_data__ungeoref__and__telemetry__init
-                     (SonarData__UngeorefAndTelemetry         *message);
-size_t sonar_data__ungeoref__and__telemetry__get_packed_size
-                     (const SonarData__UngeorefAndTelemetry   *message);
-size_t sonar_data__ungeoref__and__telemetry__pack
-                     (const SonarData__UngeorefAndTelemetry   *message,
+/* SonarData__Georef methods */
+void   sonar_data__georef__init
+                     (SonarData__Georef         *message);
+size_t sonar_data__georef__get_packed_size
+                     (const SonarData__Georef   *message);
+size_t sonar_data__georef__pack
+                     (const SonarData__Georef   *message,
                       uint8_t             *out);
-size_t sonar_data__ungeoref__and__telemetry__pack_to_buffer
-                     (const SonarData__UngeorefAndTelemetry   *message,
+size_t sonar_data__georef__pack_to_buffer
+                     (const SonarData__Georef   *message,
                       ProtobufCBuffer     *buffer);
-SonarData__UngeorefAndTelemetry *
-       sonar_data__ungeoref__and__telemetry__unpack
+SonarData__Georef *
+       sonar_data__georef__unpack
                      (ProtobufCAllocator  *allocator,
                       size_t               len,
                       const uint8_t       *data);
-void   sonar_data__ungeoref__and__telemetry__free_unpacked
-                     (SonarData__UngeorefAndTelemetry *message,
+void   sonar_data__georef__free_unpacked
+                     (SonarData__Georef *message,
                       ProtobufCAllocator *allocator);
-/* SonarData__SonarData methods */
-void   sonar_data__sonar_data__init
-                     (SonarData__SonarData         *message);
-size_t sonar_data__sonar_data__get_packed_size
-                     (const SonarData__SonarData   *message);
-size_t sonar_data__sonar_data__pack
-                     (const SonarData__SonarData   *message,
+/* SonarData__Telemetry methods */
+void   sonar_data__telemetry__init
+                     (SonarData__Telemetry         *message);
+size_t sonar_data__telemetry__get_packed_size
+                     (const SonarData__Telemetry   *message);
+size_t sonar_data__telemetry__pack
+                     (const SonarData__Telemetry   *message,
                       uint8_t             *out);
-size_t sonar_data__sonar_data__pack_to_buffer
-                     (const SonarData__SonarData   *message,
+size_t sonar_data__telemetry__pack_to_buffer
+                     (const SonarData__Telemetry   *message,
                       ProtobufCBuffer     *buffer);
-SonarData__SonarData *
-       sonar_data__sonar_data__unpack
+SonarData__Telemetry *
+       sonar_data__telemetry__unpack
                      (ProtobufCAllocator  *allocator,
                       size_t               len,
                       const uint8_t       *data);
-void   sonar_data__sonar_data__free_unpacked
-                     (SonarData__SonarData *message,
+void   sonar_data__telemetry__free_unpacked
+                     (SonarData__Telemetry *message,
                       ProtobufCAllocator *allocator);
 /* SonarData__TelemetryDataPosition methods */
 void   sonar_data__telemetry_data_position__init
@@ -296,70 +291,32 @@ SonarData__TelemetryDataAltitude *
 void   sonar_data__telemetry_data_altitude__free_unpacked
                      (SonarData__TelemetryDataAltitude *message,
                       ProtobufCAllocator *allocator);
-/* SonarData__TestDataRawPoses methods */
-void   sonar_data__test_data__raw_poses__init
-                     (SonarData__TestDataRawPoses         *message);
-size_t sonar_data__test_data__raw_poses__get_packed_size
-                     (const SonarData__TestDataRawPoses   *message);
-size_t sonar_data__test_data__raw_poses__pack
-                     (const SonarData__TestDataRawPoses   *message,
+/* SonarData__Ungeoref methods */
+void   sonar_data__ungeoref__init
+                     (SonarData__Ungeoref         *message);
+size_t sonar_data__ungeoref__get_packed_size
+                     (const SonarData__Ungeoref   *message);
+size_t sonar_data__ungeoref__pack
+                     (const SonarData__Ungeoref   *message,
                       uint8_t             *out);
-size_t sonar_data__test_data__raw_poses__pack_to_buffer
-                     (const SonarData__TestDataRawPoses   *message,
+size_t sonar_data__ungeoref__pack_to_buffer
+                     (const SonarData__Ungeoref   *message,
                       ProtobufCBuffer     *buffer);
-SonarData__TestDataRawPoses *
-       sonar_data__test_data__raw_poses__unpack
+SonarData__Ungeoref *
+       sonar_data__ungeoref__unpack
                      (ProtobufCAllocator  *allocator,
                       size_t               len,
                       const uint8_t       *data);
-void   sonar_data__test_data__raw_poses__free_unpacked
-                     (SonarData__TestDataRawPoses *message,
-                      ProtobufCAllocator *allocator);
-/* SonarData__RawRollAndpitch methods */
-void   sonar_data__raw_roll_andpitch__init
-                     (SonarData__RawRollAndpitch         *message);
-size_t sonar_data__raw_roll_andpitch__get_packed_size
-                     (const SonarData__RawRollAndpitch   *message);
-size_t sonar_data__raw_roll_andpitch__pack
-                     (const SonarData__RawRollAndpitch   *message,
-                      uint8_t             *out);
-size_t sonar_data__raw_roll_andpitch__pack_to_buffer
-                     (const SonarData__RawRollAndpitch   *message,
-                      ProtobufCBuffer     *buffer);
-SonarData__RawRollAndpitch *
-       sonar_data__raw_roll_andpitch__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data);
-void   sonar_data__raw_roll_andpitch__free_unpacked
-                     (SonarData__RawRollAndpitch *message,
-                      ProtobufCAllocator *allocator);
-/* SonarData__RawHeading methods */
-void   sonar_data__raw_heading__init
-                     (SonarData__RawHeading         *message);
-size_t sonar_data__raw_heading__get_packed_size
-                     (const SonarData__RawHeading   *message);
-size_t sonar_data__raw_heading__pack
-                     (const SonarData__RawHeading   *message,
-                      uint8_t             *out);
-size_t sonar_data__raw_heading__pack_to_buffer
-                     (const SonarData__RawHeading   *message,
-                      ProtobufCBuffer     *buffer);
-SonarData__RawHeading *
-       sonar_data__raw_heading__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data);
-void   sonar_data__raw_heading__free_unpacked
-                     (SonarData__RawHeading *message,
+void   sonar_data__ungeoref__free_unpacked
+                     (SonarData__Ungeoref *message,
                       ProtobufCAllocator *allocator);
 /* --- per-message closures --- */
 
-typedef void (*SonarData__UngeorefAndTelemetry_Closure)
-                 (const SonarData__UngeorefAndTelemetry *message,
+typedef void (*SonarData__Georef_Closure)
+                 (const SonarData__Georef *message,
                   void *closure_data);
-typedef void (*SonarData__SonarData_Closure)
-                 (const SonarData__SonarData *message,
+typedef void (*SonarData__Telemetry_Closure)
+                 (const SonarData__Telemetry *message,
                   void *closure_data);
 typedef void (*SonarData__TelemetryDataPosition_Closure)
                  (const SonarData__TelemetryDataPosition *message,
@@ -376,14 +333,8 @@ typedef void (*SonarData__TelemetryDataDepth_Closure)
 typedef void (*SonarData__TelemetryDataAltitude_Closure)
                  (const SonarData__TelemetryDataAltitude *message,
                   void *closure_data);
-typedef void (*SonarData__TestDataRawPoses_Closure)
-                 (const SonarData__TestDataRawPoses *message,
-                  void *closure_data);
-typedef void (*SonarData__RawRollAndpitch_Closure)
-                 (const SonarData__RawRollAndpitch *message,
-                  void *closure_data);
-typedef void (*SonarData__RawHeading_Closure)
-                 (const SonarData__RawHeading *message,
+typedef void (*SonarData__Ungeoref_Closure)
+                 (const SonarData__Ungeoref *message,
                   void *closure_data);
 
 /* --- services --- */
@@ -391,16 +342,14 @@ typedef void (*SonarData__RawHeading_Closure)
 
 /* --- descriptors --- */
 
-extern const ProtobufCMessageDescriptor sonar_data__ungeoref__and__telemetry__descriptor;
-extern const ProtobufCMessageDescriptor sonar_data__sonar_data__descriptor;
+extern const ProtobufCMessageDescriptor sonar_data__georef__descriptor;
+extern const ProtobufCMessageDescriptor sonar_data__telemetry__descriptor;
 extern const ProtobufCMessageDescriptor sonar_data__telemetry_data_position__descriptor;
 extern const ProtobufCMessageDescriptor sonar_data__telemetry_data_pose__descriptor;
 extern const ProtobufCMessageDescriptor sonar_data__telemetry_data_heading__descriptor;
 extern const ProtobufCMessageDescriptor sonar_data__telemetry_data_depth__descriptor;
 extern const ProtobufCMessageDescriptor sonar_data__telemetry_data_altitude__descriptor;
-extern const ProtobufCMessageDescriptor sonar_data__test_data__raw_poses__descriptor;
-extern const ProtobufCMessageDescriptor sonar_data__raw_roll_andpitch__descriptor;
-extern const ProtobufCMessageDescriptor sonar_data__raw_heading__descriptor;
+extern const ProtobufCMessageDescriptor sonar_data__ungeoref__descriptor;
 
 PROTOBUF_C__END_DECLS
 

@@ -3,23 +3,46 @@ import sonarData_pb2
 import time 
 
 # Function to process incoming data
-def process_sonar_data(data):
+def process_georef_data(data):
     # Access the data fields (which are repeated fields)
-    pointX_list = data.pointX
-    pointY_list = data.pointY
-    beamIdx_list = data.beamIdx
-    quality_list = data.quality
-    intensity_list = data.intensity
+    Georef_pointX = data.pointX
+    Georef_pointY = data.pointY
+    Georef_pointZ = data.pointZ
+    Georef_rotationMatrix = data.rotationMatrix
+
 
     # Print the received sonar data
-    for i in range(len(pointX_list)):
-        pointX = pointX_list[i]
-        pointY = pointY_list[i]
-        beamIdx = beamIdx_list[i]
-        quality = quality_list[i]
-        intensity = intensity_list[i]
+    for i in range(len(Georef_pointX)):
+        pointX = Georef_pointX[i]
+        pointY = Georef_pointY[i]
+        pointZ = Georef_pointZ[i]
 
-        print(f"Received sonar data: pointX={pointX}, pointY={pointY}, beamIdx={beamIdx}, quality={quality}, intensity={intensity}")
+        print(f"Received Georeferenced Point Cloud: PointX={pointX}, PointY={pointY}, PointZ={pointZ}")
+
+    for i in range(3):
+        for j in range(3):
+            print(f"Received Georeferenced Rotation Matrix: {Georef_rotationMatrix[i * 3 + j]}")
+
+
+
+# Function to process incoming data
+def process_ungeoref_data(data):
+    Ungeoref_pointX = data.pointX
+    Ungeoref_pointY = data.pointY
+    Ungeoref_beamIdx = data.beamIdx
+    Ungeoref_quality = data.quality
+    Ungeoref_intensity = data.intensity
+
+    # Print the received sonar data
+    for i in range(len(Ungeoref_pointX)):
+        pointX = Ungeoref_pointX[i]
+        pointY = Ungeoref_pointY[i]
+        beamIdx = Ungeoref_beamIdx[i]
+        quality = Ungeoref_quality[i]
+        intensity = Ungeoref_intensity[i]
+
+        print(f"Received Ungeoreferenced Point Cloud: PointX={pointX}, PointY={pointY}, BeamIdx={beamIdx}, Quality={quality}, Intensity={intensity}")
+
 
 def process_telemetry_position(data):
     latitude = data.latitude
@@ -53,61 +76,53 @@ def process_telemetry_altitude(data):
 
     print(f"Received telemetry altitude: Altitude={altitude}, Altitude Timestep={altitude_timestep}")
 
-def process_rawPoses(data):
-    raw_roll = data.raw_roll
-    raw_pitch = data.raw_pitch
-    print(f"Received raw poses: Roll={raw_roll}, Pitch={raw_pitch}")
-
-def process_rawheading(data):
-    raw_heading = data.raw_heading
-    print(f"Received raw heading: Heading={raw_heading}")
-
-
-
 
 if __name__ == "__main__":
     context = zmq.Context()
     subscriber = context.socket(zmq.SUB)
     subscriber.connect("tcp://localhost:5555")
     subscriber.setsockopt_string(zmq.SUBSCRIBE, "")
-
+    subscriber.setsockopt(zmq.RCVTIMEO, 1000)  # Set timeout in milliseconds
 
     try:
         while True:
-            # multipart_message = subscriber.recv()
-            multipart_message = subscriber.recv_multipart()  # Receiving serialized data
+            try: 
+                # multipart_message = subscriber.recv()
+                multipart_message = subscriber.recv_multipart()  # Receiving serialized data
+                    
+                # Deserializing the Ungeoreferenced Point Cloud 
+                Ungeoref = sonarData_pb2.Ungeoref()
+                Ungeoref.ParseFromString(multipart_message[0])
+                process_ungeoref_data(Ungeoref)
+
+                # Deserializing the Telemetry Data
+                Telemetry = sonarData_pb2.Telemetry()
+                Telemetry.ParseFromString(multipart_message[1])
+
+                if Telemetry.HasField("position"):
+                    process_telemetry_position(Telemetry.position)
+                
+                if Telemetry.HasField("pose"):
+                    process_telemetry_pose(Telemetry.pose)
+
+                if Telemetry.HasField("heading"):
+                    process_telemetry_heading(Telemetry.heading)
+                
+                if Telemetry.HasField("depth"):
+                    process_telemetry_depth(Telemetry.depth)
+                
+                if Telemetry.HasField("altitude"):
+                    process_telemetry_altitude(Telemetry.altitude)
                 
 
-            # Deserializing the Ungeoreferences Point Cloud and Its Telemetry Data
-            Ungeoref_And_Telemetry = sonarData_pb2.Ungeoref_And_Telemetry()
-            Ungeoref_And_Telemetry.ParseFromString(multipart_message[0])
+                # Deserializing the Georeferenced Point Cloud 
+                Georef = sonarData_pb2.Georef()
+                Georef.ParseFromString(multipart_message[2])
+                process_georef_data(Georef)
 
-            if Ungeoref_And_Telemetry.HasField("sonar"):
-                process_sonar_data(Ungeoref_And_Telemetry.sonar)
-
-            if Ungeoref_And_Telemetry.HasField("position"):
-                process_telemetry_position(Ungeoref_And_Telemetry.position)
-
-            if Ungeoref_And_Telemetry.HasField("pose"):
-                process_telemetry_pose(Ungeoref_And_Telemetry.pose)
-
-            if Ungeoref_And_Telemetry.HasField("heading"):
-                process_telemetry_heading(Ungeoref_And_Telemetry.heading)
-
-            if Ungeoref_And_Telemetry.HasField("depth"):
-                process_telemetry_depth(Ungeoref_And_Telemetry.depth)
-
-            if Ungeoref_And_Telemetry.HasField("altitude"):
-                process_telemetry_altitude(Ungeoref_And_Telemetry.altitude)
-
-            # Deserializing the Raw Pose Data (From before the interpolation) For Testing
-            TestData_RawPoses = sonarData_pb2.TestData_RawPoses()
-            TestData_RawPoses.ParseFromString(multipart_message[1])
-
-            if TestData_RawPoses.HasField("raw_rollAndpitch"):
-                process_rawPoses(TestData_RawPoses.raw_rollAndpitch)
-            if TestData_RawPoses.HasField("raw_heading"):
-                process_rawheading(TestData_RawPoses.raw_heading)
+            except zmq.Again:
+                # This block catches the timeout exception
+                continue  # This allows the loop to continue running
 
     except KeyboardInterrupt:
         print("Subscriber stopped")
@@ -116,4 +131,3 @@ if __name__ == "__main__":
     finally: 
         subscriber.close()
         context.term()
-    

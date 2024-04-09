@@ -9,23 +9,22 @@ package sonarData;  // Optional: Replace with your desired package name
 
 
 
-
-// --------------------- Ungeoreferenced point cloud and telemetry data ---------------------
-message Ungeoref_And_Telemetry{
-    sonarData sonar = 1;
-    telemetryData_position position = 2;
-    telemetryData_pose pose = 3;
-    telemetryData_heading heading = 4;
-    telemetryData_depth depth = 5;
-    telemetryData_altitude altitude = 6;
+// Georeferenced point cloud data with rotation matrix
+message Georef {
+    repeated float pointX = 1; // X coordinates of points
+    repeated float pointY = 2; // Y coordinates of points
+    repeated float pointZ = 3; // Z coordinates of points
+    repeated float rotationMatrix = 4; // Rotation matrix (flattened 3x3 matrix)
 }
 
-message sonarData {
-    repeated float pointX = 1;
-    repeated float pointY = 2;
-    repeated int32 beamIdx = 3;
-    repeated uint32 quality = 4;
-    repeated float intensity = 5;
+
+// --------------------- telemetry data ---------------------
+message Telemetry{
+    telemetryData_position position = 1;
+    telemetryData_pose pose = 2;
+    telemetryData_heading heading = 3;
+    telemetryData_depth depth = 4;
+    telemetryData_altitude altitude = 5;
 }
 
 message telemetryData_position {
@@ -57,21 +56,14 @@ message telemetryData_altitude {
 
 
 
-// --------------- Poses before interpolation ("raw poses") for testing --------------------------
-message TestData_RawPoses {
-    raw_rollAndpitch raw_rollAndpitch = 1;
-    raw_heading raw_heading = 2; 
-}
 
-message raw_rollAndpitch {
-    float raw_roll = 1;
-    float raw_pitch = 2;
-    int32 raw_pose_timestep = 3;
-}
-
-message raw_heading {
-    float raw_heading = 1;
-    int32 raw_heading_timestep = 2;
+// --------------------- Ungeoreferenced point cloud data ---------------------
+message Ungeoref{
+    repeated float pointX = 1;
+    repeated float pointY = 2;
+    repeated int32 beamIdx = 3;
+    repeated uint32 quality = 4;
+    repeated float intensity = 5;
 }
 
 

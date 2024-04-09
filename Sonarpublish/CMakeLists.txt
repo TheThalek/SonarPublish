@@ -66,18 +66,6 @@ set(TARGET_LIB gstsonar)
 
 
 
-# For json 
-# Find the Jansson library
-pkg_check_modules(JANSSON REQUIRED jansson)
-
-# Include the Jansson headers
-include_directories(${JANSSON_INCLUDE_DIRS})
-
-# Add the Jansson library to the list of external libraries
-set(EXT_LIBS ${EXT_LIBS} ${JANSSON_LIBRARIES})
-
-
-
 
 add_subdirectory(src)
 
