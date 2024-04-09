@@ -119,10 +119,8 @@ if __name__ == "__main__":
         robot_positions_ecef.append((x_ecef, y_ecef, z_ecef))
         latitudes.append(math.radians(position.latitude))
         longitudes.append(math.radians(position.longitude))
-        print(f"Latitude: {position.latitude:.16f}")
+        # print(f"Latitude: {position.latitude:.16f}")
         depths.append(-depth.depth)  # Assuming depth is positive downwards
-
-
 
         T_N = [
             [x_ecef] * len(P_N_B[0]),  # Create a list where x_ecef is replicated to match the length of P_N[0]
@@ -134,12 +132,6 @@ if __name__ == "__main__":
         P_N = T_N + P_N_B
         all_P_N.append(P_N) 
         # print(P_N)
-
-
-
-
-
-
 
     # # Unpack the ECEF positions
     # x_data, y_data, z_data = zip(*robot_positions_ecef)

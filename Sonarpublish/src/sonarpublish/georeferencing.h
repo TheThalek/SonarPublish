@@ -1,18 +1,22 @@
 #ifndef GEOREFERENCING_H
 #define GEOREFERENCING_H
 
-// Function to convert latitude, longitude, and height to Earth-Centered, Earth-Fixed (ECEF) coordinates
-void llh2ecef(double latitude, double longitude, double height);
-
-
 // Define a struct to hold the ECEF coordinates for easy return from the function
 typedef struct {
-    float x;
-    float y;
-    float z;
+    float x, y, z;
 } ECEF_Coordinates;
 
+// Define a struct to hold the georeferenced data for easy return from the georeferencing function
+typedef struct {
+    float (*points)[3]; // Pointer to an array of points, each with 3 float coordinates
+    int num_points;     // Number of points
+    float R_BN[3][3];   // Rotation matrix
+} Georef_data;
+
 // Function to perform georeferencing using ECEF coordinates
-void georeferencing(float roll, float pitch, float heading, float y, float z, float longitude, float latitude, float depth);
+Georef_data georeferencing(float roll, float pitch, float heading, float y[], float z[], int yz_length, float longitude, float latitude, float depth);
+
+// Function to convert latitude, longitude, and height to Earth-Centered, Earth-Fixed (ECEF) coordinates
+ECEF_Coordinates llh2ecef(float l, float mu, float depth);
 
 #endif // GEOREFERENCING_H

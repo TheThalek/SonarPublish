@@ -26,6 +26,8 @@
 
 
 #include "sonarpublish.h"
+#include "georeferencing.h"
+#include "networking.h"
 
 #include <math.h>
 #include <stdio.h>
