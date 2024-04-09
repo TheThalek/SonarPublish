@@ -21,7 +21,6 @@
  */
 
 
-
 // export SBD=./samples/2022-11-22_09-41-38_eelume_ntnu_Nyhavna.SBD
 // GST_PLUGIN_PATH=. GST_DEBUG=2,sonarsink:9 gst-launch-1.0 filesrc location=$SBD ! sonarparse ! sonarmux name=mux ! sonarpublish zoom=0.1 filesrc location=$SBD ! nmeaparse ! eelnmeadec ! mux.
 
