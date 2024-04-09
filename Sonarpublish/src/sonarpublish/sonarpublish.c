@@ -62,58 +62,6 @@ bool metadata_warning_shown_sonarpub = false;
 static GstStaticPadTemplate gst_sonarpublish_sink_template = GST_STATIC_PAD_TEMPLATE("sink", GST_PAD_SINK, GST_PAD_ALWAYS, GST_STATIC_CAPS("sonar/multibeam ; sonar/bathymetry"));
 
 
-json_t* ungeoref_and_telemetry_to_json(SonarData__UngeorefAndTelemetry *data) {
-    json_t *root = json_object();
-
-    json_t *sonarData = json_object();
-    json_t *telemetry = json_object();
-
-    json_object_set_new(sonarData, "n_pointx", json_integer(data->sonar->n_pointx));
-    json_object_set_new(sonarData, "n_pointy", json_integer(data->sonar->n_pointy));
-    json_object_set_new(sonarData, "n_beamidx", json_integer(data->sonar->n_beamidx));
-    json_object_set_new(sonarData, "n_quality", json_integer(data->sonar->n_quality));
-    json_object_set_new(sonarData, "n_intensity", json_integer(data->sonar->n_intensity));
-
-    json_object_set_new(telemetry, "latitude", json_real(data->position->latitude));
-    json_object_set_new(telemetry, "longitude", json_real(data->position->longitude));
-    json_object_set_new(telemetry, "roll", json_real(data->pose->roll));
-    json_object_set_new(telemetry, "pitch", json_real(data->pose->pitch));
-    json_object_set_new(telemetry, "heading", json_real(data->heading->heading));
-    json_object_set_new(telemetry, "depth", json_real(data->depth->depth));
-    json_object_set_new(telemetry, "altitude", json_real(data->altitude->altitude));
-
-    json_object_set_new(root, "sonarData", sonarData);
-    json_object_set_new(root, "telemetry", telemetry);
-
-    return root;
-}
-
-void saveDataToFile(const char *filename, SonarData__UngeorefAndTelemetry *data) {
-    json_t *root;
-    json_error_t error;
-
-    // Try to open the existing JSON file
-    root = json_load_file(filename, 0, &error);
-
-    // If the file doesn't exist or is empty, create a new JSON array
-    if (!root) {
-        root = json_array();
-    }
-
-    // Convert the data to a JSON object
-    json_t *data_json = ungeoref_and_telemetry_to_json(data);
-
-    // Append the data to the JSON array
-    json_array_append_new(root, data_json);
-
-    // Save the updated JSON array to the file
-    json_dump_file(root, filename, JSON_INDENT(4));
-
-    // Decrease the reference count of the JSON array to free memory
-    json_decref(root);
-}
-
-
 
 static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* buf) {
     Gstsonarpublish* sonarpublish = GST_sonarpublish(basesink);
@@ -295,8 +243,7 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
 
             // Call the georeferencing function
             Georef_data georef_result = georeferencing(roll, pitch, heading, subMsg_sonarData.pointx, subMsg_sonarData.pointy, subMsg_sonarData.n_pointx, longitude, latitude, depth);
-
-        
+            free(georef_result.points);
 
             }
             else
@@ -370,7 +317,7 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
             free(subMsg_sonarData.beamidx);
             free(subMsg_sonarData.quality);
 
-            free(georef_result.points);
+            
 
             break;
         }
