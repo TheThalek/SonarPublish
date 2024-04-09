@@ -11,6 +11,7 @@ typedef struct {
     float (*points)[3]; // Pointer to an array of points, each with 3 float coordinates
     int num_points;     // Number of points
     float R_BN[3][3];   // Rotation matrix
+    float body_ecef_position[3]; // Array to hold the ECEF coordinates for each point
 } Georef_data;
 
 // Function to perform georeferencing using ECEF coordinates

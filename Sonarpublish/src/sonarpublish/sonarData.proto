@@ -9,14 +9,12 @@ package sonarData;  // Optional: Replace with your desired package name
 
 
 
-// --------------------- Georeferences point cloud data ---------------------
-message Georef{
-    repeated float pointX = 1;
-    repeated float pointY = 2;
-    repeated float pointZ = 3; 
-    repeated int32 beamIdx = 4;
-    repeated uint32 quality = 5;
-    repeated float intensity = 6;
+// Georeferenced point cloud data with rotation matrix
+message Georef {
+    repeated float pointX = 1; // X coordinates of points
+    repeated float pointY = 2; // Y coordinates of points
+    repeated float pointZ = 3; // Z coordinates of points
+    repeated float rotationMatrix = 4; // Rotation matrix (flattened 3x3 matrix)
 }
 
 

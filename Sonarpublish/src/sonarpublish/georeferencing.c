@@ -1,6 +1,6 @@
 #include "georeferencing.h"
 #include <math.h>
-
+#include <stdlib.h>
 
 // Function to convert degrees to radians
 float radians(float degrees) {

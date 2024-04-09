@@ -284,6 +284,20 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
                         subMsg_tel_Depth.depth,
                         subMsg_tel_Altitude.altitude);
                 }
+
+            // Assuming these values are obtained from your telemetry data or other sources
+            float roll = tele_meta->tel.roll*rad2deg_sonarpub;
+            float pitch = tele_meta->tel.pitch*rad2deg_sonarpub; 
+            float heading =  tele_meta->tel.raw_roll*rad2deg_sonarpub;
+            float longitude = tele_meta->tel.longitude;
+            float latitude = tele_meta->tel.latitude;
+            float depth = tele_meta->tel.depth; // Ensure this is the correct value to use
+
+            // Call the georeferencing function
+            Georef_data georef_result = georeferencing(roll, pitch, heading, subMsg_sonarData.pointx, subMsg_sonarData.pointy, subMsg_sonarData.n_pointx, longitude, latitude, depth);
+
+        
+
             }
             else
             {
@@ -355,6 +369,8 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
             free(subMsg_sonarData.pointy);
             free(subMsg_sonarData.beamidx);
             free(subMsg_sonarData.quality);
+
+            free(georef_result.points);
 
             break;
         }

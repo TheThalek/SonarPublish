@@ -1,10 +1,14 @@
 set(SRC
     sonarpublish.c
     sonarData.pb-c.c
+    georeferencing.c
+    networking.c
     )
 
 set(HDR
     sonarData.pb-c.h
+    georeferencing.h
+    networking.h
     )
 
 set(PUBLIC_HDR
