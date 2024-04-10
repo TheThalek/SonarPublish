@@ -231,15 +231,15 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
                 tele_meta->tel.latitude,
                 tele_meta->tel.depth
             );
-
-            Georef.pointx = (float*)malloc(georef_result.num_points * sizeof(float));
-            Georef.pointy = (float*)malloc(georef_result.num_points * sizeof(float));
-            Georef.pointz = (float*)malloc(georef_result.num_points * sizeof(float));
+            
+            Georef.x_pointcld_body = (float*)malloc(georef_result.num_points * sizeof(float));
+            Georef.y_pointcld_body = (float*)malloc(georef_result.num_points * sizeof(float));
+            Georef.z_pointcld_body = (float*)malloc(georef_result.num_points * sizeof(float));
 
             for (int i = 0; i < georef_result.num_points; i++) {
-                Georef.pointx[i] = georef_result.points[i][0];
-                Georef.pointy[i] = georef_result.points[i][1];
-                Georef.pointz[i] = georef_result.points[i][2];
+                Georef.x_pointcld_body[i] = georef_result.points_body[i][0];
+                Georef.y_pointcld_body[i] = georef_result.points_body[i][1];
+                Georef.z_pointcld_body[i] = georef_result.points_body[i][2];
             }
 
             Georef.rotationmatrix = (float*)malloc(9 * sizeof(float));
@@ -250,12 +250,14 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
                 }
             }
 
-            Georef.n_pointx = georef_result.num_points;
-            Georef.n_pointy = georef_result.num_points;
-            Georef.n_pointz = georef_result.num_points;
+            Georef.n_x_pointcld_body = georef_result.num_points;
+            Georef.n_y_pointcld_body = georef_result.num_points;
+            Georef.n_z_pointcld_body = georef_result.num_points;
             Georef.n_rotationmatrix = 9;
 
-            free(georef_result.points);
+            Georef.x_body_position_ecef = georef_result.body_ecef[0];
+            Georef.y_body_position_ecef = georef_result.body_ecef[1];
+            Georef.z_body_position_ecef = georef_result.body_ecef[2];
 
             }
             else
@@ -343,9 +345,9 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
             free(Ungeoref.quality);
             free(Ungeoref.intensity);
 
-            free(Georef.pointx);
-            free(Georef.pointy);
-            free(Georef.pointz);
+            free(Georef.x_pointcld_body);
+            free(Georef.y_pointcld_body);
+            free(Georef.z_pointcld_body);
             free(Georef.rotationmatrix);
 
             break;

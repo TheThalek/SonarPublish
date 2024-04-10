@@ -37,29 +37,32 @@ struct  _SonarData__Georef
 {
   ProtobufCMessage base;
   /*
-   * X coordinates of points
+   * X coordinates of points, referenced wrt. body frame of robot
    */
-  size_t n_pointx;
-  float *pointx;
+  size_t n_x_pointcld_body;
+  float *x_pointcld_body;
   /*
    * Y coordinates of points
    */
-  size_t n_pointy;
-  float *pointy;
+  size_t n_y_pointcld_body;
+  float *y_pointcld_body;
   /*
    * Z coordinates of points
    */
-  size_t n_pointz;
-  float *pointz;
+  size_t n_z_pointcld_body;
+  float *z_pointcld_body;
   /*
    * Rotation matrix (flattened 3x3 matrix)
    */
   size_t n_rotationmatrix;
   float *rotationmatrix;
+  float x_body_position_ecef;
+  float y_body_position_ecef;
+  float z_body_position_ecef;
 };
 #define SONAR_DATA__GEOREF__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&sonar_data__georef__descriptor) \
-    , 0,NULL, 0,NULL, 0,NULL, 0,NULL }
+    , 0,NULL, 0,NULL, 0,NULL, 0,NULL, 0, 0, 0 }
 
 
 /*

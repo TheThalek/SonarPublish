@@ -6,12 +6,14 @@ typedef struct {
     float x, y, z;
 } ECEF_Coordinates;
 
+#define MAX_POINTS 300  // Define MAX_POINTS as a macro
+
 // Define a struct to hold the georeferenced data for easy return from the georeferencing function
 typedef struct {
-    float (*points)[3]; // Pointer to an array of points, each with 3 float coordinates
+    float points_body[MAX_POINTS][3]; // Pointer to an array of points, each with 3 float coordinates
     int num_points;     // Number of points
     float R_BN[3][3];   // Rotation matrix
-    float body_ecef_position[3]; // Array to hold the ECEF coordinates for each point
+    float body_ecef[3]; // Array to hold the ECEF coordinates for each point
 } Georef_data;
 
 // Function to perform georeferencing using ECEF coordinates

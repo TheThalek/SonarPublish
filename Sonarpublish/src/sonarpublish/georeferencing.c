@@ -43,28 +43,36 @@ ECEF_Coordinates llh2ecef(float l, float mu, float depth) {
     // Returns:
     // - x, y, z: ECEF coordinates. 
 
+
+
     float h = -depth; // Height above the WGS-84 ellipsoid in meters.
 
     float r_e = 6378137.0;  // Radius of the Earth at the equator in meters (WGS-84)
     float r_p = 6356752.3142;  // Polar radius in meters (WGS-84)
-    float e = 0.08181979099211;  // Eccentricity not used in this calculation, can be omitted if not needed elsewhere
-    float N = r_e * r_e / sqrt((r_e * cos(mu)) * (r_e * cos(mu)) + (r_p * sin(mu)) * (r_p * sin(mu)));
 
-    // Initialize struct to hold ECEF coordinates
+    // Calculation of N using the correct squaring operation
+    float N = pow(r_e, 2) / sqrt(pow(r_e * cos(mu), 2) + pow(r_p * sin(mu), 2));
+
     ECEF_Coordinates coordinates;
-
     coordinates.x = (N + h) * cos(mu) * cos(l);
     coordinates.y = (N + h) * cos(mu) * sin(l);
-    coordinates.z = (N * (r_p / r_e) * (r_p / r_e) + h) * sin(mu);
+    coordinates.z = (N * pow(r_p / r_e, 2) + h) * sin(mu);
 
-    return coordinates; // Return the struct containing ECEF coordinates
+    return coordinates;
 }
 
 
 Georef_data georeferencing(float roll, float pitch, float heading, float y[], float z[], int yz_length, float longitude, float latitude, float depth) {
     // Sonar to Body transformation
     float T_B[3] = {-0.6881, 0.007, -0.061};
-    float (*P_B)[3] = malloc(yz_length * sizeof(*P_B));
+
+    if (yz_length > MAX_POINTS) {
+        printf("Too many points as input");
+    }
+
+    float P_B[MAX_POINTS][3];
+    float P_N_B[MAX_POINTS][3];
+    float P_N[MAX_POINTS][3];
 
     // Loop through each point in the input arrays
     for (int i = 0; i < yz_length; i++) { // P_B = P_S + T_B
@@ -77,6 +85,7 @@ Georef_data georeferencing(float roll, float pitch, float heading, float y[], fl
         // z-component
         P_B[i][2] = z[i] + T_B[2];
     }
+    
 
 
     // Body to NED transformation
@@ -105,12 +114,12 @@ Georef_data georeferencing(float roll, float pitch, float heading, float y[], fl
     // Intermediate result for R_Y * R_X
     float R_YX[3][3];
     multiplyMatrices3x3(R_YX, R_Y, R_X);
+
     // Final result for R_Z * R_YX = R_BN
     float R_BN[3][3];
     multiplyMatrices3x3(R_BN, R_Z, R_YX);
 
-    // Calculate transformed points
-    float (*P_N_B)[3] = malloc(yz_length * sizeof(*P_N_B));
+
     for (int i = 0; i < yz_length; i++) {
         float point[3] = {P_B[i][0], P_B[i][1], P_B[i][2]};
         float transformedPoint[3];
@@ -120,31 +129,36 @@ Georef_data georeferencing(float roll, float pitch, float heading, float y[], fl
         P_N_B[i][2] = transformedPoint[2];
     }
 
-    latitude = radians(latitude);
-    longitude =  radians(longitude);
-    ECEF_Coordinates points_ecef = llh2ecef(longitude, latitude, depth);
 
 
-    float (*P_N)[3] = malloc(yz_length * sizeof(*P_N));
-    // Add the ECEF coordinates as an offset to each transformed point in P_N_B
-    for (int i = 0; i < yz_length; i++) {
-        P_N[i][0] = P_N_B[i][0] + points_ecef.x;
-        P_N[i][1] = P_N_B[i][1] + points_ecef.y;
-        P_N[i][2] = P_N_B[i][2] + points_ecef.z;
+    printf("Longitude: %.8f\n", longitude);
+    printf("Latitude: %.8f\n", latitude);
+    printf("Depth: %.8f\n", depth);
+    ECEF_Coordinates body_position_ecef = llh2ecef(radians(longitude), radians(latitude), depth);
+    // ALSO, double check this calculation! SHould still give the same depth out!!
+    
+    printf("Body position ECEF: %.8f, %.8f, %.8f\n", body_position_ecef.x, body_position_ecef.y, body_position_ecef.z);
+    
+    
+    Georef_data result;
+
+    result.body_ecef[0] = body_position_ecef.x;
+    result.body_ecef[1] = body_position_ecef.y;
+    result.body_ecef[2] = body_position_ecef.z;
+
+    for (int i = 0; i < yz_length; i++) { // The points  of the robot, referenced to the robot body frame
+        for (int j = 0; j < 3; j++) {
+            result.points_body[i][j] = P_N_B[i][j];
+        }
     }
 
-    Georef_data result;
-    result.points = P_N; // This memory must be freed where georeferencing is called
     result.num_points = yz_length;
-    for (int i = 0; i < 3; i++) {
+
+    for (int i = 0; i < 3; i++) { // The rotation matrix
         for (int j = 0; j < 3; j++) {
             result.R_BN[i][j] = R_BN[i][j];
         }
     }
 
-    free(P_B);
-    free(P_N_B);
-
     return result;
-
 }

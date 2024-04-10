@@ -367,39 +367,39 @@ void   sonar_data__ungeoref__free_unpacked
   assert(message->base.descriptor == &sonar_data__ungeoref__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-static const ProtobufCFieldDescriptor sonar_data__georef__field_descriptors[4] =
+static const ProtobufCFieldDescriptor sonar_data__georef__field_descriptors[7] =
 {
   {
-    "pointX",
+    "x_pointCld_body",
     1,
     PROTOBUF_C_LABEL_REPEATED,
     PROTOBUF_C_TYPE_FLOAT,
-    offsetof(SonarData__Georef, n_pointx),
-    offsetof(SonarData__Georef, pointx),
+    offsetof(SonarData__Georef, n_x_pointcld_body),
+    offsetof(SonarData__Georef, x_pointcld_body),
     NULL,
     NULL,
     0 | PROTOBUF_C_FIELD_FLAG_PACKED,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "pointY",
+    "y_pointCld_body",
     2,
     PROTOBUF_C_LABEL_REPEATED,
     PROTOBUF_C_TYPE_FLOAT,
-    offsetof(SonarData__Georef, n_pointy),
-    offsetof(SonarData__Georef, pointy),
+    offsetof(SonarData__Georef, n_y_pointcld_body),
+    offsetof(SonarData__Georef, y_pointcld_body),
     NULL,
     NULL,
     0 | PROTOBUF_C_FIELD_FLAG_PACKED,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "pointZ",
+    "z_pointCld_body",
     3,
     PROTOBUF_C_LABEL_REPEATED,
     PROTOBUF_C_TYPE_FLOAT,
-    offsetof(SonarData__Georef, n_pointz),
-    offsetof(SonarData__Georef, pointz),
+    offsetof(SonarData__Georef, n_z_pointcld_body),
+    offsetof(SonarData__Georef, z_pointcld_body),
     NULL,
     NULL,
     0 | PROTOBUF_C_FIELD_FLAG_PACKED,             /* flags */
@@ -417,17 +417,56 @@ static const ProtobufCFieldDescriptor sonar_data__georef__field_descriptors[4] =
     0 | PROTOBUF_C_FIELD_FLAG_PACKED,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "x_body_position_ecef",
+    5,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_FLOAT,
+    0,   /* quantifier_offset */
+    offsetof(SonarData__Georef, x_body_position_ecef),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "y_body_position_ecef",
+    6,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_FLOAT,
+    0,   /* quantifier_offset */
+    offsetof(SonarData__Georef, y_body_position_ecef),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "z_body_position_ecef",
+    7,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_FLOAT,
+    0,   /* quantifier_offset */
+    offsetof(SonarData__Georef, z_body_position_ecef),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned sonar_data__georef__field_indices_by_name[] = {
-  0,   /* field[0] = pointX */
-  1,   /* field[1] = pointY */
-  2,   /* field[2] = pointZ */
   3,   /* field[3] = rotationMatrix */
+  4,   /* field[4] = x_body_position_ecef */
+  0,   /* field[0] = x_pointCld_body */
+  5,   /* field[5] = y_body_position_ecef */
+  1,   /* field[1] = y_pointCld_body */
+  6,   /* field[6] = z_body_position_ecef */
+  2,   /* field[2] = z_pointCld_body */
 };
 static const ProtobufCIntRange sonar_data__georef__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 4 }
+  { 0, 7 }
 };
 const ProtobufCMessageDescriptor sonar_data__georef__descriptor =
 {
@@ -437,7 +476,7 @@ const ProtobufCMessageDescriptor sonar_data__georef__descriptor =
   "SonarData__Georef",
   "sonarData",
   sizeof(SonarData__Georef),
-  4,
+  7,
   sonar_data__georef__field_descriptors,
   sonar_data__georef__field_indices_by_name,
   1,  sonar_data__georef__number_ranges,
