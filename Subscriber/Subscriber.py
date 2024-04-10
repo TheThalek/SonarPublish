@@ -17,11 +17,14 @@ def process_georef_data(data):
         pointY = Georef_pointY[i]
         pointZ = Georef_pointZ[i]
 
-        print(f"Received Georeferenced Point Cloud: PointX={pointX}, PointY={pointY}, PointZ={pointZ}")
+        # Using repr() to print full precision
+        print(f"Received Georeferenced Point Cloud: PointX={repr(pointX)}, PointY={repr(pointY)}, PointZ={repr(pointZ)}")
 
-    for i in range(3):
-        for j in range(3):
-            print(f"Received Georeferenced Rotation Matrix: {Georef_rotationMatrix[i * 3 + j]}")
+
+    # for i in range(3):
+    #     for j in range(3):
+    #         # Printing each element in the rotation matrix on a new line for clarity
+    #         print(f"{Georef_rotationMatrix[i * 3 + j]:.15f}")  # Using .15f for high precision, adjust as needed
 
 
 
