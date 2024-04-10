@@ -11,10 +11,13 @@ package sonarData;  // Optional: Replace with your desired package name
 
 // Georeferenced point cloud data with rotation matrix
 message Georef {
-    repeated float pointX = 1; // X coordinates of points
-    repeated float pointY = 2; // Y coordinates of points
-    repeated float pointZ = 3; // Z coordinates of points
+    repeated float x_pointCld_body = 1; // X coordinates of points, referenced wrt. body frame of robot
+    repeated float y_pointCld_body = 2; // Y coordinates of points
+    repeated float z_pointCld_body = 3; // Z coordinates of points
     repeated float rotationMatrix = 4; // Rotation matrix (flattened 3x3 matrix)
+    float x_body_position_ecef = 5; 
+    float y_body_position_ecef = 6; 
+    float z_body_position_ecef = 7; 
 }
 
 

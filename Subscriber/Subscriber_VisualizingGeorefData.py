@@ -10,15 +10,24 @@ from collections import deque  # Import deque
 georef_data_queue = deque()  # Initialize as deque
 lock = Lock()
 running = True
+previous_position_ecef = np.array([0, 0, 0])  # Initialize the previous ECEF position
+
 
 def process_georef_data(data):
-    global georef_data_queue
+    global georef_data_queue, previous_position_ecef
     points = []
 
-    print("New georef data received:")
-    for i in range(len(data.pointX)):
-        point = [data.pointX[i], data.pointY[i], data.pointZ[i]]
-        # print(point)
+    # New: Include body position in ECEF
+    body_position_ecef = np.array([data.x_body_position_ecef, data.y_body_position_ecef, data.z_body_position_ecef])
+
+    # Calculate shift based on the previous position
+    shift = body_position_ecef - previous_position_ecef
+    previous_position_ecef = body_position_ecef  # Update previous position for next iteration
+
+    # print("New georef data received:")
+    for i in range(len(data.x_pointCld_body)):
+        # Apply the shift to each point
+        point = [data.x_pointCld_body[i] + shift[0], data.y_pointCld_body[i] + shift[1], data.z_pointCld_body[i] + shift[2]]
         points.append(point)
 
     with lock:
@@ -29,40 +38,42 @@ def init_window():
     vis.create_window()
     return vis
 
-def plot_points(vis, pcd, points, camera_target, first_run):
-    temp_pcd = o3d.geometry.PointCloud()
-    temp_pcd.points = o3d.utility.Vector3dVector(points)
-    if first_run:
-        pcd.points = temp_pcd.points
-        vis.add_geometry(pcd)
-        vis.reset_view_point(True)
-        first_run = False
-    else:
-        pcd.points = temp_pcd.points
-        vis.update_geometry(pcd)
-    vis.poll_events()
-    vis.update_renderer()
-    return first_run
 
 def visualize():
     global running, georef_data_queue
-    vis = init_window()
+    vis = o3d.visualization.Visualizer()
+    vis.create_window()
     pcd = o3d.geometry.PointCloud()
     first_run = True
-    camera_target = np.array([0, 0, 0])  # Initialize camera target
+    camera_target = np.array([0, 0, 0])  # Initial camera target
 
     while running:
         if georef_data_queue:
             points = []
             with lock:
                 while georef_data_queue:
-                    data_list = georef_data_queue.popleft()  # Use popleft() for deque
+                    data_list = georef_data_queue.popleft()
                     for point in data_list:
                         points.append(point)
             if points:
                 points_np = np.array(points)
-                first_run = plot_points(vis, pcd, points_np, camera_target, first_run)
-
+                # Update camera target to the mean of the latest points
+                camera_target = np.mean(points_np, axis=0)
+                temp_pcd = o3d.geometry.PointCloud()
+                temp_pcd.points = o3d.utility.Vector3dVector(points_np)
+                if first_run:
+                    pcd.points = temp_pcd.points
+                    vis.add_geometry(pcd)
+                    vis.reset_view_point(True)
+                    first_run = False
+                else:
+                    pcd.points = temp_pcd.points
+                    vis.update_geometry(pcd)
+                # Set camera to look at the mean of the latest points
+                vis.get_view_control().set_lookat(camera_target)
+                vis.poll_events()
+                vis.update_renderer()
+                
 def data_receiver():
     global running
     context = zmq.Context()

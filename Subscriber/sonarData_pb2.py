@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0fsonarData.proto\x12\tsonarData\"P\n\x06Georef\x12\x0e\n\x06pointX\x18\x01 \x03(\x02\x12\x0e\n\x06pointY\x18\x02 \x03(\x02\x12\x0e\n\x06pointZ\x18\x03 \x03(\x02\x12\x16\n\x0erotationMatrix\x18\x04 \x03(\x02\"\x84\x02\n\tTelemetry\x12\x33\n\x08position\x18\x01 \x01(\x0b\x32!.sonarData.telemetryData_position\x12+\n\x04pose\x18\x02 \x01(\x0b\x32\x1d.sonarData.telemetryData_pose\x12\x31\n\x07heading\x18\x03 \x01(\x0b\x32 .sonarData.telemetryData_heading\x12-\n\x05\x64\x65pth\x18\x04 \x01(\x0b\x32\x1e.sonarData.telemetryData_depth\x12\x33\n\x08\x61ltitude\x18\x05 \x01(\x0b\x32!.sonarData.telemetryData_altitude\"X\n\x16telemetryData_position\x12\x10\n\x08latitude\x18\x01 \x01(\x02\x12\x11\n\tlongitude\x18\x02 \x01(\x02\x12\x19\n\x11position_timestep\x18\x03 \x01(\x05\"H\n\x12telemetryData_pose\x12\x0c\n\x04roll\x18\x01 \x01(\x02\x12\r\n\x05pitch\x18\x02 \x01(\x02\x12\x15\n\rpose_timestep\x18\x03 \x01(\x05\"B\n\x15telemetryData_heading\x12\x0f\n\x07heading\x18\x01 \x01(\x02\x12\x18\n\x10heading_timestep\x18\x02 \x01(\x05\"<\n\x13telemetryData_depth\x12\r\n\x05\x64\x65pth\x18\x01 \x01(\x02\x12\x16\n\x0e\x64\x65pth_timestep\x18\x02 \x01(\x05\"E\n\x16telemetryData_altitude\x12\x10\n\x08\x61ltitude\x18\x01 \x01(\x02\x12\x19\n\x11\x61ltitude_timestep\x18\x02 \x01(\x05\"_\n\x08Ungeoref\x12\x0e\n\x06pointX\x18\x01 \x03(\x02\x12\x0e\n\x06pointY\x18\x02 \x03(\x02\x12\x0f\n\x07\x62\x65\x61mIdx\x18\x03 \x03(\x05\x12\x0f\n\x07quality\x18\x04 \x03(\r\x12\x11\n\tintensity\x18\x05 \x03(\x02\x62\x06proto3'
+  serialized_pb=b'\n\x0fsonarData.proto\x12\tsonarData\"\xc5\x01\n\x06Georef\x12\x17\n\x0fx_pointCld_body\x18\x01 \x03(\x02\x12\x17\n\x0fy_pointCld_body\x18\x02 \x03(\x02\x12\x17\n\x0fz_pointCld_body\x18\x03 \x03(\x02\x12\x16\n\x0erotationMatrix\x18\x04 \x03(\x02\x12\x1c\n\x14x_body_position_ecef\x18\x05 \x01(\x02\x12\x1c\n\x14y_body_position_ecef\x18\x06 \x01(\x02\x12\x1c\n\x14z_body_position_ecef\x18\x07 \x01(\x02\"\x84\x02\n\tTelemetry\x12\x33\n\x08position\x18\x01 \x01(\x0b\x32!.sonarData.telemetryData_position\x12+\n\x04pose\x18\x02 \x01(\x0b\x32\x1d.sonarData.telemetryData_pose\x12\x31\n\x07heading\x18\x03 \x01(\x0b\x32 .sonarData.telemetryData_heading\x12-\n\x05\x64\x65pth\x18\x04 \x01(\x0b\x32\x1e.sonarData.telemetryData_depth\x12\x33\n\x08\x61ltitude\x18\x05 \x01(\x0b\x32!.sonarData.telemetryData_altitude\"X\n\x16telemetryData_position\x12\x10\n\x08latitude\x18\x01 \x01(\x02\x12\x11\n\tlongitude\x18\x02 \x01(\x02\x12\x19\n\x11position_timestep\x18\x03 \x01(\x05\"H\n\x12telemetryData_pose\x12\x0c\n\x04roll\x18\x01 \x01(\x02\x12\r\n\x05pitch\x18\x02 \x01(\x02\x12\x15\n\rpose_timestep\x18\x03 \x01(\x05\"B\n\x15telemetryData_heading\x12\x0f\n\x07heading\x18\x01 \x01(\x02\x12\x18\n\x10heading_timestep\x18\x02 \x01(\x05\"<\n\x13telemetryData_depth\x12\r\n\x05\x64\x65pth\x18\x01 \x01(\x02\x12\x16\n\x0e\x64\x65pth_timestep\x18\x02 \x01(\x05\"E\n\x16telemetryData_altitude\x12\x10\n\x08\x61ltitude\x18\x01 \x01(\x02\x12\x19\n\x11\x61ltitude_timestep\x18\x02 \x01(\x05\"_\n\x08Ungeoref\x12\x0e\n\x06pointX\x18\x01 \x03(\x02\x12\x0e\n\x06pointY\x18\x02 \x03(\x02\x12\x0f\n\x07\x62\x65\x61mIdx\x18\x03 \x03(\x05\x12\x0f\n\x07quality\x18\x04 \x03(\r\x12\x11\n\tintensity\x18\x05 \x03(\x02\x62\x06proto3'
 )
 
 
@@ -34,21 +34,21 @@ _GEOREF = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='pointX', full_name='sonarData.Georef.pointX', index=0,
+      name='x_pointCld_body', full_name='sonarData.Georef.x_pointCld_body', index=0,
       number=1, type=2, cpp_type=6, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='pointY', full_name='sonarData.Georef.pointY', index=1,
+      name='y_pointCld_body', full_name='sonarData.Georef.y_pointCld_body', index=1,
       number=2, type=2, cpp_type=6, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='pointZ', full_name='sonarData.Georef.pointZ', index=2,
+      name='z_pointCld_body', full_name='sonarData.Georef.z_pointCld_body', index=2,
       number=3, type=2, cpp_type=6, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -58,6 +58,27 @@ _GEOREF = _descriptor.Descriptor(
       name='rotationMatrix', full_name='sonarData.Georef.rotationMatrix', index=3,
       number=4, type=2, cpp_type=6, label=3,
       has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='x_body_position_ecef', full_name='sonarData.Georef.x_body_position_ecef', index=4,
+      number=5, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='y_body_position_ecef', full_name='sonarData.Georef.y_body_position_ecef', index=5,
+      number=6, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='z_body_position_ecef', full_name='sonarData.Georef.z_body_position_ecef', index=6,
+      number=7, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -73,8 +94,8 @@ _GEOREF = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=30,
-  serialized_end=110,
+  serialized_start=31,
+  serialized_end=228,
 )
 
 
@@ -133,8 +154,8 @@ _TELEMETRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=113,
-  serialized_end=373,
+  serialized_start=231,
+  serialized_end=491,
 )
 
 
@@ -179,8 +200,8 @@ _TELEMETRYDATA_POSITION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=375,
-  serialized_end=463,
+  serialized_start=493,
+  serialized_end=581,
 )
 
 
@@ -225,8 +246,8 @@ _TELEMETRYDATA_POSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=465,
-  serialized_end=537,
+  serialized_start=583,
+  serialized_end=655,
 )
 
 
@@ -264,8 +285,8 @@ _TELEMETRYDATA_HEADING = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=539,
-  serialized_end=605,
+  serialized_start=657,
+  serialized_end=723,
 )
 
 
@@ -303,8 +324,8 @@ _TELEMETRYDATA_DEPTH = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=607,
-  serialized_end=667,
+  serialized_start=725,
+  serialized_end=785,
 )
 
 
@@ -342,8 +363,8 @@ _TELEMETRYDATA_ALTITUDE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=669,
-  serialized_end=738,
+  serialized_start=787,
+  serialized_end=856,
 )
 
 
@@ -402,8 +423,8 @@ _UNGEOREF = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=740,
-  serialized_end=835,
+  serialized_start=858,
+  serialized_end=953,
 )
 
 _TELEMETRY.fields_by_name['position'].message_type = _TELEMETRYDATA_POSITION
