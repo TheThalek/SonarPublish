@@ -43,8 +43,6 @@ ECEF_Coordinates llh2ecef(float l, float mu, float depth) {
     // Returns:
     // - x, y, z: ECEF coordinates. 
 
-
-
     float h = -depth; // Height above the WGS-84 ellipsoid in meters.
 
     float r_e = 6378137.0;  // Radius of the Earth at the equator in meters (WGS-84)
@@ -89,9 +87,17 @@ Georef_data georeferencing(float roll, float pitch, float heading, float y[], fl
 
 
     // Body to NED transformation
+    // printf("Degrees\n");
+    // printf("Roll: %.8f\n", roll);
+    // printf("Pitch: %.8f\n", pitch);
+    // printf("Heading: %.8f\n", heading);
     roll = radians(roll);
     pitch = radians(pitch);
     heading = radians(heading); 
+    printf("Radians\n");
+    printf("Roll: %.8f\n", roll);
+    printf("Pitch: %.8f\n", pitch);
+    printf("Heading: %.8f\n", heading);
 
     float R_X[3][3] = {
         {1, 0, 0},
@@ -111,19 +117,36 @@ Georef_data georeferencing(float roll, float pitch, float heading, float y[], fl
         {0, 0, 1}
     };
 
+    // R_Z*R_Y*R_X
     // Intermediate result for R_Y * R_X
     float R_YX[3][3];
     multiplyMatrices3x3(R_YX, R_Y, R_X);
 
     // Final result for R_Z * R_YX = R_BN
-    float R_BN[3][3];
-    multiplyMatrices3x3(R_BN, R_Z, R_YX);
+    float R_nb[3][3];
+    multiplyMatrices3x3(R_nb, R_Z, R_YX);
+
+
+    // double R_nb[3][3] = {
+    //     {cos(heading)*cos(pitch), -sin(heading)*cos(roll)+cos(heading)*sin(pitch)*sin(roll), sin(heading)*sin(roll)+cos(heading)*cos(roll)*sin(pitch)},
+    //     {sin(heading)*cos(pitch), cos(heading)*cos(roll)+sin(roll)*sin(pitch)*sin(heading), -cos(heading)*sin(roll)+sin(pitch)*sin(heading)*cos(roll)},
+    //     {-sin(pitch), cos(pitch)*sin(roll), cos(pitch)*cos(roll)}
+    // };
+
+    printf("R_nb:\n");
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            printf("%.8f ", R_nb[i][j]);
+        }
+        printf("\n");
+    }
+    
 
 
     for (int i = 0; i < yz_length; i++) {
         float point[3] = {P_B[i][0], P_B[i][1], P_B[i][2]};
         float transformedPoint[3];
-        multiplyMatrixVector3x3(transformedPoint, R_BN, point); // Transform each point
+        multiplyMatrixVector3x3(transformedPoint, R_nb, point); // Transform each point
         P_N_B[i][0] = transformedPoint[0];
         P_N_B[i][1] = transformedPoint[1];
         P_N_B[i][2] = transformedPoint[2];
@@ -131,13 +154,13 @@ Georef_data georeferencing(float roll, float pitch, float heading, float y[], fl
 
 
 
-    printf("Longitude: %.8f\n", longitude);
-    printf("Latitude: %.8f\n", latitude);
-    printf("Depth: %.8f\n", depth);
+    // printf("Longitude: %.8f\n", longitude);
+    // printf("Latitude: %.8f\n", latitude);
+    // printf("Depth: %.8f\n", depth);
     ECEF_Coordinates body_position_ecef = llh2ecef(radians(longitude), radians(latitude), depth);
     // ALSO, double check this calculation! SHould still give the same depth out!!
     
-    printf("Body position ECEF: %.8f, %.8f, %.8f\n", body_position_ecef.x, body_position_ecef.y, body_position_ecef.z);
+    // printf("Body position ECEF: %.8f, %.8f, %.8f\n", body_position_ecef.x, body_position_ecef.y, body_position_ecef.z);
     
     
     Georef_data result;
@@ -156,7 +179,7 @@ Georef_data georeferencing(float roll, float pitch, float heading, float y[], fl
 
     for (int i = 0; i < 3; i++) { // The rotation matrix
         for (int j = 0; j < 3; j++) {
-            result.R_BN[i][j] = R_BN[i][j];
+            result.R_BN[i][j] = R_nb[i][j];
         }
     }
 

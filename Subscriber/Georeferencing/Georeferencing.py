@@ -188,37 +188,37 @@ if __name__ == "__main__":
 
 
 
-    # Now plot the latitude, longitude, and depth data with formatted y-axis
-    # Latitude over time
-    plt.figure(figsize=(10, 4))
-    plt.plot(latitudes, marker='x', linestyle='-', label='Latitude')  # Add marker specification here
-    plt.xlabel('Time')
-    plt.ylabel('Latitude (radians)')
-    plt.gca().yaxis.set_major_formatter(FuncFormatter(format_func))  # Format y-axis
-    plt.title('Latitude over Time')
-    plt.legend()
-    plt.show()
+    # # Now plot the latitude, longitude, and depth data with formatted y-axis
+    # # Latitude over time
+    # plt.figure(figsize=(10, 4))
+    # plt.plot(latitudes, marker='x', linestyle='-', label='Latitude')  # Add marker specification here
+    # plt.xlabel('Time')
+    # plt.ylabel('Latitude (radians)')
+    # plt.gca().yaxis.set_major_formatter(FuncFormatter(format_func))  # Format y-axis
+    # plt.title('Latitude over Time')
+    # plt.legend()
+    # plt.show()
 
-    # Longitude over time
-    plt.figure(figsize=(10, 4))
-    plt.plot(longitudes, marker='x', linestyle='-', label='Longitude')  # Add marker specification here
-    plt.xlabel('Time')
-    plt.ylabel('Longitude (radians)')
-    plt.gca().yaxis.set_major_formatter(FuncFormatter(format_func))  # Format y-axis
-    plt.title('Longitude over Time')
-    plt.legend()
-    plt.show()
+    # # Longitude over time
+    # plt.figure(figsize=(10, 4))
+    # plt.plot(longitudes, marker='x', linestyle='-', label='Longitude')  # Add marker specification here
+    # plt.xlabel('Time')
+    # plt.ylabel('Longitude (radians)')
+    # plt.gca().yaxis.set_major_formatter(FuncFormatter(format_func))  # Format y-axis
+    # plt.title('Longitude over Time')
+    # plt.legend()
+    # plt.show()
 
 
-    # Depth over time
-    plt.figure(figsize=(10, 4))
-    plt.plot(depths, marker='x', linestyle='-', label='Depth')  # Add marker specification here
-    plt.xlabel('Time')
-    plt.ylabel('Depth (meters)')
-    plt.gca().yaxis.set_major_formatter(FuncFormatter(format_func))  # Format y-axis
-    plt.title('Depth over Time')
-    plt.legend()
-    plt.show()
+    # # Depth over time
+    # plt.figure(figsize=(10, 4))
+    # plt.plot(depths, marker='x', linestyle='-', label='Depth')  # Add marker specification here
+    # plt.xlabel('Time')
+    # plt.ylabel('Depth (meters)')
+    # plt.gca().yaxis.set_major_formatter(FuncFormatter(format_func))  # Format y-axis
+    # plt.title('Depth over Time')
+    # plt.legend()
+    # plt.show()
 
 
 
@@ -248,7 +248,7 @@ if __name__ == "__main__":
 
 
 
-    # visualize_all_rotations(all_R_BN)
+    visualize_all_rotations(all_R_BN)
 
 
         

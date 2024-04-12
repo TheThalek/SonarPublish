@@ -149,9 +149,6 @@ GstSonarTelemetry gst_sonar_telemetry_timed_interpolate(GstSonarTelemetryTimed* 
     linalg_interpolate_euler_angles(&euler_angles, &first_angles, &second_angles, interpolation_time);
 
     GstSonarTelemetry ret;
-    ret.raw_roll = first->tel.roll;  // Raw roll from 'first'
-    ret.raw_pitch = first->tel.pitch; // Raw pitch from 'first'
-    ret.raw_yaw = first->tel.yaw;    // Raw yaw from 'first'
 
     ret.roll  = euler_angles.roll;
     ret.pitch = euler_angles.pitch;

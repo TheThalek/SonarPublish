@@ -38,7 +38,9 @@ def visualize_all_rotations(rotations, spacing=1):
     # Create lines to represent the axes
     # Lines are defined by pairs of indices into the points list
     lines = []
-    colors = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]  # Colors for the X, Y, Z axes
+    colors = [[1, 0, 0],  # Red color for the X-axis
+            [0, 1, 0],  # Green color for the Y-axis
+            [0, 0, 1]]  # Blue color for the Z-axis
     line_colors = []
 
     for i in range(len(rotations)):

@@ -17,21 +17,23 @@ def process_georef_data(data):
     global georef_data_queue, previous_position_ecef
     points = []
 
-    # New: Include body position in ECEF
-    body_position_ecef = np.array([data.x_body_position_ecef, data.y_body_position_ecef, data.z_body_position_ecef])
-
-    # Calculate shift based on the previous position
-    shift = body_position_ecef - previous_position_ecef
-    previous_position_ecef = body_position_ecef  # Update previous position for next iteration
-
+    # Convert the flattened rotation matrix to a 3x3 matrix
+    rotation_matrix = np.array(data.rotationMatrix).reshape(3, 3)
+    # Define a constant jump distance
+    jump_distance = 0.0001
+    # Calculate the "fake" shift as a move in the direction of the chosen axis by the jump distance
+    direction_vector = rotation_matrix[:, 0]  # Extracting the first column, to get the direction of the x axis from the rotation matrix, e.g. the direction of the 
+    fake_shift = direction_vector * jump_distance
+    print("Fake shift:", fake_shift)
     # print("New georef data received:")
     for i in range(len(data.x_pointCld_body)):
         # Apply the shift to each point
-        point = [data.x_pointCld_body[i] + shift[0], data.y_pointCld_body[i] + shift[1], data.z_pointCld_body[i] + shift[2]]
+        point = [data.x_pointCld_body[i] + fake_shift[0], data.y_pointCld_body[i] + fake_shift[1], data.z_pointCld_body[i] + fake_shift[2]]
         points.append(point)
 
     with lock:
         georef_data_queue.append(points)
+
 
 def init_window():
     vis = o3d.visualization.Visualizer()
@@ -71,6 +73,7 @@ def visualize():
                 vis.get_view_control().set_lookat(camera_target)
                 vis.poll_events()
                 vis.update_renderer()
+
                 
 def data_receiver():
     global running

@@ -18,15 +18,8 @@ def init_window():
     return vis
 
 
-def process_sonar_data(data):
-    global sonar_data_queue
-    points = []  # Prepare to store processed points directly
-    
-    for i in range(len(data.pointX)):
-        # Store points directly without intermediate string formatting
-        point = [data.pointX[i], data.pointY[i]]  # Adjust based on actual data structure
-        points.append(point)
-
+def process_ungeoref_data(data):
+    points = [[data.pointX[i], data.pointY[i]] for i in range(len(data.pointX))]
     with lock:
         sonar_data_queue.append(points)
 
@@ -64,11 +57,12 @@ def data_receiver():
             multipart_message = subscriber.recv_multipart()  # Receiving serialized data
 
             # Deserializing the Ungeoreferenced Point Cloud and Its Telemetry Data
-            Ungeoref_And_Telemetry = sonarData_pb2.Ungeoref_And_Telemetry()
-            Ungeoref_And_Telemetry.ParseFromString(multipart_message[0])
 
-            if Ungeoref_And_Telemetry.HasField("sonar"):
-                process_sonar_data(Ungeoref_And_Telemetry.sonar)
+                
+            # Deserializing the Ungeoreferenced Point Cloud 
+            Ungeoref = sonarData_pb2.Ungeoref()
+            Ungeoref.ParseFromString(multipart_message[0])
+            process_ungeoref_data(Ungeoref)
 
 
     except KeyboardInterrupt:
