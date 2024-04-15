@@ -221,9 +221,9 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
 
             // Call the georeferencing function
             Georef_data georef_result = georeferencing(
-                tele_meta->tel.roll * rad2deg_sonarpub,
-                tele_meta->tel.pitch * rad2deg_sonarpub,
-                tele_meta->tel.raw_roll * rad2deg_sonarpub,
+                tele_meta->tel.roll,
+                tele_meta->tel.pitch,
+                tele_meta->tel.yaw,
                 Ungeoref.pointx,
                 Ungeoref.pointy,
                 Ungeoref.n_pointx,

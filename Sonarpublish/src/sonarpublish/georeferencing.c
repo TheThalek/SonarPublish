@@ -28,6 +28,20 @@ void multiplyMatrixVector3x3(float result[3], float mat[3][3], float vec[3]) {
     }
 }
 
+// // Debug print inside the matrix-vector multiplication function
+// void multiplyMatrixVector3x3(float result[3], float mat[3][3], float vec[3]) {
+//     for (int i = 0; i < 3; i++) {
+//         result[i] = 0; // Initialize element
+//         for (int j = 0; j < 3; j++) {
+//             result[i] += mat[i][j] * vec[j];
+//             // Debugging print statement to view intermediate calculations
+//             printf("Adding mat[%d][%d]*vec[%d]: %.8f*%.8f = %.8f\n", i, j, j, mat[i][j], vec[j], mat[i][j] * vec[j]);
+//         }
+//         printf("Result[%d]: %.8f\n", i, result[i]);  // Final result of each component
+//     }
+// }
+
+
 ECEF_Coordinates llh2ecef(float l, float mu, float depth) {
     // Function originally in matlab code, found  in https://github.com/cybergalactic/MSS/blob/master/GNC/llh2ecef.m
     // Translated myself to python
@@ -61,6 +75,21 @@ ECEF_Coordinates llh2ecef(float l, float mu, float depth) {
 
 
 Georef_data georeferencing(float roll, float pitch, float heading, float y[], float z[], int yz_length, float longitude, float latitude, float depth) {
+    // // print all input data
+    // printf("Degrees; Roll: %.8f, Pitch: %.8f, Heading: %.8f\n", roll, pitch, heading);
+    // printf("Longitude: %.8f, Latitude: %.8f, Depth: %.8f\n", longitude, latitude, depth);
+    // printf("Y: ");
+    // for (int i = 0; i < yz_length; i++) {
+    //     printf("%.8f ", y[i]);
+    // }
+    // printf("\n");
+    // printf("Z: ");
+    // for (int i = 0; i < yz_length; i++) {
+    //     printf("%.8f ", z[i]);
+    // }
+    // printf("\n");
+
+
     // Sonar to Body transformation
     float T_B[3] = {-0.6881, 0.007, -0.061};
 
@@ -72,6 +101,7 @@ Georef_data georeferencing(float roll, float pitch, float heading, float y[], fl
     float P_N_B[MAX_POINTS][3];
     float P_N[MAX_POINTS][3];
 
+
     // Loop through each point in the input arrays
     for (int i = 0; i < yz_length; i++) { // P_B = P_S + T_B
         // x-component (T_B[0] since the x-component of P_S is always 0)
@@ -82,64 +112,94 @@ Georef_data georeferencing(float roll, float pitch, float heading, float y[], fl
 
         // z-component
         P_B[i][2] = z[i] + T_B[2];
+
+        // printf("P_B: %.8f, %.8f, %.8f\n", P_B[i][0], P_B[i][1], P_B[i][2]);
     }
     
-
-
-    // Body to NED transformation
-    // printf("Degrees\n");
-    // printf("Roll: %.8f\n", roll);
-    // printf("Pitch: %.8f\n", pitch);
-    // printf("Heading: %.8f\n", heading);
-    roll = radians(roll);
-    pitch = radians(pitch);
-    heading = radians(heading); 
-    printf("Radians\n");
-    printf("Roll: %.8f\n", roll);
-    printf("Pitch: %.8f\n", pitch);
-    printf("Heading: %.8f\n", heading);
-
-    float R_X[3][3] = {
-        {1, 0, 0},
-        {0, cos(roll), -sin(roll)},
-        {0, sin(roll), cos(roll)}
-    };
-
-    float R_Y[3][3] = {
-        {cos(pitch), 0, sin(pitch)},
-        {0, 1, 0},
-        {-sin(pitch), 0, cos(pitch)}
-    };
-
-    float R_Z[3][3] = {
-        {cos(heading), -sin(heading), 0},
-        {sin(heading), cos(heading), 0},
-        {0, 0, 1}
-    };
-
-    // R_Z*R_Y*R_X
-    // Intermediate result for R_Y * R_X
-    float R_YX[3][3];
-    multiplyMatrices3x3(R_YX, R_Y, R_X);
-
-    // Final result for R_Z * R_YX = R_BN
-    float R_nb[3][3];
-    multiplyMatrices3x3(R_nb, R_Z, R_YX);
-
-
-    // double R_nb[3][3] = {
-    //     {cos(heading)*cos(pitch), -sin(heading)*cos(roll)+cos(heading)*sin(pitch)*sin(roll), sin(heading)*sin(roll)+cos(heading)*cos(roll)*sin(pitch)},
-    //     {sin(heading)*cos(pitch), cos(heading)*cos(roll)+sin(roll)*sin(pitch)*sin(heading), -cos(heading)*sin(roll)+sin(pitch)*sin(heading)*cos(roll)},
-    //     {-sin(pitch), cos(pitch)*sin(roll), cos(pitch)*cos(roll)}
+    // // Body to NED transformation
+    
+    // Normalize the angles. 
+    
+    // float R_X[3][3] = {
+    //     {1, 0, 0},
+    //     {0, cos(roll), -sin(roll)},
+    //     {0, sin(roll), cos(roll)}
     // };
 
-    printf("R_nb:\n");
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            printf("%.8f ", R_nb[i][j]);
-        }
-        printf("\n");
-    }
+    // float R_Y[3][3] = {
+    //     {cos(pitch), 0, sin(pitch)},
+    //     {0, 1, 0},
+    //     {-sin(pitch), 0, cos(pitch)}
+    // };
+
+    // float R_Z[3][3] = {
+    //     {cos(heading), -sin(heading), 0},
+    //     {sin(heading), cos(heading), 0},
+    //     {0, 0, 1}
+    // };
+
+    // // print R_X
+    // printf("R_X:\n");
+    // for (int i = 0; i < 3; i++) {
+    //     for (int j = 0; j < 3; j++) {
+    //         printf("%.8f ", R_X[i][j]);
+    //     }
+    //     printf("\n");
+    // }
+    // // print R_Y
+    // printf("R_Y:\n");
+    // for (int i = 0; i < 3; i++) {
+    //     for (int j = 0; j < 3; j++) {
+    //         printf("%.8f ", R_Y[i][j]);
+    //     }
+    //     printf("\n");
+    // }
+    // // print R_Z
+    // printf("R_Z:\n");
+    // for (int i = 0; i < 3; i++) {
+    //     for (int j = 0; j < 3; j++) {
+    //         printf("%.8f ", R_Z[i][j]);
+    //     }
+    //     printf("\n");
+    // }
+
+    double R_nb[3][3] = {
+        {cos(heading)*cos(pitch), -sin(heading)*cos(roll)+cos(heading)*sin(pitch)*sin(roll), sin(heading)*sin(roll)+cos(heading)*cos(roll)*sin(pitch)},
+        {sin(heading)*cos(pitch), cos(heading)*cos(roll)+sin(roll)*sin(pitch)*sin(heading), -cos(heading)*sin(roll)+sin(pitch)*sin(heading)*cos(roll)},
+        {-sin(pitch), cos(pitch)*sin(roll), cos(pitch)*cos(roll)}
+    }; // In ZYX
+
+
+    // float R_nb[3][3] = {
+    //     { cos(heading) * cos(pitch), cos(heading) * sin(pitch) * sin(roll) - sin(heading) * cos(roll), cos(heading) * sin(pitch) * cos(roll) + sin(heading) * sin(roll) },
+    //     { sin(heading) * cos(pitch), sin(heading) * sin(pitch) * sin(roll) + cos(heading) * cos(roll), sin(heading) * sin(pitch) * cos(roll) - cos(heading) * sin(roll) },
+    //     { -sin(pitch), cos(pitch) * sin(roll), cos(pitch) * cos(roll) }
+    // };
+
+    // A test where R_nb [0,0] and cos(heading) * cos(pitch) is printed. 
+
+
+
+    // // Correct multiplication order for ZYX (heading, pitch, roll) rotation sequence
+    // float R_ZY[3][3];
+    // multiplyMatrices3x3(R_ZY, R_Z, R_Y);  // First Z and Y
+    // float R_nb[3][3];
+    // multiplyMatrices3x3(R_nb, R_ZY, R_X);  // Then the result with X
+
+    // // Correct multiplication order for XYZ (roll, pitch, heading) rotation sequence
+    // float R_XY[3][3];
+    // multiplyMatrices3x3(R_XY, R_X, R_Y);  // First X and Y
+    // float R_nb[3][3];
+    // multiplyMatrices3x3(R_nb, R_XY, R_Z);  // Then the result with Z
+
+
+    // printf("R_nb:\n");
+    // for (int i = 0; i < 3; i++) {
+    //     for (int j = 0; j < 3; j++) {
+    //         printf("%.8f ", R_nb[i][j]);
+    //     }
+    //     printf("\n");
+    // }
     
 
 
@@ -150,13 +210,23 @@ Georef_data georeferencing(float roll, float pitch, float heading, float y[], fl
         P_N_B[i][0] = transformedPoint[0];
         P_N_B[i][1] = transformedPoint[1];
         P_N_B[i][2] = transformedPoint[2];
+
+        // printf("R_nb: %.8f, %.8f, %.8f R_nb: %.8f, %.8f, %.8f R_nb: %.8f, %.8f, %.8f\n", R_nb[0][0], R_nb[0][1], R_nb[0][2], R_nb[1][0], R_nb[1][1], R_nb[1][2], R_nb[2][0], R_nb[2][1], R_nb[2][2]);
+
+        // Print point
+        // printf("Point: %.8f, %.8f, %.8f\n", point[0], point[1], point[2]);
+        
+        // print the P_N_B
+        // printf("P_N_B: %.8f, %.8f, %.8f\n", P_N_B[i][0], P_N_B[i][1], P_N_B[i][2]);
+        // Print all of R_nb
+        // printf("R_nb: %.8f, %.8f, %.8f\n", R_nb[0][0], R_nb[0][1], R_nb[0][2]);
+        // printf("R_nb: %.8f, %.8f, %.8f\n", R_nb[1][0], R_nb[1][1], R_nb[1][2]);
+        // printf("R_nb: %.8f, %.8f, %.8f\n", R_nb[2][0], R_nb[2][1], R_nb[2][2]);
     }
 
 
 
-    // printf("Longitude: %.8f\n", longitude);
-    // printf("Latitude: %.8f\n", latitude);
-    // printf("Depth: %.8f\n", depth);
+
     ECEF_Coordinates body_position_ecef = llh2ecef(radians(longitude), radians(latitude), depth);
     // ALSO, double check this calculation! SHould still give the same depth out!!
     
@@ -172,6 +242,10 @@ Georef_data georeferencing(float roll, float pitch, float heading, float y[], fl
     for (int i = 0; i < yz_length; i++) { // The points  of the robot, referenced to the robot body frame
         for (int j = 0; j < 3; j++) {
             result.points_body[i][j] = P_N_B[i][j];
+
+            // printf result.points_body[i][j]
+            // printf("Result points body: %.8f\n", result.points_body[i][j]);
+
         }
     }
 
@@ -180,6 +254,7 @@ Georef_data georeferencing(float roll, float pitch, float heading, float y[], fl
     for (int i = 0; i < 3; i++) { // The rotation matrix
         for (int j = 0; j < 3; j++) {
             result.R_BN[i][j] = R_nb[i][j];
+            // printf("Result R_BN: %.8f\n", result.R_BN[i][j]);
         }
     }
 
