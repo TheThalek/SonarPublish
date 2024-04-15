@@ -1,3 +1,4 @@
+
 import zmq
 import sonarData_pb2
 import time
@@ -11,7 +12,7 @@ georef_data_queue = deque()  # Initialize as deque
 lock = Lock()
 running = True
 previous_position_ecef = np.array([0, 0, 0])  # Initialize the previous ECEF position
-
+fake_shift = 0
 
 def process_georef_data(data):
     global georef_data_queue, previous_position_ecef
@@ -21,7 +22,7 @@ def process_georef_data(data):
     body_position_ecef = np.array([data.x_body_position_ecef, data.y_body_position_ecef, data.z_body_position_ecef])
 
     # Calculate shift based on the previous position
-    shift = [0,0,0] # body_position_ecef - previous_position_ecef
+    shift =  [0,0,0] #body_position_ecef - previous_position_ecef
     previous_position_ecef = body_position_ecef  # Update previous position for next iteration
 
     # print("New georef data received:")
@@ -32,6 +33,7 @@ def process_georef_data(data):
 
     with lock:
         georef_data_queue.append(points)
+
 
 
 def init_window():
@@ -72,8 +74,8 @@ def visualize():
                 vis.get_view_control().set_lookat(camera_target)
                 vis.poll_events()
                 vis.update_renderer()
-                
 
+                
 def data_receiver():
     global running
     context = zmq.Context()

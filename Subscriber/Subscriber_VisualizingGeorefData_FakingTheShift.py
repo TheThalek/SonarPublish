@@ -11,19 +11,20 @@ georef_data_queue = deque()  # Initialize as deque
 lock = Lock()
 running = True
 previous_position_ecef = np.array([0, 0, 0])  # Initialize the previous ECEF position
-
+fake_shift = 0
 
 def process_georef_data(data):
-    global georef_data_queue, previous_position_ecef
+    global georef_data_queue, previous_position_ecef, fake_shift
     points = []
 
     # Convert the flattened rotation matrix to a 3x3 matrix
     rotation_matrix = np.array(data.rotationMatrix).reshape(3, 3)
     # Define a constant jump distance
-    jump_distance = 0
+    jump_distance = 0.01
     # Calculate the "fake" shift as a move in the direction of the chosen axis by the jump distance
     direction_vector = rotation_matrix[:, 0]  # Extracting the first column, to get the direction of the x axis from the rotation matrix, e.g. the direction of the 
-    fake_shift = direction_vector * jump_distance
+    fake_shift += direction_vector * jump_distance
+    # fake_shift += 0.01
     # print("Fake shift:", fake_shift)
 
     # print("New georef data received:")

@@ -1,6 +1,7 @@
 #include "georeferencing.h"
 #include <math.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 // Function to convert degrees to radians
 float radians(float degrees) {
@@ -18,26 +19,13 @@ void multiplyMatrices3x3(float result[3][3], float mat1[3][3], float mat2[3][3])
     }
 }
 
-// Function to perform matrix-vector multiplication (3x3 matrix * 3x1 vector)
-void multiplyMatrixVector3x3(float result[3], float mat[3][3], float vec[3]) {
-    for (int i = 0; i < 3; i++) {
-        result[i] = 0; // Initialize element
-        for (int j = 0; j < 3; j++) {
-            result[i] += mat[i][j] * vec[j];
-        }
-    }
-}
-
-// // Debug print inside the matrix-vector multiplication function
+// // Function to perform matrix-vector multiplication (3x3 matrix * 3x1 vector)
 // void multiplyMatrixVector3x3(float result[3], float mat[3][3], float vec[3]) {
 //     for (int i = 0; i < 3; i++) {
 //         result[i] = 0; // Initialize element
 //         for (int j = 0; j < 3; j++) {
 //             result[i] += mat[i][j] * vec[j];
-//             // Debugging print statement to view intermediate calculations
-//             printf("Adding mat[%d][%d]*vec[%d]: %.8f*%.8f = %.8f\n", i, j, j, mat[i][j], vec[j], mat[i][j] * vec[j]);
 //         }
-//         printf("Result[%d]: %.8f\n", i, result[i]);  // Final result of each component
 //     }
 // }
 
@@ -99,6 +87,7 @@ Georef_data georeferencing(float roll, float pitch, float heading, float y[], fl
 
     float P_B[MAX_POINTS][3];
     float P_N_B[MAX_POINTS][3];
+    float P_N_B_before[MAX_POINTS][3];
     float P_N[MAX_POINTS][3];
 
 
@@ -138,36 +127,16 @@ Georef_data georeferencing(float roll, float pitch, float heading, float y[], fl
     //     {0, 0, 1}
     // };
 
-    // // print R_X
-    // printf("R_X:\n");
-    // for (int i = 0; i < 3; i++) {
-    //     for (int j = 0; j < 3; j++) {
-    //         printf("%.8f ", R_X[i][j]);
-    //     }
-    //     printf("\n");
-    // }
-    // // print R_Y
-    // printf("R_Y:\n");
-    // for (int i = 0; i < 3; i++) {
-    //     for (int j = 0; j < 3; j++) {
-    //         printf("%.8f ", R_Y[i][j]);
-    //     }
-    //     printf("\n");
-    // }
-    // // print R_Z
-    // printf("R_Z:\n");
-    // for (int i = 0; i < 3; i++) {
-    //     for (int j = 0; j < 3; j++) {
-    //         printf("%.8f ", R_Z[i][j]);
-    //     }
-    //     printf("\n");
-    // }
+    // heading = radians(0);
+    // roll = radians(0);
+    // pitch = radians(0);
 
-    double R_nb[3][3] = {
+    float R_nb[3][3] = {
         {cos(heading)*cos(pitch), -sin(heading)*cos(roll)+cos(heading)*sin(pitch)*sin(roll), sin(heading)*sin(roll)+cos(heading)*cos(roll)*sin(pitch)},
         {sin(heading)*cos(pitch), cos(heading)*cos(roll)+sin(roll)*sin(pitch)*sin(heading), -cos(heading)*sin(roll)+sin(pitch)*sin(heading)*cos(roll)},
         {-sin(pitch), cos(pitch)*sin(roll), cos(pitch)*cos(roll)}
-    }; // In ZYX
+    }; // In ZYX, from Fossens book
+    
 
 
     // float R_nb[3][3] = {
@@ -202,14 +171,23 @@ Georef_data georeferencing(float roll, float pitch, float heading, float y[], fl
     // }
     
 
-
+    printf("New scan \n");
     for (int i = 0; i < yz_length; i++) {
-        float point[3] = {P_B[i][0], P_B[i][1], P_B[i][2]};
-        float transformedPoint[3];
-        multiplyMatrixVector3x3(transformedPoint, R_nb, point); // Transform each point
-        P_N_B[i][0] = transformedPoint[0];
-        P_N_B[i][1] = transformedPoint[1];
-        P_N_B[i][2] = transformedPoint[2];
+        P_N_B[i][0] = R_nb[0][0]*P_B[i][0] + R_nb[0][1]*P_B[i][1] + R_nb[0][2]*P_B[i][2]; // R_00*x+R_01*y+R_02*z
+        P_N_B[i][1] = R_nb[1][0]*P_B[i][0] + R_nb[1][1]*P_B[i][1] + R_nb[1][2]*P_B[i][2]; // R_10*x+R_11*y+R_12*z
+        P_N_B[i][2] = R_nb[2][0]*P_B[i][0] + R_nb[2][1]*P_B[i][1] + R_nb[2][2]*P_B[i][2];
+
+        // P_N_B[i][0] = 0; // R_00*x+R_01*y+R_02*z
+        // P_N_B[i][1] = y[i]; // R_10*x+R_11*y+R_12*z
+        // P_N_B[i][2] = z[i];
+
+        // float point[3] = {P_B[i][0], P_B[i][1], P_B[i][2]};
+        // float transformedPoint[3];
+        // multiplyMatrixVector3x3(transformedPoint, R_nb, point); // Transform each point
+        // P_N_B_before[i][0] = transformedPoint[0];
+        // P_N_B_before[i][1] = transformedPoint[1];
+        // P_N_B_before[i][2] = transformedPoint[2];
+
 
         // printf("R_nb: %.8f, %.8f, %.8f R_nb: %.8f, %.8f, %.8f R_nb: %.8f, %.8f, %.8f\n", R_nb[0][0], R_nb[0][1], R_nb[0][2], R_nb[1][0], R_nb[1][1], R_nb[1][2], R_nb[2][0], R_nb[2][1], R_nb[2][2]);
 
@@ -217,7 +195,8 @@ Georef_data georeferencing(float roll, float pitch, float heading, float y[], fl
         // printf("Point: %.8f, %.8f, %.8f\n", point[0], point[1], point[2]);
         
         // print the P_N_B
-        // printf("P_N_B: %.8f, %.8f, %.8f\n", P_N_B[i][0], P_N_B[i][1], P_N_B[i][2]);
+        printf("P_N_B: %.8f, %.8f, %.8f\n", P_N_B[i][0], P_N_B[i][1], P_N_B[i][2]);
+        // printf("P_N_B_before: %.8f, %.8f, %.8f\n", P_N_B_before[i][0], P_N_B_before[i][1], P_N_B_before[i][2]);
         // Print all of R_nb
         // printf("R_nb: %.8f, %.8f, %.8f\n", R_nb[0][0], R_nb[0][1], R_nb[0][2]);
         // printf("R_nb: %.8f, %.8f, %.8f\n", R_nb[1][0], R_nb[1][1], R_nb[1][2]);
