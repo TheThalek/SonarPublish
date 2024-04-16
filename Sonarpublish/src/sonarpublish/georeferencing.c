@@ -3,6 +3,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+// Testing the georef
+static float heading_test = 0;
+static float pitch_test = 0;
+static float roll_test = 0;
+
+static int first_test = 1;
+
+
 // Function to convert degrees to radians
 float radians(float degrees) {
     return degrees * (M_PI / 180.0);
@@ -18,6 +26,7 @@ void multiplyMatrices3x3(float result[3][3], float mat1[3][3], float mat2[3][3])
         }
     }
 }
+
 
 ECEF_Coordinates llh2ecef(float l, float mu, float depth) {
     // Function originally in matlab code, found  in https://github.com/cybergalactic/MSS/blob/master/GNC/llh2ecef.m
@@ -79,6 +88,27 @@ Georef_data georeferencing(float roll, float pitch, float heading, float y[], fl
         // printf("P_B: %.8f, %.8f, %.8f\n", P_B[i][0], P_B[i][1], P_B[i][2]);
     }
     
+
+    // Testing the georef. with constant angle change, to see if it is correct
+    // float jump = 0.01;
+    // heading_test = heading_test + jump;
+    // roll_test = roll_test + jump;
+    // pitch_test = pitch_test + jump;
+    
+    // if (first_test == 1) {
+    //     roll_test = radians(0);
+    //     first_test = 0;
+    // }
+    // else {
+    //     roll_test = radians(45);
+    // }
+
+    // float R_nb[3][3] = {
+    //     {cos(heading_test)*cos(pitch_test), -sin(heading_test)*cos(roll_test)+cos(heading_test)*sin(pitch_test)*sin(roll_test), sin(heading_test)*sin(roll_test)+cos(heading_test)*cos(roll_test)*sin(pitch_test)},
+    //     {sin(heading_test)*cos(pitch_test), cos(heading_test)*cos(roll_test)+sin(roll_test)*sin(pitch_test)*sin(heading_test), -cos(heading_test)*sin(roll_test)+sin(pitch_test)*sin(heading_test)*cos(roll_test)},
+    //     {-sin(pitch_test), cos(pitch_test)*sin(roll_test), cos(pitch_test)*cos(roll_test)}
+    // }; // In ZYX, from Fossens book
+
 
     float R_nb[3][3] = {
         {cos(heading)*cos(pitch), -sin(heading)*cos(roll)+cos(heading)*sin(pitch)*sin(roll), sin(heading)*sin(roll)+cos(heading)*cos(roll)*sin(pitch)},

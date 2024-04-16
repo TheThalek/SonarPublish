@@ -12,20 +12,29 @@ georef_data_queue = deque()  # Initialize as deque
 lock = Lock()
 running = True
 previous_position_ecef = np.array([0, 0, 0])  # Initialize the previous ECEF position
-fake_shift = 0
+shift = [0,0,0]
+first_scan = 1
 
 def process_georef_data(data):
-    global georef_data_queue, previous_position_ecef
+    global georef_data_queue, previous_position_ecef, shift, first_scan
     points = []
 
     # New: Include body position in ECEF
+        
     body_position_ecef = np.array([data.x_body_position_ecef, data.y_body_position_ecef, data.z_body_position_ecef])
 
     # Calculate shift based on the previous position
-    shift =  [0,0,0] #body_position_ecef - previous_position_ecef
-    previous_position_ecef = body_position_ecef  # Update previous position for next iteration
+    if first_scan:
+        shift  = [0,0,0]
+        first_scan = 0
+        previous_position_ecef = body_position_ecef  # Update previous position for next iteration
+    else:
+        shift += (body_position_ecef - previous_position_ecef)
+        previous_position_ecef = body_position_ecef  # Update previous position for next iteration
 
-    # print("New georef data received:")
+
+    print("Shift applied:", shift)
+
     for i in range(len(data.x_pointCld_body)):
         # Apply the shift to each point
         point = [data.x_pointCld_body[i] + shift[0], data.y_pointCld_body[i] + shift[1], data.z_pointCld_body[i] + shift[2]]
@@ -33,6 +42,7 @@ def process_georef_data(data):
 
     with lock:
         georef_data_queue.append(points)
+
 
 
 
@@ -74,6 +84,7 @@ def visualize():
                 vis.get_view_control().set_lookat(camera_target)
                 vis.poll_events()
                 vis.update_renderer()
+
 
                 
 def data_receiver():
