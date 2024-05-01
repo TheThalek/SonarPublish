@@ -13,6 +13,8 @@ from Classes import SonarData, TelemetryDataPosition, TelemetryDataPose, Telemet
 from Visualization import visualize_all_rotations
 from Math import llh2ecef
 
+
+
 # Function to load data from JSON file
 def load_data_from_json(filename):
     with open(filename, 'r') as file:
@@ -40,14 +42,14 @@ def process_message(message):
 
 
 if __name__ == "__main__":
-    # filename = "sonar_telemetry_data_Nyhavna30sek.json"  # Name of your JSON file
+    filename = "sonar_telemetry_data_Nyhavna30sek.json"  # Name of your JSON file
     # filename = "sonar_telemetry_data_Nyhavna10sek_MyInterpolation.json"  # Name of your JSON file
     # filename = "sonar_telemetry_data_withBetterDepthInterpolation.json"  # Name of your JSON file
     # filename = "sonar_telemetry_data_Nyhavna15sek_WithCubicSplineInterpolation_20ControlPoints.json"  # Name of your JSON file
     # filename = "sonar_telemetry_data_Nyhavna15sek_WithCubicSplineInterpolation_40ControlPoints.json"  # Name of your JSON file
 
     # filename = "sonar_telemetry_data_Nyhavna23sek_WithCubicSplineInterpolation_50ControlPoints_AndNoDataDuplicates.json"  # Name of your JSON file
-    filename = "sonar_telemetry_data.json"  # Name of your JSON file
+    # filename = "sonar_telemetry_data.json"  # Name of your JSON file
 
     data = load_data_from_json(filename)
 
@@ -62,6 +64,10 @@ if __name__ == "__main__":
     longitudes = []
     depths = []
 
+    all_pitch = []
+    all_roll = []
+    all_yaw = []
+
     x_ecef_first = 0
     y_ecef_first = 0
     z_ecef_first = 0
@@ -69,7 +75,7 @@ if __name__ == "__main__":
     y_ecef_second = 0
     z_ecef_second = 0
 
-    for message in data:
+    for index, message in enumerate(data[:140]):  # Slice the data to the first 140 messages
         sonar, position, pose, heading, depth, altitude = process_message(message)
         
         # Go from the raw sonar format to being a point cloud references in Sonar Frame
@@ -82,9 +88,15 @@ if __name__ == "__main__":
             #  TO DO; Visualize these points, to see if P_S and P_B has a correct offset wrt. each other
         
         # Body to NED transformation
+
         roll = math.radians(pose.roll)
         pitch = math.radians(pose.pitch)
         heading = math.radians(heading.heading)
+
+        all_roll.append(math.degrees(roll))
+        all_pitch.append(math.degrees(pitch))
+        all_yaw.append(math.degrees(heading))
+
         R_X = np.array([
             [1, 0, 0],
             [0, math.cos(roll), -math.sin(roll)],
@@ -185,28 +197,72 @@ if __name__ == "__main__":
 
 
 
+    # Plotting Roll over 140 Measurements
+    plt.figure(figsize=(10, 4))
+    plt.plot(all_roll, marker='x', linestyle='-', label='Roll (degrees)')
+    plt.xlabel('Time', fontsize=14)
+    plt.ylabel('Roll (degrees)', fontsize=14)
+    plt.title('Roll over 140 Measurements', fontsize=16)
+    plt.legend()
+    plt.grid(True)
+    plt.xticks(fontsize=12)
+    plt.yticks(fontsize=12)
+    plt.show()
+
+    # Plotting Pitch over 140 Measurements
+    plt.figure(figsize=(10, 4))
+    plt.plot(all_pitch, marker='x', linestyle='-', label='Pitch (degrees)')
+    plt.xlabel('Time', fontsize=14)
+    plt.ylabel('Pitch (degrees)', fontsize=14)
+    plt.title('Pitch over 140 Measurements', fontsize=16)
+    plt.legend()
+    plt.grid(True)
+    plt.xticks(fontsize=12)
+    plt.yticks(fontsize=12)
+    plt.show()
+
+    # Plotting Yaw (Heading) over 140 Measurements
+    plt.figure(figsize=(10, 4))
+    plt.plot(all_yaw, marker='x', linestyle='-', label='Yaw (degrees)')
+    plt.xlabel('Time', fontsize=14)
+    plt.ylabel('Yaw (degrees)', fontsize=14)
+    plt.title('Yaw over 140 Measurements', fontsize=16)
+    plt.legend()
+    plt.grid(True)
+    plt.xticks(fontsize=12)
+    plt.yticks(fontsize=12)
+    plt.show()
 
 
 
-    # # Now plot the latitude, longitude, and depth data with formatted y-axis
-    # # Latitude over time
+
+
+
+
+    # # Plotting Latitude over Time in degrees
     # plt.figure(figsize=(10, 4))
-    # plt.plot(latitudes, marker='x', linestyle='-', label='Latitude')  # Add marker specification here
-    # plt.xlabel('Time')
-    # plt.ylabel('Latitude (radians)')
-    # plt.gca().yaxis.set_major_formatter(FuncFormatter(format_func))  # Format y-axis
-    # plt.title('Latitude over Time')
+    # plt.plot(np.degrees(latitudes), marker='x', linestyle='-', label='Latitude')  # Convert radians to degrees
+    # plt.xlabel('Time', fontsize=14)  # Increase font size for x-axis label
+    # plt.ylabel('Latitude (degrees)', fontsize=14)  # Increase font size for y-axis label
+    # plt.gca().yaxis.set_major_formatter(FuncFormatter(format_func))  # Format y-axis to show degrees
+    # plt.title('Latitude over Time over 140 Measurements', fontsize=16)  # Increase font size for title
     # plt.legend()
+    # plt.grid(True)  # Adding grid for better readability
+    # plt.xticks(fontsize=12)  # Increase x-axis font size
+    # plt.yticks(fontsize=12)  # Increase y-axis font size
     # plt.show()
 
-    # # Longitude over time
+    # # Plotting Longitude over Time in degrees
     # plt.figure(figsize=(10, 4))
-    # plt.plot(longitudes, marker='x', linestyle='-', label='Longitude')  # Add marker specification here
-    # plt.xlabel('Time')
-    # plt.ylabel('Longitude (radians)')
-    # plt.gca().yaxis.set_major_formatter(FuncFormatter(format_func))  # Format y-axis
-    # plt.title('Longitude over Time')
+    # plt.plot(np.degrees(longitudes), marker='x', linestyle='-', label='Longitude')  # Convert radians to degrees
+    # plt.xlabel('Time', fontsize=14)  # Increase font size for x-axis label
+    # plt.ylabel('Longitude (degrees)', fontsize=14)  # Increase font size for y-axis label
+    # plt.gca().yaxis.set_major_formatter(FuncFormatter(format_func))  # Format y-axis to show degrees
+    # plt.title('Longitude over 140 Measurements', fontsize=16)  # Increase font size for title
     # plt.legend()
+    # plt.grid(True)  # Adding grid for better readability
+    # plt.xticks(fontsize=12)  # Increase x-axis font size
+    # plt.yticks(fontsize=12)  # Increase y-axis font size
     # plt.show()
 
 
@@ -248,7 +304,7 @@ if __name__ == "__main__":
 
 
 
-    visualize_all_rotations(all_R_BN)
+    # visualize_all_rotations(all_R_BN)
 
 
         

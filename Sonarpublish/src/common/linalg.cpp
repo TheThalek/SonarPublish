@@ -160,7 +160,7 @@ double cubicSpline_interpolate_scalar(double first, uint64_t first_time, double 
         // Cubic Spline Interpolation
         // GSL setup for cubic spline interpolation
         gsl_interp_accel *acc = gsl_interp_accel_alloc();
-        gsl_spline *spline = gsl_spline_alloc(gsl_interp_cspline, data_time.size());
+        gsl_spline *spline = gsl_spline_alloc(gsl_interp_cspline, data_time.size()); // To change boundry conditions, change the gsl_interp_cspline here. E.g. to the gsl_interp_cspline_periodic  
         // Print the content of data_points
         for (int i = 0; i < data_points.size(); i++) {
             // printf("Data Point %d: %.18f\n", i, data_points[i]);
