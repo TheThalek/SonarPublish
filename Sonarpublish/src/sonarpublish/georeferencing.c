@@ -27,6 +27,14 @@ void multiplyMatrices3x3(float result[3][3], float mat1[3][3], float mat2[3][3])
     }
 }
 
+void transposeMatrix3x3(float result[3][3], float matrix[3][3]) {
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            result[j][i] = matrix[i][j];
+        }
+    }
+}
+
 
 ECEF_Coordinates llh2ecef(float l, float mu, float depth) {
     // Function originally in matlab code, found  in https://github.com/cybergalactic/MSS/blob/master/GNC/llh2ecef.m
@@ -43,7 +51,7 @@ ECEF_Coordinates llh2ecef(float l, float mu, float depth) {
     // Returns:
     // - x, y, z: ECEF coordinates. 
 
-    float h = -depth; // Height above the WGS-84 ellipsoid in meters.
+    float h = -depth; // Should be Height above the WGS-84 ellipsoid in meters. In practice, this is the depth of the robot in the water, relative to ocean surface, not WGS-84 ellipsoid
 
     float r_e = 6378137.0;  // Radius of the Earth at the equator in meters (WGS-84)
     float r_p = 6356752.3142;  // Polar radius in meters (WGS-84)
@@ -68,11 +76,11 @@ Georef_data georeferencing(float roll, float pitch, float heading, float y[], fl
         printf("Too many points as input");
     }
 
-    float P_B[MAX_POINTS][3];
-    float P_N_B[MAX_POINTS][3];
-    float P_N_B_before[MAX_POINTS][3];
-    float P_N[MAX_POINTS][3];
 
+    float P_B[MAX_POINTS][3];
+    float P_ECEF[MAX_POINTS][3];
+    float P_ECEF_before[MAX_POINTS][3];
+    float P_NED[MAX_POINTS][3];
 
     // Loop through each point in the input arrays
     for (int i = 0; i < yz_length; i++) { // P_B = P_S + T_B
@@ -80,48 +88,43 @@ Georef_data georeferencing(float roll, float pitch, float heading, float y[], fl
         P_B[i][0] = T_B[0];
 
         // y-component
-        P_B[i][1] = y[i] + T_B[1]; // Adjust based on your coordinate system requirements
+        P_B[i][1] = y[i] + T_B[1]; 
 
         // z-component
         P_B[i][2] = z[i] + T_B[2];
 
-        // printf("P_B: %.8f, %.8f, %.8f\n", P_B[i][0], P_B[i][1], P_B[i][2]);
     }
-    
 
-    // Testing the georef. with constant angle change, to see if it is correct
-    // float jump = 0.01;
-    // heading_test = heading_test + jump;
-    // roll_test = roll_test + jump;
-    // pitch_test = pitch_test + jump;
-    
-    // if (first_test == 1) {
-    //     roll_test = radians(0);
-    //     first_test = 0;
-    // }
-    // else {
-    //     roll_test = radians(45);
-    // }
-
-    // float R_nb[3][3] = {
-    //     {cos(heading_test)*cos(pitch_test), -sin(heading_test)*cos(roll_test)+cos(heading_test)*sin(pitch_test)*sin(roll_test), sin(heading_test)*sin(roll_test)+cos(heading_test)*cos(roll_test)*sin(pitch_test)},
-    //     {sin(heading_test)*cos(pitch_test), cos(heading_test)*cos(roll_test)+sin(roll_test)*sin(pitch_test)*sin(heading_test), -cos(heading_test)*sin(roll_test)+sin(pitch_test)*sin(heading_test)*cos(roll_test)},
-    //     {-sin(pitch_test), cos(pitch_test)*sin(roll_test), cos(pitch_test)*cos(roll_test)}
-    // }; // In ZYX, from Fossens book
-
-
-    float R_nb[3][3] = {
+    float R_bn[3][3] = { 
         {cos(heading)*cos(pitch), -sin(heading)*cos(roll)+cos(heading)*sin(pitch)*sin(roll), sin(heading)*sin(roll)+cos(heading)*cos(roll)*sin(pitch)},
         {sin(heading)*cos(pitch), cos(heading)*cos(roll)+sin(roll)*sin(pitch)*sin(heading), -cos(heading)*sin(roll)+sin(pitch)*sin(heading)*cos(roll)},
         {-sin(pitch), cos(pitch)*sin(roll), cos(pitch)*cos(roll)}
     }; // In ZYX, from Fossens book
 
+    float R_ne[3][3] = {
+        {-sin(radians(longitude)) * cos(radians(latitude)), -sin(radians(longitude))*sin(radians(latitude)), cos(radians(longitude)) },
+        {cos(radians(longitude))*cos(radians(latitude)), cos(radians(longitude))*sin(radians(latitude)), sin(radians(longitude))},
+        {-cos(radians(latitude)), sin(radians(latitude)), 0}
+    };
+
+    // Transpose R_ne to be R_ne_trans or something 
+    float R_ne_trans[3][3];
+    transposeMatrix3x3(R_ne_trans, R_ne); 
+
+    float R_be[3][3];
+
+    multiplyMatrices3x3(R_be, R_bn, R_ne);
 
     for (int i = 0; i < yz_length; i++) {
-        P_N_B[i][0] = R_nb[0][0]*P_B[i][0] + R_nb[0][1]*P_B[i][1] + R_nb[0][2]*P_B[i][2]; // R_00*x+R_01*y+R_02*z
-        P_N_B[i][1] = R_nb[1][0]*P_B[i][0] + R_nb[1][1]*P_B[i][1] + R_nb[1][2]*P_B[i][2]; // R_10*x+R_11*y+R_12*z
-        P_N_B[i][2] = R_nb[2][0]*P_B[i][0] + R_nb[2][1]*P_B[i][1] + R_nb[2][2]*P_B[i][2];
+        P_NED[i][0] = R_bn[0][0]*P_B[i][0] + R_bn[0][1]*P_B[i][1] + R_bn[0][2]*P_B[i][2]; // R_00*x+R_01*y+R_02*z
+        P_NED[i][1] = R_bn[1][0]*P_B[i][0] + R_bn[1][1]*P_B[i][1] + R_bn[1][2]*P_B[i][2]; // R_10*x+R_11*y+R_12*z
+        P_NED[i][2] = R_bn[2][0]*P_B[i][0] + R_bn[2][1]*P_B[i][1] + R_bn[2][2]*P_B[i][2];
+    }
 
+    for (int i = 0; i < yz_length; i++) {
+        P_ECEF[i][0] = R_be[0][0]*P_B[i][0] + R_be[0][1]*P_B[i][1] + R_be[0][2]*P_B[i][2]; // R_00*x+R_01*y+R_02*z
+        P_ECEF[i][1] = R_be[1][0]*P_B[i][0] + R_be[1][1]*P_B[i][1] + R_be[1][2]*P_B[i][2]; // R_10*x+R_11*y+R_12*z
+        P_ECEF[i][2] = R_be[2][0]*P_B[i][0] + R_be[2][1]*P_B[i][1] + R_be[2][2]*P_B[i][2];
     }
 
     ECEF_Coordinates body_position_ecef = llh2ecef(radians(longitude), radians(latitude), depth);
@@ -135,16 +138,28 @@ Georef_data georeferencing(float roll, float pitch, float heading, float y[], fl
 
     for (int i = 0; i < yz_length; i++) { // The points  of the robot, referenced to the robot body frame
         for (int j = 0; j < 3; j++) {
-            result.points_body[i][j] = P_N_B[i][j];
-
+            result.PointCloud_Rotated_ECEF[i][j] = P_ECEF[i][j];
         }
     }
+
+    for (int i = 0; i < yz_length; i++) { // The points  of the robot, referenced to the robot body frame
+        for (int j = 0; j < 3; j++) {
+            result.PointCloud_Rotated_NED[i][j] = P_NED[i][j];
+        }
+    }
+
 
     result.num_points = yz_length;
 
     for (int i = 0; i < 3; i++) { // The rotation matrix
         for (int j = 0; j < 3; j++) {
-            result.R_BN[i][j] = R_nb[i][j];
+            result.R_BN[i][j] = R_bn[i][j];
+        }
+    }
+
+    for (int i = 0; i < 3; i++) { // The rotation matrix
+        for (int j = 0; j < 3; j++) {
+            result.R_BECEF[i][j] = R_be[i][j];
         }
     }
 

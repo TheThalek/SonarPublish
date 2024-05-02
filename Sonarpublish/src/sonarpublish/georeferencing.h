@@ -10,10 +10,15 @@ typedef struct {
 
 // Define a struct to hold the georeferenced data for easy return from the georeferencing function
 typedef struct {
-    float points_body[MAX_POINTS][3]; // Pointer to an array of points, each with 3 float coordinates
     int num_points;     // Number of points
-    float R_BN[3][3];   // Rotation matrix
-    float body_ecef[3]; // Array to hold the ECEF coordinates for each point
+
+    float PointCloud_Rotated_NED[MAX_POINTS][3]; // Pointer to an array of points, each with 3 float coordinates, transformed with orientation to NED, not translation vector
+    float R_BN[3][3];   // Rotation matrix from Body to NED
+
+    float PointCloud_Rotated_ECEF[MAX_POINTS][3]; // Pointer to an array of points, each with 3 float coordinates, transformed with orientation to ECEF, not translation vector
+    float body_ecef[3]; // Array to hold the ECEF position of the robot
+    float R_BECEF[3][3];   // Rotation matrix from Body to ECEF
+
 } Georef_data;
 
 // Function to perform georeferencing using ECEF coordinates

@@ -1,3 +1,4 @@
+
 import zmq
 import sonarData_pb2
 import time
@@ -11,30 +12,42 @@ georef_data_queue = deque()  # Initialize as deque
 lock = Lock()
 running = True
 previous_position_ecef = np.array([0, 0, 0])  # Initialize the previous ECEF position
-fake_shift = 0
+shift = [0,0,0]
+first_scan = 1
 
 def process_georef_data(data):
-    global georef_data_queue, previous_position_ecef, fake_shift
+    global georef_data_queue, previous_position_ecef, shift, first_scan
     points = []
+    print("In loop \n")
 
-    # Convert the flattened rotation matrix to a 3x3 matrix
-    rotation_matrix = np.array(data.rotationMatrix).reshape(3, 3)
-    # Define a constant jump distance
-    jump_distance = 0.01
-    # Calculate the "fake" shift as a move in the direction of the chosen axis by the jump distance
-    direction_vector = rotation_matrix[:, 0]  # Extracting the first column, to get the direction of the x axis from the rotation matrix, e.g. the direction of the 
-    fake_shift += direction_vector * jump_distance
-    # fake_shift += 0.01
-    # print("Fake shift:", fake_shift)
+    # New: Include body position in ECEF
+        
+    body_position_ecef = np.array([data.x_body_position_ECEF, data.y_body_position_ECEF, data.z_body_position_ECEF])
 
-    # print("New georef data received:")
-    for i in range(len(data.x_pointCld_body)):
+    # Calculate shift based on the previous position
+    if first_scan:
+        shift  = [0,0,0]
+        first_scan = 0
+        previous_position_ecef = body_position_ecef  # Update previous position for next iteration
+        # print previous_position_ecef
+        # print("Body position ECEF:", body_position_ecef)
+
+    else:
+        shift += (body_position_ecef - previous_position_ecef)
+        previous_position_ecef = body_position_ecef  # Update previous position for next iteration
+        # print previous_position_ecef
+        # print("Body position ECEF:", body_position_ecef)
+
+
+    for i in range(len(data.x_pointCld_body_ECEF)):
         # Apply the shift to each point
-        point = [data.x_pointCld_body[i] + fake_shift[0], data.y_pointCld_body[i] + fake_shift[1], data.z_pointCld_body[i] + fake_shift[2]]
+        point = [data.x_pointCld_body_ECEF[i] + shift[0], data.y_pointCld_body_ECEF[i] + shift[1], data.z_pointCld_body_ECEF[i] + shift[2]]
         points.append(point)
 
     with lock:
         georef_data_queue.append(points)
+
+
 
 
 def init_window():
@@ -44,6 +57,7 @@ def init_window():
 
 
 def visualize():
+    print("Visualize \n")
     global running, georef_data_queue
     vis = o3d.visualization.Visualizer()
     vis.create_window()
@@ -76,6 +90,7 @@ def visualize():
                 vis.poll_events()
                 vis.update_renderer()
 
+
                 
 def data_receiver():
     global running
@@ -86,10 +101,15 @@ def data_receiver():
     try:
         while running:
             try:
+                print("In data receiver \n")
                 multipart_message = subscriber.recv_multipart()
-                Georef = sonarData_pb2.Georef()
-                Georef.ParseFromString(multipart_message[2])
-                process_georef_data(Georef)
+                print("Received message \n")
+                Georef_ECEF = sonarData_pb2.Georef_ECEF()
+                print("Parsing message \n")
+                Georef_ECEF.ParseFromString(multipart_message[3])
+                print("Processing message \n")
+                process_georef_data(Georef_ECEF)
+                print("Processed message \n")
             except zmq.Again:
                 continue
     except KeyboardInterrupt:

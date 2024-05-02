@@ -15,7 +15,8 @@ PROTOBUF_C__BEGIN_DECLS
 #endif
 
 
-typedef struct _SonarData__Georef SonarData__Georef;
+typedef struct _SonarData__GeorefNED SonarData__GeorefNED;
+typedef struct _SonarData__GeorefECEF SonarData__GeorefECEF;
 typedef struct _SonarData__Telemetry SonarData__Telemetry;
 typedef struct _SonarData__TelemetryDataPosition SonarData__TelemetryDataPosition;
 typedef struct _SonarData__TelemetryDataPose SonarData__TelemetryDataPose;
@@ -33,35 +34,67 @@ typedef struct _SonarData__Ungeoref SonarData__Ungeoref;
 /*
  * Georeferenced point cloud data with rotation matrix
  */
-struct  _SonarData__Georef
+struct  _SonarData__GeorefNED
 {
   ProtobufCMessage base;
   /*
    * X coordinates of points, referenced wrt. body frame of robot
    */
-  size_t n_x_pointcld_body;
-  float *x_pointcld_body;
+  size_t n_x_pointcld_body_ned;
+  float *x_pointcld_body_ned;
   /*
    * Y coordinates of points
    */
-  size_t n_y_pointcld_body;
-  float *y_pointcld_body;
+  size_t n_y_pointcld_body_ned;
+  float *y_pointcld_body_ned;
   /*
    * Z coordinates of points
    */
-  size_t n_z_pointcld_body;
-  float *z_pointcld_body;
+  size_t n_z_pointcld_body_ned;
+  float *z_pointcld_body_ned;
   /*
    * Rotation matrix (flattened 3x3 matrix)
    */
-  size_t n_rotationmatrix;
-  float *rotationmatrix;
+  size_t n_rotationmatrix_ned;
+  float *rotationmatrix_ned;
+};
+#define SONAR_DATA__GEOREF__NED__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&sonar_data__georef__ned__descriptor) \
+    , 0,NULL, 0,NULL, 0,NULL, 0,NULL }
+
+
+/*
+ * Georeferenced point cloud data with rotation matrix
+ */
+struct  _SonarData__GeorefECEF
+{
+  ProtobufCMessage base;
+  /*
+   * X coordinates of points, referenced wrt. body frame of robot
+   */
+  size_t n_x_pointcld_body_ecef;
+  float *x_pointcld_body_ecef;
+  /*
+   * Y coordinates of points
+   */
+  size_t n_y_pointcld_body_ecef;
+  float *y_pointcld_body_ecef;
+  /*
+   * Z coordinates of points
+   */
+  size_t n_z_pointcld_body_ecef;
+  float *z_pointcld_body_ecef;
+  /*
+   * Rotation matrix (flattened 3x3 matrix)
+   */
+  size_t n_rotationmatrix_ecef;
+  float *rotationmatrix_ecef;
   float x_body_position_ecef;
   float y_body_position_ecef;
   float z_body_position_ecef;
 };
-#define SONAR_DATA__GEOREF__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&sonar_data__georef__descriptor) \
+#define SONAR_DATA__GEOREF__ECEF__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&sonar_data__georef__ecef__descriptor) \
     , 0,NULL, 0,NULL, 0,NULL, 0,NULL, 0, 0, 0 }
 
 
@@ -161,24 +194,43 @@ struct  _SonarData__Ungeoref
     , 0,NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL }
 
 
-/* SonarData__Georef methods */
-void   sonar_data__georef__init
-                     (SonarData__Georef         *message);
-size_t sonar_data__georef__get_packed_size
-                     (const SonarData__Georef   *message);
-size_t sonar_data__georef__pack
-                     (const SonarData__Georef   *message,
+/* SonarData__GeorefNED methods */
+void   sonar_data__georef__ned__init
+                     (SonarData__GeorefNED         *message);
+size_t sonar_data__georef__ned__get_packed_size
+                     (const SonarData__GeorefNED   *message);
+size_t sonar_data__georef__ned__pack
+                     (const SonarData__GeorefNED   *message,
                       uint8_t             *out);
-size_t sonar_data__georef__pack_to_buffer
-                     (const SonarData__Georef   *message,
+size_t sonar_data__georef__ned__pack_to_buffer
+                     (const SonarData__GeorefNED   *message,
                       ProtobufCBuffer     *buffer);
-SonarData__Georef *
-       sonar_data__georef__unpack
+SonarData__GeorefNED *
+       sonar_data__georef__ned__unpack
                      (ProtobufCAllocator  *allocator,
                       size_t               len,
                       const uint8_t       *data);
-void   sonar_data__georef__free_unpacked
-                     (SonarData__Georef *message,
+void   sonar_data__georef__ned__free_unpacked
+                     (SonarData__GeorefNED *message,
+                      ProtobufCAllocator *allocator);
+/* SonarData__GeorefECEF methods */
+void   sonar_data__georef__ecef__init
+                     (SonarData__GeorefECEF         *message);
+size_t sonar_data__georef__ecef__get_packed_size
+                     (const SonarData__GeorefECEF   *message);
+size_t sonar_data__georef__ecef__pack
+                     (const SonarData__GeorefECEF   *message,
+                      uint8_t             *out);
+size_t sonar_data__georef__ecef__pack_to_buffer
+                     (const SonarData__GeorefECEF   *message,
+                      ProtobufCBuffer     *buffer);
+SonarData__GeorefECEF *
+       sonar_data__georef__ecef__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   sonar_data__georef__ecef__free_unpacked
+                     (SonarData__GeorefECEF *message,
                       ProtobufCAllocator *allocator);
 /* SonarData__Telemetry methods */
 void   sonar_data__telemetry__init
@@ -315,8 +367,11 @@ void   sonar_data__ungeoref__free_unpacked
                       ProtobufCAllocator *allocator);
 /* --- per-message closures --- */
 
-typedef void (*SonarData__Georef_Closure)
-                 (const SonarData__Georef *message,
+typedef void (*SonarData__GeorefNED_Closure)
+                 (const SonarData__GeorefNED *message,
+                  void *closure_data);
+typedef void (*SonarData__GeorefECEF_Closure)
+                 (const SonarData__GeorefECEF *message,
                   void *closure_data);
 typedef void (*SonarData__Telemetry_Closure)
                  (const SonarData__Telemetry *message,
@@ -345,7 +400,8 @@ typedef void (*SonarData__Ungeoref_Closure)
 
 /* --- descriptors --- */
 
-extern const ProtobufCMessageDescriptor sonar_data__georef__descriptor;
+extern const ProtobufCMessageDescriptor sonar_data__georef__ned__descriptor;
+extern const ProtobufCMessageDescriptor sonar_data__georef__ecef__descriptor;
 extern const ProtobufCMessageDescriptor sonar_data__telemetry__descriptor;
 extern const ProtobufCMessageDescriptor sonar_data__telemetry_data_position__descriptor;
 extern const ProtobufCMessageDescriptor sonar_data__telemetry_data_pose__descriptor;

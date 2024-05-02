@@ -25,7 +25,7 @@
 // GST_PLUGIN_PATH=. GST_DEBUG=2,sonarsink:9 gst-launch-1.0 filesrc location=$SBD ! sonarparse ! sonarmux name=mux ! sonarpublish zoom=0.1 filesrc location=$SBD ! nmeaparse ! eelnmeadec ! mux.
 
 
-#include "sonarpublish.h"
+#include "sonarpublish.h" 
 #include "georeferencing.h"
 
 #include <math.h>
@@ -132,8 +132,11 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
 
             // Initialize your main messages
             SonarData__Telemetry Telemetry = SONAR_DATA__TELEMETRY__INIT;
-            SonarData__Georef Georef = SONAR_DATA__GEOREF__INIT;
+            SonarData__GeorefECEF Georef_ECEF = SONAR_DATA__GEOREF__ECEF__INIT;
+            SonarData__GeorefNED Georef_NED = SONAR_DATA__GEOREF__NED__INIT;
             SonarData__Ungeoref Ungeoref = SONAR_DATA__UNGEOREF__INIT;
+
+
 
             int num_points = sonarpublish->n_beams;
 
@@ -232,32 +235,55 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
                 tele_meta->tel.depth
             );
             
-            Georef.x_pointcld_body = (float*)malloc(georef_result.num_points * sizeof(float));
-            Georef.y_pointcld_body = (float*)malloc(georef_result.num_points * sizeof(float));
-            Georef.z_pointcld_body = (float*)malloc(georef_result.num_points * sizeof(float));
+            Georef_ECEF.x_pointcld_body_ecef =  (float*)malloc(georef_result.num_points * sizeof(float));
+            Georef_ECEF.y_pointcld_body_ecef =  (float*)malloc(georef_result.num_points * sizeof(float));
+            Georef_ECEF.z_pointcld_body_ecef =  (float*)malloc(georef_result.num_points * sizeof(float));
 
             for (int i = 0; i < georef_result.num_points; i++) {
-                Georef.x_pointcld_body[i] = georef_result.points_body[i][0];
-                Georef.y_pointcld_body[i] = georef_result.points_body[i][1];
-                Georef.z_pointcld_body[i] = georef_result.points_body[i][2];
+                Georef_ECEF.x_pointcld_body_ecef[i] = georef_result.PointCloud_Rotated_ECEF[i][0];
+                Georef_ECEF.y_pointcld_body_ecef[i] = georef_result.PointCloud_Rotated_ECEF[i][1];
+                Georef_ECEF.z_pointcld_body_ecef[i] = georef_result.PointCloud_Rotated_ECEF[i][2];
             }
 
-            Georef.rotationmatrix = (float*)malloc(9 * sizeof(float));
+            Georef_NED.x_pointcld_body_ned =  (float*)malloc(georef_result.num_points * sizeof(float));
+            Georef_NED.y_pointcld_body_ned =  (float*)malloc(georef_result.num_points * sizeof(float));
+            Georef_NED.z_pointcld_body_ned =  (float*)malloc(georef_result.num_points * sizeof(float));
+
+            for (int i = 0; i < georef_result.num_points; i++) {
+                Georef_NED.x_pointcld_body_ned[i] = georef_result.PointCloud_Rotated_NED[i][0];
+                Georef_NED.y_pointcld_body_ned[i] = georef_result.PointCloud_Rotated_NED[i][1];
+                Georef_NED.z_pointcld_body_ned[i] = georef_result.PointCloud_Rotated_NED[i][2];
+            }
+
+            Georef_ECEF.rotationmatrix_ecef = (float*)malloc(9 * sizeof(float));
 
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
-                    Georef.rotationmatrix[i * 3 + j] = georef_result.R_BN[i][j];
+                    Georef_ECEF.rotationmatrix_ecef[i * 3 + j] = georef_result.R_BECEF[i][j];
                 }
             }
 
-            Georef.n_x_pointcld_body = georef_result.num_points;
-            Georef.n_y_pointcld_body = georef_result.num_points;
-            Georef.n_z_pointcld_body = georef_result.num_points;
-            Georef.n_rotationmatrix = 9;
+            Georef_NED.rotationmatrix_ned = (float*)malloc(9 * sizeof(float));
 
-            Georef.x_body_position_ecef = georef_result.body_ecef[0];
-            Georef.y_body_position_ecef = georef_result.body_ecef[1];
-            Georef.z_body_position_ecef = georef_result.body_ecef[2];
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    Georef_NED.rotationmatrix_ned[i * 3 + j] = georef_result.R_BN[i][j];
+                }
+            }
+
+            Georef_ECEF.n_x_pointcld_body_ecef = georef_result.num_points;
+            Georef_ECEF.n_y_pointcld_body_ecef = georef_result.num_points;
+            Georef_ECEF.n_z_pointcld_body_ecef = georef_result.num_points;
+            Georef_ECEF.n_rotationmatrix_ecef = 9;
+
+            Georef_NED.n_x_pointcld_body_ned = georef_result.num_points;
+            Georef_NED.n_y_pointcld_body_ned = georef_result.num_points;
+            Georef_NED.n_z_pointcld_body_ned = georef_result.num_points;
+            Georef_NED.n_rotationmatrix_ned = 9;
+
+            Georef_ECEF.x_body_position_ecef = georef_result.body_ecef[0];
+            Georef_ECEF.y_body_position_ecef = georef_result.body_ecef[1];
+            Georef_ECEF.z_body_position_ecef = georef_result.body_ecef[2];
 
             }
             else
@@ -309,24 +335,38 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
 
             zmq_msg_close(&message_Tel); // close message
 
+            // Serialize the Georef_NED message into a binary format and publish the message
+            size_t packed_size_data_Georef_ned = sonar_data__georef__ned__get_packed_size(&Georef_NED); // serialize
+            uint8_t* buffer_data_Georef_ned = (uint8_t*)malloc(packed_size_data_Georef_ned);
+            sonar_data__georef__ned__pack(&Georef_NED, buffer_data_Georef_ned);
 
-            // Serialize the Georef message into a binary format and publish the message
-            size_t packed_size_data_Georef = sonar_data__georef__get_packed_size(&Georef); // serialize
-            uint8_t* buffer_data_Georef = (uint8_t*)malloc(packed_size_data_Georef);
-            sonar_data__georef__pack(&Georef, buffer_data_Georef);
+            zmq_msg_t message_Georef_ned; // create zeromq multipart message with the Georef_ned data as one part
+            zmq_msg_init_size(&message_Georef_ned, packed_size_data_Georef_ned);
+            memcpy(zmq_msg_data(&message_Georef_ned), buffer_data_Georef_ned, packed_size_data_Georef_ned);
 
-            zmq_msg_t message_Georef; // create zeromq multipart message with the Georef data as one part
-            zmq_msg_init_size(&message_Georef, packed_size_data_Georef);
-            memcpy(zmq_msg_data(&message_Georef), buffer_data_Georef, packed_size_data_Georef);
+            int rc_Georef_ned = zmq_msg_send(&message_Georef_ned, sonarpublish->zmq_publisher, ZMQ_SNDMORE); // send message
 
-            int rc_Georef = zmq_msg_send(&message_Georef, sonarpublish->zmq_publisher, 0); // send message
+            zmq_msg_close(&message_Georef_ned); // close message
 
-            zmq_msg_close(&message_Georef); // close message
+
+
+            // Serialize the Georef_ECEF message into a binary format and publish the message
+            size_t packed_size_data_Georef_ecef = sonar_data__georef__ecef__get_packed_size(&Georef_ECEF); // serialize
+            uint8_t* buffer_data_Georef_ecef = (uint8_t*)malloc(packed_size_data_Georef_ecef);
+            sonar_data__georef__ecef__pack(&Georef_ECEF, buffer_data_Georef_ecef);
+
+            zmq_msg_t message_Georef_ecef; // create zeromq multipart message with the Georef_ecef data as one part
+            zmq_msg_init_size(&message_Georef_ecef, packed_size_data_Georef_ecef);
+            memcpy(zmq_msg_data(&message_Georef_ecef), buffer_data_Georef_ecef, packed_size_data_Georef_ecef);
+
+            int rc_Georef_ecef = zmq_msg_send(&message_Georef_ecef, sonarpublish->zmq_publisher, 0); // send message
+
+            zmq_msg_close(&message_Georef_ecef); // close message
 
 
 
             // Check for errors
-            if (rc_UnRef < 0 || rc_Tel < 0 || rc_Georef < 0) {
+            if (rc_UnRef < 0 || rc_Tel < 0 || rc_Georef_ned < 0 || rc_Georef_ecef < 0) {
                 perror("Error sending data over ZeroMQ");
                 // Handle error as needed
             }
@@ -335,8 +375,8 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
             // Free the allocated memory and close the socket:
             free(buffer_data_UnRef);
             free(buffer_data_Tel);
-            free(buffer_data_Georef);
-
+            free(buffer_data_Georef_ned);
+            free(buffer_data_Georef_ecef);
 
             // Free the allocated memory (Specifically for the arrays of data, unnecessary otherwise)
             free(Ungeoref.pointx);
@@ -345,10 +385,15 @@ static GstFlowReturn gst_sonarpublish_render(GstBaseSink* basesink, GstBuffer* b
             free(Ungeoref.quality);
             free(Ungeoref.intensity);
 
-            free(Georef.x_pointcld_body);
-            free(Georef.y_pointcld_body);
-            free(Georef.z_pointcld_body);
-            free(Georef.rotationmatrix);
+            free(Georef_NED.x_pointcld_body_ned);
+            free(Georef_NED.y_pointcld_body_ned);
+            free(Georef_NED.z_pointcld_body_ned);
+            free(Georef_NED.rotationmatrix_ned);
+
+            free(Georef_ECEF.x_pointcld_body_ecef);
+            free(Georef_ECEF.y_pointcld_body_ecef);
+            free(Georef_ECEF.z_pointcld_body_ecef);
+            free(Georef_ECEF.rotationmatrix_ecef);
 
             break;
         }

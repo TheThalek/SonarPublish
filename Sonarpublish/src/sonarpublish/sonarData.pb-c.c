@@ -7,49 +7,94 @@
 #endif
 
 #include "sonarData.pb-c.h"
-void   sonar_data__georef__init
-                     (SonarData__Georef         *message)
+void   sonar_data__georef__ned__init
+                     (SonarData__GeorefNED         *message)
 {
-  static const SonarData__Georef init_value = SONAR_DATA__GEOREF__INIT;
+  static const SonarData__GeorefNED init_value = SONAR_DATA__GEOREF__NED__INIT;
   *message = init_value;
 }
-size_t sonar_data__georef__get_packed_size
-                     (const SonarData__Georef *message)
+size_t sonar_data__georef__ned__get_packed_size
+                     (const SonarData__GeorefNED *message)
 {
-  assert(message->base.descriptor == &sonar_data__georef__descriptor);
+  assert(message->base.descriptor == &sonar_data__georef__ned__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
-size_t sonar_data__georef__pack
-                     (const SonarData__Georef *message,
+size_t sonar_data__georef__ned__pack
+                     (const SonarData__GeorefNED *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &sonar_data__georef__descriptor);
+  assert(message->base.descriptor == &sonar_data__georef__ned__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
-size_t sonar_data__georef__pack_to_buffer
-                     (const SonarData__Georef *message,
+size_t sonar_data__georef__ned__pack_to_buffer
+                     (const SonarData__GeorefNED *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &sonar_data__georef__descriptor);
+  assert(message->base.descriptor == &sonar_data__georef__ned__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
-SonarData__Georef *
-       sonar_data__georef__unpack
+SonarData__GeorefNED *
+       sonar_data__georef__ned__unpack
                      (ProtobufCAllocator  *allocator,
                       size_t               len,
                       const uint8_t       *data)
 {
-  return (SonarData__Georef *)
-     protobuf_c_message_unpack (&sonar_data__georef__descriptor,
+  return (SonarData__GeorefNED *)
+     protobuf_c_message_unpack (&sonar_data__georef__ned__descriptor,
                                 allocator, len, data);
 }
-void   sonar_data__georef__free_unpacked
-                     (SonarData__Georef *message,
+void   sonar_data__georef__ned__free_unpacked
+                     (SonarData__GeorefNED *message,
                       ProtobufCAllocator *allocator)
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &sonar_data__georef__descriptor);
+  assert(message->base.descriptor == &sonar_data__georef__ned__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+void   sonar_data__georef__ecef__init
+                     (SonarData__GeorefECEF         *message)
+{
+  static const SonarData__GeorefECEF init_value = SONAR_DATA__GEOREF__ECEF__INIT;
+  *message = init_value;
+}
+size_t sonar_data__georef__ecef__get_packed_size
+                     (const SonarData__GeorefECEF *message)
+{
+  assert(message->base.descriptor == &sonar_data__georef__ecef__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t sonar_data__georef__ecef__pack
+                     (const SonarData__GeorefECEF *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &sonar_data__georef__ecef__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t sonar_data__georef__ecef__pack_to_buffer
+                     (const SonarData__GeorefECEF *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &sonar_data__georef__ecef__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+SonarData__GeorefECEF *
+       sonar_data__georef__ecef__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (SonarData__GeorefECEF *)
+     protobuf_c_message_unpack (&sonar_data__georef__ecef__descriptor,
+                                allocator, len, data);
+}
+void   sonar_data__georef__ecef__free_unpacked
+                     (SonarData__GeorefECEF *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &sonar_data__georef__ecef__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   sonar_data__telemetry__init
@@ -367,120 +412,197 @@ void   sonar_data__ungeoref__free_unpacked
   assert(message->base.descriptor == &sonar_data__ungeoref__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-static const ProtobufCFieldDescriptor sonar_data__georef__field_descriptors[7] =
+static const ProtobufCFieldDescriptor sonar_data__georef__ned__field_descriptors[4] =
 {
   {
-    "x_pointCld_body",
+    "x_pointCld_body_NED",
     1,
     PROTOBUF_C_LABEL_REPEATED,
     PROTOBUF_C_TYPE_FLOAT,
-    offsetof(SonarData__Georef, n_x_pointcld_body),
-    offsetof(SonarData__Georef, x_pointcld_body),
+    offsetof(SonarData__GeorefNED, n_x_pointcld_body_ned),
+    offsetof(SonarData__GeorefNED, x_pointcld_body_ned),
     NULL,
     NULL,
     0 | PROTOBUF_C_FIELD_FLAG_PACKED,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "y_pointCld_body",
+    "y_pointCld_body_NED",
     2,
     PROTOBUF_C_LABEL_REPEATED,
     PROTOBUF_C_TYPE_FLOAT,
-    offsetof(SonarData__Georef, n_y_pointcld_body),
-    offsetof(SonarData__Georef, y_pointcld_body),
+    offsetof(SonarData__GeorefNED, n_y_pointcld_body_ned),
+    offsetof(SonarData__GeorefNED, y_pointcld_body_ned),
     NULL,
     NULL,
     0 | PROTOBUF_C_FIELD_FLAG_PACKED,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "z_pointCld_body",
+    "z_pointCld_body_NED",
     3,
     PROTOBUF_C_LABEL_REPEATED,
     PROTOBUF_C_TYPE_FLOAT,
-    offsetof(SonarData__Georef, n_z_pointcld_body),
-    offsetof(SonarData__Georef, z_pointcld_body),
+    offsetof(SonarData__GeorefNED, n_z_pointcld_body_ned),
+    offsetof(SonarData__GeorefNED, z_pointcld_body_ned),
     NULL,
     NULL,
     0 | PROTOBUF_C_FIELD_FLAG_PACKED,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "rotationMatrix",
+    "rotationMatrix_NED",
     4,
     PROTOBUF_C_LABEL_REPEATED,
     PROTOBUF_C_TYPE_FLOAT,
-    offsetof(SonarData__Georef, n_rotationmatrix),
-    offsetof(SonarData__Georef, rotationmatrix),
+    offsetof(SonarData__GeorefNED, n_rotationmatrix_ned),
+    offsetof(SonarData__GeorefNED, rotationmatrix_ned),
+    NULL,
+    NULL,
+    0 | PROTOBUF_C_FIELD_FLAG_PACKED,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned sonar_data__georef__ned__field_indices_by_name[] = {
+  3,   /* field[3] = rotationMatrix_NED */
+  0,   /* field[0] = x_pointCld_body_NED */
+  1,   /* field[1] = y_pointCld_body_NED */
+  2,   /* field[2] = z_pointCld_body_NED */
+};
+static const ProtobufCIntRange sonar_data__georef__ned__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 4 }
+};
+const ProtobufCMessageDescriptor sonar_data__georef__ned__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "sonarData.Georef_NED",
+  "GeorefNED",
+  "SonarData__GeorefNED",
+  "sonarData",
+  sizeof(SonarData__GeorefNED),
+  4,
+  sonar_data__georef__ned__field_descriptors,
+  sonar_data__georef__ned__field_indices_by_name,
+  1,  sonar_data__georef__ned__number_ranges,
+  (ProtobufCMessageInit) sonar_data__georef__ned__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor sonar_data__georef__ecef__field_descriptors[7] =
+{
+  {
+    "x_pointCld_body_ECEF",
+    1,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_FLOAT,
+    offsetof(SonarData__GeorefECEF, n_x_pointcld_body_ecef),
+    offsetof(SonarData__GeorefECEF, x_pointcld_body_ecef),
     NULL,
     NULL,
     0 | PROTOBUF_C_FIELD_FLAG_PACKED,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "x_body_position_ecef",
+    "y_pointCld_body_ECEF",
+    2,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_FLOAT,
+    offsetof(SonarData__GeorefECEF, n_y_pointcld_body_ecef),
+    offsetof(SonarData__GeorefECEF, y_pointcld_body_ecef),
+    NULL,
+    NULL,
+    0 | PROTOBUF_C_FIELD_FLAG_PACKED,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "z_pointCld_body_ECEF",
+    3,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_FLOAT,
+    offsetof(SonarData__GeorefECEF, n_z_pointcld_body_ecef),
+    offsetof(SonarData__GeorefECEF, z_pointcld_body_ecef),
+    NULL,
+    NULL,
+    0 | PROTOBUF_C_FIELD_FLAG_PACKED,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "rotationMatrix_ECEF",
+    4,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_FLOAT,
+    offsetof(SonarData__GeorefECEF, n_rotationmatrix_ecef),
+    offsetof(SonarData__GeorefECEF, rotationmatrix_ecef),
+    NULL,
+    NULL,
+    0 | PROTOBUF_C_FIELD_FLAG_PACKED,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "x_body_position_ECEF",
     5,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_FLOAT,
     0,   /* quantifier_offset */
-    offsetof(SonarData__Georef, x_body_position_ecef),
+    offsetof(SonarData__GeorefECEF, x_body_position_ecef),
     NULL,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "y_body_position_ecef",
+    "y_body_position_ECEF",
     6,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_FLOAT,
     0,   /* quantifier_offset */
-    offsetof(SonarData__Georef, y_body_position_ecef),
+    offsetof(SonarData__GeorefECEF, y_body_position_ecef),
     NULL,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "z_body_position_ecef",
+    "z_body_position_ECEF",
     7,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_FLOAT,
     0,   /* quantifier_offset */
-    offsetof(SonarData__Georef, z_body_position_ecef),
+    offsetof(SonarData__GeorefECEF, z_body_position_ecef),
     NULL,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
 };
-static const unsigned sonar_data__georef__field_indices_by_name[] = {
-  3,   /* field[3] = rotationMatrix */
-  4,   /* field[4] = x_body_position_ecef */
-  0,   /* field[0] = x_pointCld_body */
-  5,   /* field[5] = y_body_position_ecef */
-  1,   /* field[1] = y_pointCld_body */
-  6,   /* field[6] = z_body_position_ecef */
-  2,   /* field[2] = z_pointCld_body */
+static const unsigned sonar_data__georef__ecef__field_indices_by_name[] = {
+  3,   /* field[3] = rotationMatrix_ECEF */
+  4,   /* field[4] = x_body_position_ECEF */
+  0,   /* field[0] = x_pointCld_body_ECEF */
+  5,   /* field[5] = y_body_position_ECEF */
+  1,   /* field[1] = y_pointCld_body_ECEF */
+  6,   /* field[6] = z_body_position_ECEF */
+  2,   /* field[2] = z_pointCld_body_ECEF */
 };
-static const ProtobufCIntRange sonar_data__georef__number_ranges[1 + 1] =
+static const ProtobufCIntRange sonar_data__georef__ecef__number_ranges[1 + 1] =
 {
   { 1, 0 },
   { 0, 7 }
 };
-const ProtobufCMessageDescriptor sonar_data__georef__descriptor =
+const ProtobufCMessageDescriptor sonar_data__georef__ecef__descriptor =
 {
   PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "sonarData.Georef",
-  "Georef",
-  "SonarData__Georef",
+  "sonarData.Georef_ECEF",
+  "GeorefECEF",
+  "SonarData__GeorefECEF",
   "sonarData",
-  sizeof(SonarData__Georef),
+  sizeof(SonarData__GeorefECEF),
   7,
-  sonar_data__georef__field_descriptors,
-  sonar_data__georef__field_indices_by_name,
-  1,  sonar_data__georef__number_ranges,
-  (ProtobufCMessageInit) sonar_data__georef__init,
+  sonar_data__georef__ecef__field_descriptors,
+  sonar_data__georef__ecef__field_indices_by_name,
+  1,  sonar_data__georef__ecef__number_ranges,
+  (ProtobufCMessageInit) sonar_data__georef__ecef__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor sonar_data__telemetry__field_descriptors[5] =
