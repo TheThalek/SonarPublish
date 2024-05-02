@@ -5,21 +5,19 @@ import threading
 import matplotlib.pyplot as plt
 
 # Lists to hold telemetry data
-all_roll = []
-all_pitch = []
-all_yaw = []
+all_latitude = []
+all_longitude = []
+all_depth = []
 
 running = True
 
 def process_telemetry_data(telemetry):
-    global all_roll, all_pitch, all_yaw
-    all_roll.append(np.degrees(telemetry.pose.roll))  # Assuming roll is in radians
-    all_pitch.append(np.degrees(telemetry.pose.pitch))
-    all_yaw.append(np.degrees(telemetry.heading.heading))  # Assuming heading is in radians
+    global all_latitude, all_longitude, all_depth
+    all_latitude.append(telemetry.position.latitude)
+    all_longitude.append(telemetry.position.longitude)
+    all_depth.append(telemetry.depth.depth)
 
 def process_georef_data(Georef):
-    # Implement this based on your georeferencing needs
-    # For demonstration, we'll just print a message
     print("Processing Georef data...")
 
 def data_receiver():
@@ -32,14 +30,10 @@ def data_receiver():
         while running:
             try:
                 multipart_message = subscriber.recv_multipart()
-                if len(multipart_message) > 1:  # Ensure there's a telemetry message
+                if len(multipart_message) > 1:
                     telemetry = sonarData_pb2.Telemetry()
-                    telemetry.ParseFromString(multipart_message[1])  # Assuming second part is telemetry
+                    telemetry.ParseFromString(multipart_message[1])
                     process_telemetry_data(telemetry)
-                # if len(multipart_message) > 2:  # Ensure there's a Georef message
-                #     Georef = sonarData_pb2.Georef()
-                #     Georef.ParseFromString(multipart_message[2])
-                #     process_georef_data(Georef)
             except zmq.Again:
                 continue
     except KeyboardInterrupt:
@@ -52,37 +46,38 @@ def data_receiver():
         subscriber.close()
         context.term()
 
-def visualize_telemetry():
-    # Plotting Roll
+def visualize_latitude():
     plt.figure(figsize=(10, 4))
-    plt.plot(all_roll, marker='x', linestyle='-', label='Roll (degrees)')
+    plt.plot(all_latitude, marker='x', linestyle='-', label='Latitude (degrees)')
     plt.xlabel('Scan Number', fontsize=14)
-    plt.ylabel('Roll (degrees)', fontsize=14)
-    plt.title('Roll over 300 Measurements', fontsize=16)
+    plt.ylabel('Latitude (degrees)', fontsize=14)
+    plt.title('Latitude over 200 Measurements - Cubic Spline Interpolated', fontsize=16)
     plt.legend()
     plt.grid(True)
     plt.xticks(fontsize=12)
     plt.yticks(fontsize=12)
+    plt.ticklabel_format(useOffset=False, style='plain', axis='y')  # Avoid scientific notation
     plt.show()
 
-    # Plotting Pitch
+def visualize_longitude():
     plt.figure(figsize=(10, 4))
-    plt.plot(all_pitch, marker='x', linestyle='-', label='Pitch (degrees)')
+    plt.plot(all_longitude, marker='x', linestyle='-', label='Longitude (degrees)')
     plt.xlabel('Scan Number', fontsize=14)
-    plt.ylabel('Pitch (degrees)', fontsize=14)
-    plt.title('Pitch over 300 Measurements', fontsize=16)
+    plt.ylabel('Longitude (degrees)', fontsize=14)
+    plt.title('Longitude over 200 Measurements - Cubic Spline Interpolated', fontsize=16)
     plt.legend()
     plt.grid(True)
     plt.xticks(fontsize=12)
     plt.yticks(fontsize=12)
+    plt.ticklabel_format(useOffset=False, style='plain', axis='y')  # Avoid scientific notation
     plt.show()
 
-    # Plotting Yaw (Heading)
+def visualize_depth():
     plt.figure(figsize=(10, 4))
-    plt.plot(all_yaw, marker='x', linestyle='-', label='Yaw (degrees)')
+    plt.plot(all_depth, marker='x', linestyle='-', label='Depth (meters)')
     plt.xlabel('Scan Number', fontsize=14)
-    plt.ylabel('Yaw (degrees)', fontsize=14)
-    plt.title('Yaw over 300 Measurements', fontsize=16)
+    plt.ylabel('Depth (meters)', fontsize=14)
+    plt.title('Depth over 200 Measurements - Cubic Spline Interpolated', fontsize=16)
     plt.legend()
     plt.grid(True)
     plt.xticks(fontsize=12)
@@ -94,11 +89,12 @@ if __name__ == "__main__":
     receiver_thread.start()
 
     try:
-        # We can include a condition to wait until we have 200 measurements to visualize
-        while len(all_roll) < 300:
-            pass  # Just waiting
+        while len(all_latitude) < 200:
+            pass
     finally:
         running = False
         receiver_thread.join()
-        visualize_telemetry()
+        visualize_latitude()
+        visualize_longitude()
+        visualize_depth()
         print("Program exiting...")

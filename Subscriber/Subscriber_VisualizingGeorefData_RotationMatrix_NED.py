@@ -13,7 +13,7 @@ rotation_matrices = []  # Store rotation matrices to visualize
 
 def process_georef_data(data):
     global georef_data_queue, rotation_matrices
-    rotation_matrix = np.array(data.rotationMatrix).reshape(3, 3)
+    rotation_matrix = np.array(data.rotationMatrix_NED).reshape(3, 3)
     with lock:
         georef_data_queue.append(rotation_matrix)  # Append the new rotation matrix
 
@@ -70,9 +70,9 @@ def data_receiver():
         while running:
             try:
                 multipart_message = subscriber.recv_multipart()
-                Georef = sonarData_pb2.Georef()
-                Georef.ParseFromString(multipart_message[2])
-                process_georef_data(Georef)
+                Georef_NED = sonarData_pb2.Georef_NED()
+                Georef_NED.ParseFromString(multipart_message[2])
+                process_georef_data(Georef_NED)
             except zmq.Again:
                 continue
     except KeyboardInterrupt:
