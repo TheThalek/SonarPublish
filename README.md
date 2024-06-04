@@ -1,4 +1,4 @@
-# GstSonarPublish
+# SonarPublish
 
 ## Overview
 GstSonarPublish is the result from a master thesis aimed at enabling real-time access to point clouds generated using multi-beam echo sounders. It is an extension of the GstSonar and Gstreamer plugins developed by Eelume AS. The project introduces a new sink element, SonarPublish, which extracts sonar data from SBD files or directly from the Eely robot via a TCP connection. This data is then georeferenced, by transforming the sonar's point cloud from being referenced wrt. the sonar, to the NED and ECEF frames. And then the data is published to other programs locally on your PC or other PCs on your nerwork. Additionally, Python servers is included to demonstrate how to read data from the GstSonarPublish code. This server serves as a foundation for further development, such as adding visualization capabilities for the sonar data.
