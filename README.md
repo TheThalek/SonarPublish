@@ -1,11 +1,10 @@
 # SonarPublish
 
 ## Overview
-GstSonarPublish is the result from a master thesis aimed at enabling real-time access to point clouds generated using multi-beam echo sounders. It is an extension of the GstSonar and Gstreamer plugins developed by Eelume AS. The project introduces a new sink element, SonarPublish, which extracts sonar data from SBD files or directly from the Eely robot via a TCP connection. This data is then georeferenced, by transforming the sonar's point cloud from being referenced wrt. the sonar, to the NED and ECEF frames. And then the data is published to other programs locally on your PC or other PCs on your nerwork. Additionally, Python servers is included to demonstrate how to read data from the GstSonarPublish code. This server serves as a foundation for further development, such as adding visualization capabilities for the sonar data.
+SonarPublish is the result from a master thesis aimed at enabling real-time access to point clouds generated using multi-beam echo sounders. It is an extension of the GstSonar and Gstreamer plugins developed by Eelume AS. The project introduces a new sink element, SonarPublish, which extracts sonar data from SBD files or directly from the Eely robot via a TCP connection. This data is then georeferenced, by transforming the sonar's point cloud from being referenced wrt. the sonar, to the NED and ECEF frames. And then the data is published to other programs locally on your PC or other PCs on your nerwork. Additionally, Python servers is included to demonstrate how to read data from the SonarPublish code. This server serves as a foundation for further development, such as adding visualization capabilities for the sonar data.
 
 ## System Requirements
-You need two PCs (Or one if publishing locally)
-One Publisher PC (PubPC) and one Subscriber PC (SubPC). 
+You need two PCs (Or one if publishing locally), one Publisher PC (PubPC) and one Subscriber PC (SubPC). 
 
 PubPC: 
 - Windows PC with WSL2 
@@ -26,7 +25,7 @@ The project consists of two folders, in addition to a folder with SBD test files
 2. **Generate The Proto Library** Start by generating a new `.proto` library for data serialization and deserialization.
 3. **Other dependencies** Try running the code, see if any other libraries are lacking
 
-### GstSonarPublish
+### SonarPublish
 1. **Generate The Proto Library**: Similar to the Python server, generate a new `.proto` library.
 2. **Install Dependencies**:
 ```
@@ -63,10 +62,8 @@ GST_PLUGIN_PATH=. GST_DEBUG=2,sonarsink:9 gst-launch-1.0 filesrc location=$SBD !
 ```
 
 ## Important Notes
-1. Ensure the .proto files are identical in both the Python server and GstSonarPublish code. They must be regenerated each time they are modified.
-2. Sockets used for communication between the server and GstSonarPublish should have matching names. Check Server.py for the socket name in the server and Sonarpublish.C in GstSonarPublish.
-3. Remember to terminate the program using Ctrl + C to prevent socket communication issues.
-
+1. Ensure the .proto files are identical in both the Python server and SonarPublish code. They must be regenerated each time they are modified.
+2. Ensure IP addresses and port number subscriber connects to are correct. 
 
 
 
