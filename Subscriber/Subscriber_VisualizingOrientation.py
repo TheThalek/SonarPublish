@@ -96,6 +96,7 @@ if __name__ == "__main__":
     try:
         # We can include a condition to wait until we have 200 measurements to visualize
         while len(all_roll) < 300:
+            print(len(all_roll))
             pass  # Just waiting
     finally:
         running = False

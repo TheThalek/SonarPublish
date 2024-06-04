@@ -2,29 +2,62 @@ import zmq
 import sonarData_pb2
 import time 
 
+
 # Function to process incoming data
-def process_georef_data(data):
-    # Access the data fields (which are repeated fields)
-    Georef_pointX = data.pointX
-    Georef_pointY = data.pointY
-    Georef_pointZ = data.pointZ
-    Georef_rotationMatrix = data.rotationMatrix
+def process_georef_NED_data(data):
+    PointCloud_body_x = data.x_pointCld_body_NED  # X coordinates of points, referenced wrt. body frame of robot. Have been rotated wrt. NED frame, no translation vector added yet
+    PointCloud_body_y = data.y_pointCld_body_NED
+    PointCloud_body_z = data.z_pointCld_body_NED
 
+    Georef_rotationMatrix = data.rotationMatrix_NED # Rotation Matrix from body frame to NED frame
 
-    # Print the received sonar data
-    for i in range(len(Georef_pointX)):
-        pointX = Georef_pointX[i]
-        pointY = Georef_pointY[i]
-        pointZ = Georef_pointZ[i]
+    print(f"Received Georeferenced Data wrt. NED Frame")
 
-        # Using repr() to print full precision
-        print(f"Received Georeferenced Point Cloud: PointX={repr(pointX)}, PointY={repr(pointY)}, PointZ={repr(pointZ)}")
+    # Printing lists of point cloud data
+    # for i in range(len(PointCloud_body_x)):
+    #     x = PointCloud_body_x[i]
+    #     y = PointCloud_body_y[i]
+    #     z = PointCloud_body_z[i]
+    #     print(f"Georeferenced Point Cloud: X={x}, Y={y}, Z={z}")
 
-
+    # Printing Rotation Matrix
     # for i in range(3):
     #     for j in range(3):
     #         # Printing each element in the rotation matrix on a new line for clarity
-    #         print(f"{Georef_rotationMatrix[i * 3 + j]:.15f}")  # Using .15f for high precision, adjust as needed
+    #         print(f"{Georef_rotationMatrix[i * 3 + j]:.15f}")
+
+
+
+
+def process_georef_ECEF_data(data):
+    PointCloud_body_x = data.x_pointCld_body_ECEF # X coordinates of points, referenced wrt. body frame of robot. Have been rotated wrt. ECEF frame, no translation vector added yet
+    PointCloud_body_y = data.y_pointCld_body_ECEF
+    PointCloud_body_z = data.z_pointCld_body_ECEF
+
+    Georef_rotationMatrix = data.rotationMatrix_ECEF # Rotation Matrix from body frame to ECEF frame
+
+    body_position_ECEF_x = data.x_body_position_ECEF # X Position of body in ECEF frame
+    body_position_ECEF_y = data.y_body_position_ECEF
+    body_position_ECEF_z = data.z_body_position_ECEF
+
+    print(f"Received Georeferenced Data wrt. ECEF Frame")
+
+    # Printing lists of point cloud data
+    # for i in range(len(PointCloud_body_x)):
+    #     x = PointCloud_body_x[i]
+    #     y = PointCloud_body_y[i]
+    #     z = PointCloud_body_z[i]
+    #     print(f"Georeferenced Point Cloud: X={x}, Y={y}, Z={z}")
+
+    
+    # Printing Rotation Matrix
+    # for i in range(3):
+    #     for j in range(3):
+    #         # Printing each element in the rotation matrix on a new line for clarity
+    #         print(f"{Georef_rotationMatrix[i * 3 + j]:.15f}")
+
+    # Printing Body Position in ECEF Frame
+    # print(f"Body Position in ECEF Frame: X={body_position_ECEF_x}, Y={body_position_ECEF_y}, Z={body_position_ECEF_z}")
 
 
 
@@ -98,6 +131,8 @@ if __name__ == "__main__":
                 Ungeoref.ParseFromString(multipart_message[0])
                 process_ungeoref_data(Ungeoref)
 
+
+
                 # Deserializing the Telemetry Data
                 Telemetry = sonarData_pb2.Telemetry()
                 Telemetry.ParseFromString(multipart_message[1])
@@ -118,10 +153,18 @@ if __name__ == "__main__":
                     process_telemetry_altitude(Telemetry.altitude)
                 
 
-                # Deserializing the Georeferenced Point Cloud 
-                Georef = sonarData_pb2.Georef()
-                Georef.ParseFromString(multipart_message[2])
-                process_georef_data(Georef)
+                # Deserializing the Georef_NED Point Cloud
+                Georef_NED = sonarData_pb2.Georef_NED()
+                Georef_NED.ParseFromString(multipart_message[2])
+                process_georef_NED_data(Georef_NED)
+
+
+
+                # Deserializing the Georef_ECEF Point Cloud
+                Georef_ECEF = sonarData_pb2.Georef_ECEF()
+                Georef_ECEF.ParseFromString(multipart_message[3])
+                process_georef_ECEF_data(Georef_ECEF)
+
 
             except zmq.Again:
                 # This block catches the timeout exception

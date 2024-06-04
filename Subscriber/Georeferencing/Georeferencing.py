@@ -197,41 +197,41 @@ if __name__ == "__main__":
 
 
 
-    # Plotting Roll over 140 Measurements
-    plt.figure(figsize=(10, 4))
-    plt.plot(all_roll, marker='x', linestyle='-', label='Roll (degrees)')
-    plt.xlabel('Time', fontsize=14)
-    plt.ylabel('Roll (degrees)', fontsize=14)
-    plt.title('Roll over 140 Measurements', fontsize=16)
-    plt.legend()
-    plt.grid(True)
-    plt.xticks(fontsize=12)
-    plt.yticks(fontsize=12)
-    plt.show()
+    # # Plotting Roll over 140 Measurements
+    # plt.figure(figsize=(10, 4))
+    # plt.plot(all_roll, marker='x', linestyle='-', label='Roll (degrees)')
+    # plt.xlabel('Time', fontsize=14)
+    # plt.ylabel('Roll (degrees)', fontsize=14)
+    # plt.title('Roll over 140 Measurements', fontsize=16)
+    # plt.legend()
+    # plt.grid(True)
+    # plt.xticks(fontsize=12)
+    # plt.yticks(fontsize=12)
+    # plt.show()
 
-    # Plotting Pitch over 140 Measurements
-    plt.figure(figsize=(10, 4))
-    plt.plot(all_pitch, marker='x', linestyle='-', label='Pitch (degrees)')
-    plt.xlabel('Time', fontsize=14)
-    plt.ylabel('Pitch (degrees)', fontsize=14)
-    plt.title('Pitch over 140 Measurements', fontsize=16)
-    plt.legend()
-    plt.grid(True)
-    plt.xticks(fontsize=12)
-    plt.yticks(fontsize=12)
-    plt.show()
+    # # Plotting Pitch over 140 Measurements
+    # plt.figure(figsize=(10, 4))
+    # plt.plot(all_pitch, marker='x', linestyle='-', label='Pitch (degrees)')
+    # plt.xlabel('Time', fontsize=14)
+    # plt.ylabel('Pitch (degrees)', fontsize=14)
+    # plt.title('Pitch over 140 Measurements', fontsize=16)
+    # plt.legend()
+    # plt.grid(True)
+    # plt.xticks(fontsize=12)
+    # plt.yticks(fontsize=12)
+    # plt.show()
 
-    # Plotting Yaw (Heading) over 140 Measurements
-    plt.figure(figsize=(10, 4))
-    plt.plot(all_yaw, marker='x', linestyle='-', label='Yaw (degrees)')
-    plt.xlabel('Time', fontsize=14)
-    plt.ylabel('Yaw (degrees)', fontsize=14)
-    plt.title('Yaw over 140 Measurements', fontsize=16)
-    plt.legend()
-    plt.grid(True)
-    plt.xticks(fontsize=12)
-    plt.yticks(fontsize=12)
-    plt.show()
+    # # Plotting Yaw (Heading) over 140 Measurements
+    # plt.figure(figsize=(10, 4))
+    # plt.plot(all_yaw, marker='x', linestyle='-', label='Yaw (degrees)')
+    # plt.xlabel('Time', fontsize=14)
+    # plt.ylabel('Yaw (degrees)', fontsize=14)
+    # plt.title('Yaw over 140 Measurements', fontsize=16)
+    # plt.legend()
+    # plt.grid(True)
+    # plt.xticks(fontsize=12)
+    # plt.yticks(fontsize=12)
+    # plt.show()
 
 
 
