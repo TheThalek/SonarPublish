@@ -1,17 +1,24 @@
 # GstSonarPublish
 
 ## Overview
-GstSonarPublish is the result from a specialization project aimed at enabling real-time access to point clouds generated using multi-beam echo sounders. It is an extension of the GstSonar and Gstreamer plugins developed by Eelume AS. The project introduces a new sink element, SonarPublish, which extracts sonar data from SBD files or directly from the Eely robot via a TCP connection. This data is then published to other programs on your PC. Additionally, a Python server is included to demonstrate how to read data from the GstSonarPublish code. This server serves as a foundation for further development, such as adding visualization capabilities for the sonar data.
+GstSonarPublish is the result from a master thesis aimed at enabling real-time access to point clouds generated using multi-beam echo sounders. It is an extension of the GstSonar and Gstreamer plugins developed by Eelume AS. The project introduces a new sink element, SonarPublish, which extracts sonar data from SBD files or directly from the Eely robot via a TCP connection. This data is then georeferenced, by transforming the sonar's point cloud from being referenced wrt. the sonar, to the NED and ECEF frames. And then the data is published to other programs locally on your PC or other PCs on your nerwork. Additionally, Python servers is included to demonstrate how to read data from the GstSonarPublish code. This server serves as a foundation for further development, such as adding visualization capabilities for the sonar data.
 
 ## System Requirements
+You need two PCs (Or one if publishing locally)
+One Publisher PC (PubPC) and one Subscriber PC (SubPC). 
+
+PubPC: 
 - Windows PC with WSL2 
 - Note: The project is not compatible with native Windows environments due to its reliance on Unix Servers for data transfer.
-- Important: There have been instances where WSL2 encountered issues connecting to the Windows network, which may affect connectivity with the Eely robot. Users should be aware of potential network connectivity challenges when using WSL2 and plan their setup accordingly. Using a Linux PC could be a solution to this problem
+
+SubPC:
+- When publishing to other PCs, you also need one of these, to run the subscriber code on.
+- Can be any OS supported by ZeroMQ and Protobuf (libraries used for pub/sub in system)
 
 ## Structure
-The project consists of two main components, in addition to a folder with SBD test files:
-1. **GstSonarPublish**: Handles the extraction and publication of sonar data.
-2. **Python Server**: A server script for receiving and processing the published sonar data.
+The project consists of two folders, in addition to a folder with SBD test files:
+1. **SonarPublish**: The code extracting data from robot, georeferencing it and publishing the data to subscriber. 
+2. **Subscriber**: Subscriber files for receiving data. Subscriber_ECEF_VisualizingGeorefData.py for visualizing the ECEF referenced point cloud, Subscriber_NED_VisualizingGeorefData_FakingTheShify.py for visualizing the NED referenced point cloud. There is also a test-folder containing subscribers visualizing the telemetry data from Eely. 
 
 ## Setup and Installation
 ### Python Server
@@ -39,14 +46,11 @@ $ make
 ```
 4. **Other dependencies**: Try running the code, see if any other libraries are lacking
 
+
 ## Usage
-1. **Start the Python Server:** Run the server using the command
-```
-python3 ./Server.py.
-```
-   Ensure it's correctly listening for incoming data.
+1. **Start the Python Server:** Run the server using the command. Can be started after publisher, but if using SBD files, then some data will be lost. 
    
-2. **Run GstSonarPublish:** Depending on your data source (SBD or TCP), use the respective command:
+2. **Run SonarPublish:** Depending on your data source (SBD or TCP), use the respective command:
    
 *For TCP:*
 ```
@@ -62,5 +66,7 @@ GST_PLUGIN_PATH=. GST_DEBUG=2,sonarsink:9 gst-launch-1.0 filesrc location=$SBD !
 1. Ensure the .proto files are identical in both the Python server and GstSonarPublish code. They must be regenerated each time they are modified.
 2. Sockets used for communication between the server and GstSonarPublish should have matching names. Check Server.py for the socket name in the server and Sonarpublish.C in GstSonarPublish.
 3. Remember to terminate the program using Ctrl + C to prevent socket communication issues.
+
+
 
 
